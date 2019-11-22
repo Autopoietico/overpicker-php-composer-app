@@ -1,0 +1,319 @@
+/*
+    Color Background: #1C2E37;
+    Color Font: white;
+    Color Gray: #A9ABAE;
+    Color Ally: #3D85C6;
+    Color Enemy: #CC4125;
+    font-family: 'Fjalla One', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-family: 'Abel', sans-serif;
+*/
+
+body{
+    font-family: 'Abel', sans-serif;
+    font-weight: normal;
+    color: white;
+    background-color: #1C2E37;
+}
+
+h1{
+    font-family: 'Fjalla One', sans-serif;
+    font-weight: normal;
+    margin: 0px;
+}
+
+h2{
+    font-family: 'Fjalla One', sans-serif;
+    font-weight: normal;
+    margin: 0px;    
+}
+
+a{
+    color: white;
+    text-decoration: none;
+}
+
+p{
+    font-family: 'Abel', sans-serif;    
+}
+
+ol{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+figure{
+    margin: 0px;
+}
+
+footer{
+    margin-top: 50px;
+}
+
+.container{
+    width: 1000px;
+    margin: 0px auto;
+    display: inherit;
+    justify-content: inherit;
+    align-items: inherit;
+    height: inherit;
+    flex-wrap: inherit;
+}
+
+.header-top{
+    display: flex;
+    justify-content:  space-between;
+    padding: 20px 0px 20px 0px;    
+    border-bottom: 2px solid white;
+}
+
+.header-title{
+    width: 462px;
+}
+
+.header-title h1{
+    font-size: 62px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.header-title h2{
+    font-size: 24px;
+    text-align: right;
+    margin-top: -10px;
+}
+
+.header-tip{
+    font-family: 'Fjalla One', sans-serif;
+    font-weight: normal;
+    text-transform: uppercase;
+    text-align: center;
+    color: #A9ABAE;
+    width: 434px;
+}
+
+.header-tip p{
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    text-align: center;
+    color: white;
+    border-bottom: 2px solid white;
+}
+
+.header-tip-title{
+    font-size: 25px;
+}
+
+.header-nav{
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 0px 40px 0px;
+}
+
+.header-nav ol{
+    display: flex;
+}
+
+.header-nav li{
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 35px;
+    text-transform: uppercase;
+    margin: 0px 10px 0px 10px;
+}
+
+.hero-text{
+    border-bottom: 2px solid white;
+    margin-bottom: 70px;
+}
+
+.hero-text p{
+    font-family: 'Abel', sans-serif;
+    font-weight: normal;
+    font-size: 40px;
+    text-align: center;
+    margin: 0px;
+}
+
+.selection-team-title{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 35px;
+    text-align: center;
+}
+
+.ally-team{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    color: #3D85C6;
+}
+
+.enemy-team{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    color: #CC4125;
+}
+
+.selection-team-clear-all{
+    font-family: 'Abel', sans-serif;
+    font-size: 30px;
+    text-align: center;
+}
+
+.selection-team-clear-all a{
+    text-decoration: underline;
+}
+
+.selection-panel{
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 32.5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 40px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid white;
+    margin-bottom: 20px;
+}
+
+.selection-panel select{
+    font-family: 'Abel', sans-serif;
+    font-size: 30px;
+    background-color: #1C2E37;
+    color: white;
+    height: 40px;
+    /*width: 186px;*/
+}
+
+
+.selection-map select{
+    width: 186px;
+}
+
+.heroes-selection-title{
+    display: flex;
+    font-family: 'Abel', sans-serif;
+    font-size: 35px;
+    text-align: center;
+    justify-content: space-between;
+}
+
+.teams-composition{
+    display: flex;
+    justify-content: space-between;
+}
+
+.team-composition{
+    display: flex;
+}
+
+.hero-value{    
+    font-family: 'Abel', sans-serif;
+    font-size: 25px;
+    width: 60px;
+    text-align: center;
+    margin-left: 3px;
+    margin-bottom: 3px;
+}
+
+.hero-value img{
+    width: 60px;
+    height: 60px;
+}
+
+.hero-value figcaption{
+    display: none;    
+}
+
+.heroes-filter{
+    text-align: center;
+}
+
+.heroes-filter input{
+    width: 100px;
+}
+
+.teams-heroes-selection{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.team-heroes-selection-line-between{
+    width:0px;
+    border-right: 2px solid white;
+}
+
+.rol-selection{
+    border-bottom: 2px solid white;
+    margin-bottom: 5px;
+    width: 450px;
+}
+
+.rol-selection-support{
+    border-bottom: none;
+}
+
+.rol-icon{
+    display: inline-flex;
+}
+
+.rol-icon img{    
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+}
+
+.rol-icon figcaption{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 30px;
+}
+
+.heroes-rol-selection{
+    display: flex;    
+    flex-wrap: wrap;
+}
+
+.footer-nav{
+    display: flex;
+    justify-content: space-around;
+    border-top: 2px solid white;
+    margin-bottom: 65px;
+}
+
+.footer-nav ol{
+    display: flex;
+}
+
+.footer-nav li{
+    font-size: 25px;
+    margin: 0px 15px 0px 15px;
+    
+}
+
+.footer-title-section{
+    display: flex;
+    justify-content: space-around;
+}
+
+.footer-title h1,
+h2{
+    font-family: 'Abel', sans-serif;
+}
+
+.footer-title h1{
+    text-align: center;
+    border-bottom: 2px solid white;
+}
+
+.footer-title h2{
+    text-align: right;
+}
+
+.footer-final-line{
+    display:flex;
+    justify-content: space-between;
+}
