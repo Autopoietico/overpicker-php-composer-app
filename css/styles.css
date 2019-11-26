@@ -9,30 +9,6 @@
     font-family: 'Abel', sans-serif;
 */
 
-@media screen and (max-width: 1024px){
-    body{
-        
-    }
-}
-
-@media screen and (max-width: 768px){
-    body{
-        
-    }
-}
-
-@media screen and (max-width: 480px){
-    body{
-        
-    }
-}
-
-@media screen and (max-width: 320px){
-    body{
-        
-    }
-}
-
 body{
     font-family: 'Abel', sans-serif;
     font-weight: normal;
@@ -94,7 +70,7 @@ footer{
 }
 
 .header-title{
-    width: 462px;
+    width: 46.2%;
 }
 
 .header-title h1{
@@ -115,7 +91,7 @@ footer{
     text-transform: uppercase;
     text-align: center;
     color: #A9ABAE;
-    width: 434px;
+    width: 43.4%;
 }
 
 .header-tip p{
@@ -360,4 +336,99 @@ h2{
     display:flex;
     justify-content: space-between;
     flex-wrap: wrap;
+}
+
+@media screen and (max-width: 923px){
+
+    .hero-text{
+        margin-bottom: 2em;
+    }
+
+    .team-heroes-selection{
+        display: block;
+        text-align: center;
+    }
+    
+    .team-composition{
+        justify-content: center;
+    }
+    
+    .heroes-filter{
+        text-align: center;
+    }
+
+    .all-rol-selection{
+        display: inline-block;
+    }
+
+    .heroes-rol-selection{
+        justify-content: center;
+    }
+
+    .team-heroes-selection-line-between{
+        display: none;
+    }
+
+}
+
+@media screen and (max-width: 804px){
+    .selection-panel{
+        text-align: center;
+        display: grid;
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 677px){
+
+    .header-top{
+        display: block;
+        text-align: center;
+    }
+    
+    .header-title{
+        width: auto;
+    }
+    
+    .header-tip{
+        width: auto;
+    }
+    .header-nav ol{
+        display: block;
+    }
+    .header-nav li{
+        text-align: center;
+    }
+
+    .header-nav{
+        padding: 1em 0 1em 0;
+    }
+
+    .footer-nav{
+        margin-bottom: 1em;
+    }
+}
+
+@media screen and (max-width: 698px){
+    .footer-nav ol{
+        display: block;
+    }
+
+    .footer-nav li{
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 462px){
+    .header-title h1{
+        font-size: 3em;
+    }
+
+    .hero-text p{
+        font-size: 2em;
+    }
+
+    .rol-selection{
+        width: auto;
+    }
 }
