@@ -124,6 +124,16 @@ footer{
 
 /* Class Tags */
 
+.burger-button{
+    font-size: 2.5em;
+    color: white;
+    position: fixed;
+    left: 5px;
+    top: 5px;
+    display: none;
+    z-index: 2;
+}
+
 .container{
     max-width: 1000px;
     margin: 0px auto;
@@ -456,6 +466,10 @@ h2{
 
 @media screen and (max-width: 677px){
 
+    .burger-button{
+        display: block;
+    }
+
     .header-top{
         display: block;
         text-align: center;
@@ -468,10 +482,31 @@ h2{
     .header-tip{
         width: auto;
     }
+
+    .header-nav{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: -100vw;
+        width: 100vw;
+        background: rgba(28,44,55,.8);
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: .3s;
+    }
+
+    .header-nav.is-active{
+        left: 0;
+    }
+
     .header-nav ol{
         display: block;
     }
     .header-nav li{
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
         text-align: center;
     }
 
