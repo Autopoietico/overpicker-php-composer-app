@@ -50,28 +50,28 @@
   .icon-hybrid:before {
     content: "\e90c";
   }
-  .icon-bronze-icon:before {
+  .icon-bronze:before {
     content: "\e901";
   }
-  .icon-diamond-icon:before {
+  .icon-diamond:before {
     content: "\e902";
   }
-  .icon-gold-icon:before {
+  .icon-gold:before {
     content: "\e903";
   }
-  .icon-grand-master-icon:before {
+  .icon-grand-master:before {
     content: "\e904";
   }
-  .icon-master-icon:before {
+  .icon-master:before {
     content: "\e905";
   }
-  .icon-platinum-icon:before {
+  .icon-platinum:before {
     content: "\e906";
   }
-  .icon-silver-icon:before {
+  .icon-silver:before {
     content: "\e907";
   }
-  .icon-top-500-icon:before {
+  .icon-top-500:before {
     content: "\e908";
   }
   .icon-menu:before {
@@ -520,6 +520,11 @@ h2{
 }
 
 @media screen and (max-width: 698px){
+
+    .footer{
+        margin-top: 25px
+    }
+
     .footer-nav ol{
         display: block;
     }
@@ -535,10 +540,59 @@ h2{
     }
 
     .hero-text p{
+        font-size: 1.5em;
+    }
+
+    .selection-team-title{
         font-size: 2em;
+    }
+
+    .selection-panel{
+        font-size: 1.5em;
+    }
+
+    .selection-panel select{
+        font-size: 1em;
+        height: auto;
+    }
+
+    .heroes-selection-title-text{
+        font-size: 2em;
+    }
+
+    .hero-value{
+        display: inline-grid;
+        width: auto;
+        height: 60;
+        font-size: 1.2em;
+    }
+
+    .hero-value img{
+        width: 45px;
+        height: 45px;
     }
 
     .rol-selection{
         width: auto;
+    }    
+
+    .rol-icon img{
+        width: 30px;
+        height: 30px;
+    }
+
+    .rol-icon figcaption{
+        font-size: 1.75em;
+    }
+}
+
+@media screen and (max-width: 372px){
+
+    .selection-team-title{
+        font-size: 1.5em;
+    }
+
+    .heroes-selection-title-text{
+        font-size: 1.7em;
     }
 }

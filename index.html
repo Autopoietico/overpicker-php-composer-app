@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/styles.css"/> 
 </head>
 <body>
-    <i class="icon-menu burger-button"></i>
+    <i class="icon-menu burger-button" id="burger-menu"></i>
     <header class="header">
         <div class="container">
             <div class="header-top">
@@ -64,7 +64,7 @@
             </div>
             <div class="selection-panel">
                 <span class="selection-tier">
-                    Tier:                    
+                    Tier:
                     <select name="tier">
                         <option value="general">General</option>
                         <option value="all-ranks">All Ranks</option>
@@ -550,5 +550,30 @@
             </div>
         </div>
     </footer>
+    <script>
+        const width677 = window.matchMedia('screen and (max-width: 677px)');
+        const headerNav = document.querySelector('.header-nav');
+        const burgerButton = document.querySelector('#burger-menu');
+
+        function validation(event){
+            if(event.matches){
+                burgerButton.addEventListener('click', hideShow);
+            }else{
+                burgerButton.removeEventListener('click',hideShow);
+            }
+        }
+        
+        width677.addListener(validation);
+
+        validation(width677);
+
+        function hideShow(){
+            if(headerNav.classList.contains('is-active')){
+                headerNav.classList.remove('is-active');
+            }else{
+                headerNav.classList.add('is-active');
+            }
+        }
+    </script>
 </body>
 </html>
