@@ -81,10 +81,27 @@
 /* HTML Tags */
 
 body{
+    display: grid;
+    grid-template: repeat(5, minmax(100px, auto)) / minmax(320px, 1000px);
+    margin: 0;
+    justify-content: center;
     font-family: 'Abel', sans-serif;
     font-weight: normal;
     color: white;
     background-color: #1C2E37;
+}
+
+header{
+    display: grid;
+    justify-content: space-between;
+    justify-items: center;
+    grid-template: repeat(2, 1fr) / 46.2% 43.4%;
+    grid-template-areas: "header-title header-tip"
+                         "header-nav header-nav";
+}
+
+.item{
+    border: 1px solid red;
 }
 
 h1{
@@ -134,26 +151,8 @@ footer{
     z-index: 2;
 }
 
-.container{
-    max-width: 1000px;
-    margin: 0px auto;
-    display: inherit;
-    justify-content: inherit;
-    align-items: inherit;
-    height: inherit;
-    flex-wrap: inherit;
-}
-
-.header-top{
-    display: flex;
-    justify-content:  space-between;
-    padding: 20px 0px 20px 0px;    
-    border-bottom: 2px solid white;
-    flex-wrap: wrap;
-}
-
 .header-title{
-    width: 46.2%;
+    grid-area: header-title;
 }
 
 .noselect {
@@ -184,7 +183,7 @@ footer{
     text-transform: uppercase;
     text-align: center;
     color: #A9ABAE;
-    width: 43.4%;
+    grid-area: header-tip;
 }
 
 .header-tip p{
@@ -203,7 +202,10 @@ footer{
 .header-nav{
     display: flex;
     justify-content: space-around;
+    border-top: 2px solid white;
     padding: 20px 0px 40px 0px;
+    grid-area: header-nav;
+    width: 100%;
 }
 
 .header-nav ol{
