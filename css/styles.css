@@ -26,7 +26,7 @@
   [class^="icon-"], [class*=" icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
     font-family: 'overwatch-picker' !important;
-    speak: none;
+    speak-as: none;
     font-style: normal;
     font-weight: normal;
     font-variant: normal;
@@ -156,10 +156,20 @@ footer{
     width: 46.2%;
 }
 
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+  }
+
 .header-title h1{
     font-size: 62px;
     text-transform: uppercase;
-    text-align: center;
+    text-align: right;
 }
 
 .header-title h2{
@@ -476,7 +486,7 @@ h2{
     }
     
     .header-title{
-        width: auto;
+        width: auto;        
     }
     
     .header-tip{
