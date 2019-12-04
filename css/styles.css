@@ -89,6 +89,7 @@ body{
     font-weight: normal;
     color: white;
     background-color: #1C2E37;
+    column-gap: 20px;
 }
 
 header{
@@ -98,6 +99,7 @@ header{
     grid-template: repeat(2, 1fr) / 46.2% 43.4%;
     grid-template-areas: "header-title header-tip"
                          "header-nav header-nav";
+    margin-top: 20px;
 }
 
 .item{
@@ -166,13 +168,13 @@ footer{
   }
 
 .header-title h1{
-    font-size: 62px;
+    font-size: 3.875em;
     text-transform: uppercase;
     text-align: right;
 }
 
 .header-title h2{
-    font-size: 24px;
+    font-size: 1.5em;
     text-align: right;
     margin-top: -10px;
 }
@@ -188,7 +190,7 @@ footer{
 
 .header-tip p{
     font-family: 'Poppins', sans-serif;
-    font-size: 13px;
+    font-size: 0.8125em;
     text-transform: uppercase;
     text-align: center;
     color: white;
@@ -196,7 +198,7 @@ footer{
 }
 
 .header-tip-title{
-    font-size: 25px;
+    font-size: 1.5625em;
 }
 
 .header-nav{
@@ -216,7 +218,7 @@ footer{
 
 .header-nav li{
     font-family: 'Fjalla One', sans-serif;
-    font-size: 35px;
+    font-size: 2.1875em;
     text-transform: uppercase;
 }
 
@@ -228,7 +230,7 @@ footer{
 .hero-text p{
     font-family: 'Abel', sans-serif;
     font-weight: normal;
-    font-size: 40px;
+    font-size: 2.5em;
     text-align: center;
     margin: 0px;
 }
@@ -236,7 +238,7 @@ footer{
 .selection-team-title{
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
-    font-size: 35px;
+    font-size: 2.1875em;
     text-align: center;
 }
 
@@ -254,7 +256,7 @@ footer{
 
 .selection-team-clear-all{
     font-family: 'Abel', sans-serif;
-    font-size: 30px;
+    font-size: 1.875em;
     text-align: center;
 }
 
@@ -264,7 +266,7 @@ footer{
 
 .selection-panel{
     font-family: 'Fjalla One', sans-serif;
-    font-size: 32.5px;
+    font-size: 2.03125em;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -277,7 +279,7 @@ footer{
 
 .selection-panel select{
     font-family: 'Abel', sans-serif;
-    font-size: 30px;
+    font-size: 1.05em;
     background-color: #1C2E37;
     color: white;
     height: 40px;
@@ -291,7 +293,7 @@ footer{
 
 .heroes-selection-title-text{
     font-family: 'Abel', sans-serif;
-    font-size: 35px;
+    font-size: 2.1875em;
 }
 
 .teams-composition{
@@ -306,7 +308,7 @@ footer{
 
 .hero-value{    
     font-family: 'Abel', sans-serif;
-    font-size: 25px;
+    font-size: 1.5625;
     width: 60px;
     text-align: center;
     margin-left: 3px;
@@ -375,7 +377,7 @@ footer{
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
     text-transform: uppercase;
-    font-size: 30px;
+    font-size: 1.875;
 }
 
 .heroes-rol-selection{
@@ -403,7 +405,7 @@ footer{
 }
 
 .footer-nav li{
-    font-size: 25px;
+    font-size: 1.5625em;
     margin: 0px 15px 0px 15px;
     
 }
