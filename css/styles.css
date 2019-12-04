@@ -95,9 +95,9 @@ header{
     display: grid;
     justify-content: space-between;
     justify-items: center;
-    grid-template: repeat(2, 1fr) / 46.2% 10.4% 43.4%;
-    grid-template-areas: "header-title . header-tip"
-                         "header-nav header-nav header-nav";
+    grid-template: repeat(2, 1fr) / 46.2% 43.4%;
+    grid-template-areas: "header-title header-tip"
+                         "header-nav header-nav";
 }
 
 .item{
@@ -209,15 +209,15 @@ footer{
 }
 
 .header-nav ol{
-    display: flex;
-    flex-wrap: wrap;
+    display: inline-grid;
+    grid-auto-flow: column;
+    grid-column-gap: 20px;
 }
 
 .header-nav li{
     font-family: 'Fjalla One', sans-serif;
     font-size: 35px;
     text-transform: uppercase;
-    margin: 0px 10px 0px 10px;
 }
 
 .hero-text{
@@ -431,180 +431,4 @@ h2{
     display:flex;
     justify-content: space-between;
     flex-wrap: wrap;
-}
-
-/* Media Queries */
-
-@media screen and (max-width: 923px){
-
-    .hero-text{
-        margin-bottom: 2em;
-    }
-
-    .team-heroes-selection{
-        display: block;
-        text-align: center;
-    }
-    
-    .team-composition{
-        justify-content: center;
-    }
-    
-    .heroes-filter{
-        text-align: center;
-    }
-
-    .all-rol-selection{
-        display: inline-block;
-    }
-
-    .heroes-rol-selection{
-        justify-content: center;
-    }
-
-    .team-heroes-selection-line-between{
-        display: none;
-    }
-
-}
-
-@media screen and (max-width: 804px){
-    .selection-panel{
-        text-align: center;
-        display: grid;
-        height: auto;
-    }
-}
-
-@media screen and (max-width: 677px){
-
-    .burger-button{
-        display: block;
-    }
-
-    .header-top{
-        display: block;
-        text-align: center;
-    }
-    
-    .header-title{
-        width: auto;        
-    }
-    
-    .header-tip{
-        width: auto;
-    }
-
-    .header-nav{
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: -100vw;
-        width: 100vw;
-        background: rgba(28,44,55,.8);
-        z-index: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: .3s;
-    }
-
-    .header-nav.is-active{
-        left: 0;
-    }
-
-    .header-nav ol{
-        display: block;
-    }
-    .header-nav li{
-        margin-top: 0.5em;
-        margin-bottom: 0.5em;
-        text-align: center;
-    }
-
-    .header-nav{
-        padding: 1em 0 1em 0;
-    }
-
-    .footer-nav{
-        margin-bottom: 1em;
-    }
-}
-
-@media screen and (max-width: 698px){
-
-    .footer{
-        margin-top: 25px
-    }
-
-    .footer-nav ol{
-        display: block;
-    }
-
-    .footer-nav li{
-        text-align: center;
-    }
-}
-
-@media screen and (max-width: 462px){
-    .header-title h1{
-        font-size: 3em;
-    }
-
-    .hero-text p{
-        font-size: 1.5em;
-    }
-
-    .selection-team-title{
-        font-size: 2em;
-    }
-
-    .selection-panel{
-        font-size: 1.5em;
-    }
-
-    .selection-panel select{
-        font-size: 1em;
-        height: auto;
-    }
-
-    .heroes-selection-title-text{
-        font-size: 2em;
-    }
-
-    .hero-value{
-        display: inline-grid;
-        width: auto;
-        height: 60;
-        font-size: 1.2em;
-    }
-
-    .hero-value img{
-        width: 45px;
-        height: 45px;
-    }
-
-    .rol-selection{
-        width: auto;
-    }    
-
-    .rol-icon img{
-        width: 30px;
-        height: 30px;
-    }
-
-    .rol-icon figcaption{
-        font-size: 1.75em;
-    }
-}
-
-@media screen and (max-width: 372px){
-
-    .selection-team-title{
-        font-size: 1.5em;
-    }
-
-    .heroes-selection-title-text{
-        font-size: 1.7em;
-    }
 }

@@ -1,0 +1,23 @@
+
+/* Media Queries */
+
+@media screen and (max-width: 1000px){
+    header{
+        grid-template-columns: 50% 50%;
+    }
+}
+
+@media screen and (max-width: 910px){
+    header{
+        justify-content: center;
+        justify-items: center;
+        grid-template: repeat(3, 1fr) / 100%;
+        grid-template-areas: "header-title"
+                             "header-tip"
+                             "header-nav";
+        }
+}
+
+@media screen and (max-width: 643px){
+    
+}
