@@ -15,7 +15,16 @@
         grid-template-areas: "header-title"
                              "header-tip"
                              "header-nav";
-        }
+    }
+}
+
+@media screen and (max-width: 823px){
+    .options-selection{
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .selection-panel{
+        width: 80.73px;
+    }
 }
 
 @media screen and (max-width: 643px){
@@ -86,7 +95,30 @@
         font-size: 0.566em;
     }
 
+    .hero-text{
+        margin-bottom: 35px;
+    }
+
     .hero-text p{
         font-size: 1.74em;
+    }
+
+    .options-selection{
+        grid-template: repeat(6, auto) / 100%;
+    }
+    
+    .selection-team-title{
+        grid-column: initial;
+        font-size: 1.524em;
+    }
+
+    .selection-team-clear-all{
+        grid-column: initial;
+        font-size: 1.3065em;
+    }
+
+    .selection-panel{
+        width: initial;
+        font-size: 1.415em;
     }
 }
