@@ -22,8 +22,8 @@
     .options-selection{
         grid-template-columns: repeat(4, 1fr);
     }
-    .selection-panel{
-        width: 80.73px;
+    .selection-panel select{
+        width: 25vw;
     }
 }
 
@@ -69,7 +69,7 @@
     .hero-text{
         border-top: 2px solid white;
         margin-top: 20px;
-    }
+    }    
 }
 
 @media screen and (max-width: 550px){
@@ -115,10 +115,15 @@
     .selection-team-clear-all{
         grid-column: initial;
         font-size: 1.3065em;
+        margin-bottom: 20px;
     }
 
     .selection-panel{
         width: initial;
         font-size: 1.415em;
+    }
+
+    .selection-panel select{
+        width: 100vw;
     }
 }
