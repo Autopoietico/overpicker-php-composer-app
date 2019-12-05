@@ -27,6 +27,26 @@
     }
 }
 
+@media screen and (max-width: 779px){
+
+    .heroes-selection-title-text{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .heroes-selection-title-text.enemy-team-direction{
+        flex-direction: column-reverse;
+    }
+
+    .heroes-selection-title-separator{
+        display: none;
+    }
+
+    .team-heroes-selection-line-between{
+        grid-row: 2 / span 4;
+    }
+}
+
 @media screen and (max-width: 643px){
 
     .burger-button{
@@ -125,5 +145,56 @@
 
     .selection-panel select{
         width: 100vw;
+    }
+
+    .heroes-selection{
+        grid-template: repeat(12, auto) / 100%;
+        justify-content: initial;
+    }
+
+    .heroes-selection-title-text{
+        display: initial;
+        flex-direction: initial;
+        height: fit-content;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-size: 1.524em;
+    }
+
+    .heroes-selection-title-separator{
+        display: initial;
+    }
+
+    .team-heroes-selection-line-between{
+        display: none;
+    }
+
+    .hero-value{
+        font-size: 1.09em;
+        width: 41.8px;
+    }
+
+    .hero-value img{
+        height: 41.8px;
+        width: 41.8px;
+    }
+
+    .rol-icon img{
+        width: 27.87px;
+        height: 27.87px;
+    }
+
+    .rol-icon figcaption{
+        font-size: 1.306em;
+    }
+
+    .enemy-team-direction{
+        margin-left: 0;
+        grid-column: unset;
+        justify-content: left;
+    }
+
+    .rol-selection-support{
+        border-bottom: 2px solid white;
     }
 }

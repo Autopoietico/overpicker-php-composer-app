@@ -293,9 +293,17 @@ footer{
     width: 186px;
 }
 
+.heroes-selection{
+    display: grid;
+    grid-template: repeat(6, auto) / 50% 0px 50%;
+    grid-auto-flow: column;
+    justify-content: space-between;
+}
+
 .heroes-selection-title-text{
     font-family: 'Abel', sans-serif;
     font-size: 2.1875em;
+    width: fit-content;
 }
 
 .teams-composition{
@@ -306,11 +314,12 @@ footer{
 .team-composition{
     display: flex;
     flex-wrap: wrap;
+    justify-content: left;
 }
 
 .hero-value{    
     font-family: 'Abel', sans-serif;
-    font-size: 1.5625;
+    font-size: 1.5625em;
     width: 60px;
     text-align: center;
     margin-left: 3px;
@@ -328,10 +337,12 @@ footer{
 
 .heroes-filter{
     text-align: left;
+    width: fit-content;
 }
 
 .heroes-filter input{
     width: 100px;
+    margin: 10px auto;
 }
 
 .teams-heroes-selection{
@@ -343,9 +354,9 @@ footer{
 
 .team-heroes-selection-line-between{
     width:0px;
-    height: 556px;
     border-right: 2px solid white;
-    align-self: flex-end;
+    grid-column: 2;
+    grid-row: 3 / span 4;
 }
 
 .all-rol-selection{
@@ -358,7 +369,8 @@ footer{
     align-items: inherit;
     border-bottom: 2px solid white;
     margin-bottom: 5px;
-    width: 450px;
+    max-width: 90%;
+    margin-right: auto;
 }
 
 .rol-selection-support{
@@ -367,6 +379,7 @@ footer{
 
 .rol-icon{
     display: inline-flex;
+    width: fit-content;
 }
 
 .rol-icon img{    
@@ -379,19 +392,27 @@ footer{
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
     text-transform: uppercase;
-    font-size: 1.875;
+    font-size: 1.875em;
 }
 
 .heroes-rol-selection{
-    display: flex;    
+    display: flex;
     flex-wrap: wrap;
+    width: fit-content;
 }
 
 .enemy-team-selection{
     display: flex;
     text-align: right;
-    flex-direction: column;
     align-items: flex-end;
+}
+
+.enemy-team-direction{
+    margin-left: auto;
+    grid-column: 3 / span 1;
+    justify-content: flex-end;
+    margin-right: 0;
+    text-align: right;
 }
 
 .footer-nav{
