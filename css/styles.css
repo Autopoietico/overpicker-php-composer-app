@@ -140,6 +140,9 @@ figure{
 
 footer{
     margin-top: 50px;
+    display: grid;
+    grid-template-rows: repeat(3, auto);
+    grid-template-columns: repeat(2, 50%);
 }
 
 /* Class Tags */
@@ -420,22 +423,24 @@ footer{
     justify-content: space-around;
     border-top: 2px solid white;
     margin-bottom: 65px;
+    grid-column: 1 / span 2;
 }
 
 .footer-nav ol{
-    display: flex;
-    flex-wrap: wrap;
+    display: inline-grid;
+    grid-auto-flow: column;
+    column-gap: 30px;
 }
 
 .footer-nav li{
     font-size: 1.5625em;
-    margin: 0px 15px 0px 15px;
     
 }
 
 .footer-title-section{
     display: flex;
     justify-content: space-around;
+    grid-column: 1 / span 2;
 }
 
 .footer-title h1,
@@ -456,4 +461,11 @@ h2{
     display:flex;
     justify-content: space-between;
     flex-wrap: wrap;
+}
+
+.footer-final-line-left{
+}
+
+.footer-final-line-right{
+    text-align: right;
 }

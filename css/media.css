@@ -47,6 +47,16 @@
     }
 }
 
+@media screen and (max-width: 682px){
+    .footer-nav{
+        margin-bottom: 32.5px;
+    }
+    .footer-nav ol{
+        margin-top: 20px;
+        grid-auto-flow: initial;
+    }
+}
+
 @media screen and (max-width: 643px){
 
     .burger-button{
@@ -196,5 +206,9 @@
 
     .rol-selection-support{
         border-bottom: 2px solid white;
+    }
+
+    .rol-selection-support.enemy-team-direction{
+        border-bottom: none;
     }
 }
