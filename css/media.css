@@ -157,6 +157,11 @@
         width: 100vw;
     }
 
+    .selection-checkbox-panel{
+        display: inline-flex;
+        grid-column: initial;
+    }
+
     .heroes-selection{
         grid-template: repeat(12, auto) / 100%;
         justify-content: initial;

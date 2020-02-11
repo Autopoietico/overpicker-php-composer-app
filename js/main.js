@@ -31,6 +31,9 @@ var supportRedSelectPanel = document.getElementById("support-onselect-red");
 var blueSelectedPanel = document.getElementById("heroes-selected-blue");
 var redSelectedPanel = document.getElementById("heroes-selected-red");
 
+var blueTeamValueSpan = document.getElementById("value-team-blue");
+var redTeamValueSpan = document.getElementById("value-team-red");
+
 roleLockCBPanel.onclick = roleLockOnChange;
 tierCBPanel.onclick = tierOnChange;
 mapPoolsCBPanel.onclick = mapPoolsOnClick;
@@ -171,23 +174,25 @@ function updateTeamPanels(){
     supportRedSelectPanel.innerHTML += getTeamPanelInnerHTML(teams["Red"],"Support");
 }
 
-function getTeamPanelInnerHTML(team,rol){    
+function getTeamPanelInnerHTML(team,rol){
 
     var teamPanelHTMl = "";
 
     var htmlPieces = [
-        `<div class="heroe-on-selection" data-name="`,
+        `<figure class="hero-value" data-name="`,
         `" data-team="`,
-        `" onclick="heroeOnClick(this)" style="cursor: pointer;"><strong>`, 
-        `</strong>, `,
-        `</div>`
+        `" onclick="heroeOnClick(this)" style="cursor: pointer;"><figcaption>`, 
+        `</figcaption><img src="`,
+        `" alt="`,
+        ` white schematic face"/>`,
+        `</figure>`
     ]
 
     heroes = team.rearrangeOnSelect(rol);
 
     for(var h of heroes){
 
-        teamPanelHTMl += htmlPieces[0] + h.name + htmlPieces[1] + team.name + htmlPieces[2] + h.name + htmlPieces[3] + h.value + htmlPieces[4];
+        teamPanelHTMl += htmlPieces[0] + h.name + htmlPieces[1] + team.name + htmlPieces[2] + h.name + htmlPieces[3] + h.img + htmlPieces[4] + h.name + htmlPieces[5] + h.value + htmlPieces[6];
     }
 
     return teamPanelHTMl;
@@ -197,10 +202,16 @@ function updateSelectedPanels(){
 
     blueSelectedPanel.innerHTML = "";
     redSelectedPanel.innerHTML = "";
+    blueTeamValueSpan.innerHTML = "";
+    redTeamValueSpan.innerHTML = "";
+
+    blueTeamValueSpan.innerHTML += getTeamValueInnerHTML(teams["Blue"]);
 
     blueSelectedPanel.innerHTML += getSelectedInnerHTML(teams["Blue"],"Tank");
     blueSelectedPanel.innerHTML += getSelectedInnerHTML(teams["Blue"],"Damage");
     blueSelectedPanel.innerHTML += getSelectedInnerHTML(teams["Blue"],"Support");
+
+    redTeamValueSpan.innerHTML += getTeamValueInnerHTML(teams["Red"]);
 
     redSelectedPanel.innerHTML += getSelectedInnerHTML(teams["Red"],"Tank");
     redSelectedPanel.innerHTML += getSelectedInnerHTML(teams["Red"],"Damage");
@@ -212,21 +223,36 @@ function getSelectedInnerHTML(team,rol){
     var selectedHTML = "";
 
     var htmlPieces = [
-        `<div class="heroe-selected" data-name="`,
+        `<figure class="hero-value" data-name="`,
         `" data-team="`,
-        `" onclick="heroeOnClick(this)" style="cursor: pointer;"><strong>`, 
-        `</strong>, `,
-        `</div>`
+        `" onclick="heroeOnClick(this)" style="cursor: pointer;"><figcaption>`, 
+        `</figcaption><img src="`,
+        `" alt="`,
+        ` white schematic face"/>`,
+        `</figure>`
     ]
 
     var heroes = team.rearrangeSelected(rol);
 
     for(var h of heroes){
 
-        selectedHTML += htmlPieces[0] + h.name + htmlPieces[1] + team.name + htmlPieces[2] + h.name + htmlPieces[3] + h.value + htmlPieces[4];
+        selectedHTML += htmlPieces[0] + h.name + htmlPieces[1] + team.name + htmlPieces[2] + h.name + htmlPieces[3] + h.img + htmlPieces[4] + h.name + htmlPieces[5] + h.value + htmlPieces[6];
     }
 
     return selectedHTML;
+}
+
+function getTeamValueInnerHTML(team){
+
+    var valueHTML = "";
+
+    var htmlPieces = [
+        `Score `
+    ]
+
+    valueHTML += htmlPieces[0] + team.getValue();
+
+    return valueHTML;
 }
 
 
@@ -237,7 +263,6 @@ function getSelectedInnerHTML(team,rol){
 function roleLockOnChange(){
 
     cBOptions.roleLock = roleLockCBPanel.checked;
-    getDataUpdateTeams();
 }
 
 function tierOnChange(){
@@ -252,7 +277,6 @@ function mapPoolsOnClick(){
 
     updateMapPool();
     mapOnChange();
-    getDataUpdateTeams();
 }
 
 function mapOnChange(){

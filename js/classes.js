@@ -95,9 +95,10 @@ class Heroe{
         
         this.generalRol = new Rol(heroInfo[this.name]["generalRol"]);
         this.secondaryRol = new Rol(heroInfo[this.name]["secondaryRol"]);
-        this.health = new Rol(heroInfo[this.name]["Health"]);
-        this.shields = new Rol(heroInfo[this.name]["Shields"]);
-        this.armor = new Rol(heroInfo[this.name]["Armor"]);
+        this.health = heroInfo[this.name]["Health"];
+        this.shields = heroInfo[this.name]["Shields"];
+        this.armor = heroInfo[this.name]["Armor"];
+        this.img = heroIMG[this.name];
 
         this.value = 0;
 
@@ -178,6 +179,10 @@ class Team{
 
         this.name = name;
         this.heroes = [];
+        this.shields = 0;
+        this.health = 0;
+        this.value = 0;
+        this.armor = 0;
 
         for(var h of Object.keys(heroInfo)){
 
@@ -212,6 +217,54 @@ class Team{
         }
 
         return heroesSelected;
+    }
+
+    getValue(){
+
+        this.value = 0;
+        var heroeArray = this.getHeroesSelected();
+        
+        for(var h of heroeArray){
+
+            this.value += h.value;
+        }
+        return this.value;
+    }
+
+    getShields(){
+
+        this.shields = 0;
+        var heroeArray = this.getHeroesSelected();
+        
+        for(var h of heroeArray){
+
+            this.shields += h.shields;
+        }
+        return this.shields;
+    }
+
+    getHealth(){
+
+        this.health = 0;
+        var heroeArray = this.getHeroesSelected();
+        
+        for(var h of heroeArray){
+
+            this.health += h.health;
+        }
+        return this.health;
+    }
+
+    getArmor(){
+
+        this.armor = 0;
+        var heroeArray = this.getHeroesSelected();
+        
+        for(var h of heroeArray){
+
+            this.armor += h.armor;
+        }
+        return this.armor;
     }
 
     calcHeroPoints(adc,mapObject,pointObject,tier, enemyTeam){
