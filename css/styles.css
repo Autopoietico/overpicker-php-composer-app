@@ -343,6 +343,7 @@ footer{
     text-align: center;
     margin-left: 3px;
     margin-bottom: 3px;
+    position: relative;
 }
 
 .hero-value img{
@@ -351,7 +352,19 @@ footer{
 }
 
 .hero-value figcaption{
-    display: none;    
+    display: none;
+}
+
+.no-hero-selected{
+    color: #1C2E37;
+}
+
+.border-bottom-75{
+    border-bottom: white 2px solid;
+    left: 12%;
+    top: 100%;
+    width: 75%;
+    position: absolute;
 }
 
 .heroes-filter{
@@ -477,9 +490,6 @@ h2{
     display:flex;
     justify-content: space-between;
     flex-wrap: wrap;
-}
-
-.footer-final-line-left{
 }
 
 .footer-final-line-right{

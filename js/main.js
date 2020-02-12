@@ -229,14 +229,20 @@ function getSelectedInnerHTML(team,rol){
         `</figcaption><img src="`,
         `" alt="`,
         ` white schematic face"/>`,
-        `</figure>`
+        `<div class="border-bottom-75"></div></figure>`
     ]
+
+    var whiteHTMLPiece = `<figure class="hero-value no-hero-selected"><figcaption>Blank Hero</figcaption><img src="images/assets/blank-hero.png" alt="Blank hero space"/>0<div class="border-bottom-75"></div></figure>`;
 
     var heroes = team.rearrangeSelected(rol);
 
-    for(var h of heroes){
+    for(var i=0;i<MAXHEROESONROL;i++){
 
-        selectedHTML += htmlPieces[0] + h.name + htmlPieces[1] + team.name + htmlPieces[2] + h.name + htmlPieces[3] + h.img + htmlPieces[4] + h.name + htmlPieces[5] + h.value + htmlPieces[6];
+        if(heroes[i]){
+            selectedHTML += htmlPieces[0] + heroes[i].name + htmlPieces[1] + team.name + htmlPieces[2] + heroes[i].name + htmlPieces[3] + heroes[i].img + htmlPieces[4] + heroes[i].name + htmlPieces[5] + heroes[i].value + htmlPieces[6];
+        }else{
+            selectedHTML += whiteHTMLPiece;
+        }
     }
 
     return selectedHTML;
