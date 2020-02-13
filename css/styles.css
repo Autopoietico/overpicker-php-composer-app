@@ -270,6 +270,8 @@ footer{
     text-align: center;
     margin-bottom: 40px;
     grid-column: 1 / span 4;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .selection-team-clear-all a{
@@ -344,6 +346,7 @@ footer{
     margin-left: 3px;
     margin-bottom: 3px;
     position: relative;
+    cursor: pointer;
 }
 
 .hero-value img{
@@ -357,6 +360,7 @@ footer{
 
 .no-hero-selected{
     color: #1C2E37;
+    cursor: initial;
 }
 
 .border-bottom-75{

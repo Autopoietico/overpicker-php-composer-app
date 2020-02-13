@@ -363,4 +363,14 @@ class Team{
 
         return heroArray;
     }
+
+    resetSelectedHeroes(){
+
+        var heroArray = this.getHeroesSelected();
+
+        for(var h of heroArray){
+
+            h.selected = false;
+        }
+    }
 }

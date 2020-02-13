@@ -34,6 +34,8 @@ var redSelectedPanel = document.getElementById("heroes-selected-red");
 var blueTeamValueSpan = document.getElementById("value-team-blue");
 var redTeamValueSpan = document.getElementById("value-team-red");
 
+var clearAllValuesDiv = document.getElementById("clear-all-values");
+
 roleLockCBPanel.onclick = roleLockOnChange;
 tierCBPanel.onclick = tierOnChange;
 mapPoolsCBPanel.onclick = mapPoolsOnClick;
@@ -42,6 +44,8 @@ tierSelectPanel.onchange = tierOnChange;
 mapSelectPanel.onchange = mapOnChange;
 pointSelectPanel.onchange = pointOnChange;
 adcSelectPanel.onchange = adcOnChange;
+
+clearAllValuesDiv.onclick = clearAllOnClick;
 
 //////////////////////
 // Selection Arrays
@@ -120,6 +124,12 @@ function getDataUpdateTeams(){
     updateTeamPanels();
 }
 
+function resetTeamsValues(){
+
+    teams["Blue"].resetSelectedHeroes();
+    teams["Red"].resetSelectedHeroes();
+}
+
 //////////////////////
 // DOM Writers
 //////////////////////
@@ -181,7 +191,7 @@ function getTeamPanelInnerHTML(team,rol){
     var htmlPieces = [
         `<figure class="hero-value" data-name="`,
         `" data-team="`,
-        `" onclick="heroeOnClick(this)" style="cursor: pointer;"><figcaption>`, 
+        `" onclick="heroeOnClick(this)"><figcaption>`, 
         `</figcaption><img src="`,
         `" alt="`,
         ` white schematic face"/>`,
@@ -225,7 +235,7 @@ function getSelectedInnerHTML(team,rol){
     var htmlPieces = [
         `<figure class="hero-value" data-name="`,
         `" data-team="`,
-        `" onclick="heroeOnClick(this)" style="cursor: pointer;"><figcaption>`, 
+        `" onclick="heroeOnClick(this)"><figcaption>`, 
         `</figcaption><img src="`,
         `" alt="`,
         ` white schematic face"/>`,
@@ -329,6 +339,12 @@ function heroeOnClick(element){
 
     selectHeroe(heroeData, team);
 
+    getDataUpdateTeams()
+}
+
+function clearAllOnClick(){
+
+    resetTeamsValues();
     getDataUpdateTeams()
 }
 
