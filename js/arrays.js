@@ -307,6 +307,41 @@ const heroIMG = {
     "Zenyatta" : "images/heroes/support/zenyatta-white.png"
 }
 
+const heroNicks = {
+
+    "Ana" : ["Ana","Amari","Sniper"],
+    "Ashe" : ["Ashe","Ash","Sniper","BOB","B.O.B.","Dynamite"],
+    "Baptiste" : ["Baptiste","Bap","Immortality","Larry","Disco"],
+    "Bastion" : ["Bastion","Omnic","Robot"],
+    "Brigitte" : ["Brigitte","Brig","4Gitte","Lindholm"],
+    "D.Va" : ["D.Va","DVa","Mecha","Tokki","Hana"],
+    "Doomfist" : ["Doomfist","Doom","Fist"],
+    "Genji" : ["Genji","Ninja","Naruto","Hokage"],
+    "Hanzo" : ["Hanzo","Archer","Sasuke"],
+    "Junkrat" : ["Junkrat","Junk","Rat"],
+    "Lucio" : ["Lucio","Frog","Frogger","DJ","Brasil"],
+    "Mccree" : ["Mccree","Mcree","Mccre","Cowboy","Jesse"],
+    "Mei" : ["Mei","Ice","Demon","Scientist","Cold","Snow","Snowball"],
+    "Mercy" : ["Mercy","Medic","Angela","Valkyrie","Witch","Fly"],
+    "Moira" : ["Moira","Otaku","Mora"],
+    "Orisa" : ["Orisa","Horse","Efi","Omnic","Robot"],
+    "Pharah" : ["Pharah","Amari","Fly"],
+    "Reaper" : ["Reaper","Gabriel","Reyes","Death"],
+    "Reinhardt" : ["Reinhardt","Rein","Shield","Crusader","Garen","German"],
+    "Roadhog" : ["Roadhog","Road","Hog","Pig","Hook"],
+    "Sigma" : ["Sigma","Foot","Foots","Gravity","Melody","Fly","Rock"],
+    "Soldier: 76" : ["Soldier: 76","Soldier","76","Jack","Morrison","Legs"],
+    "Sombra" : ["Sombra","Hacker","Mexican","Mexico","Los Muertos"],
+    "Symmetra" : ["Symmetra","Sym","Summoner","Teleporter","TP","Microwave"],
+    "Torbjörn" : ["Torbjörn","Torbjorn","Torb","Dwarf","Enginner","Lindholm"],
+    "Tracer" : ["Tracer","Pilot","Lena","Light","Time","Recall"],
+    "Widowmaker" : ["Widowmaker","Widow","Spider","Sniper","Venom"],
+    "Winston" : ["Winston","Monkey","Scientist","Moon"],
+    "Wrecking Ball" : ["Wrecking Ball","Wrecking","Ball","Hammond","Hamster","Rat","Moon"],
+    "Zarya" : ["Zarya","Russian","Rusia","Strong","Gravity"],
+    "Zenyatta" : ["Zenyatta","Zen","Monk","Omnic","Robot","Budist"]
+}
+
 const teams = {
     "Blue" : new Team("Blue",heroInfo),
     "Red" : new Team("Red",heroInfo)

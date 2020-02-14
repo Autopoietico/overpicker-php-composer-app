@@ -87,6 +87,7 @@ class Tier{
         this.selectValue = this.selectValue.toLowerCase();
     }
 }
+
 class Heroe{
 
     constructor(name){
@@ -99,6 +100,7 @@ class Heroe{
         this.shields = heroInfo[this.name]["Shields"];
         this.armor = heroInfo[this.name]["Armor"];
         this.img = heroIMG[this.name];
+        this.nicks = heroNicks[this.name];
 
         this.value = 0;
 
@@ -196,8 +198,26 @@ class Team{
 
         for(var h of this.heroes){
 
-            if(h.name == name){
+            if(h.name.toLowerCase() == name.toLowerCase()){
                 heroe = h;
+            }
+        }
+
+        return heroe;
+    }
+
+    getHeroePerNick(nick){
+
+        var heroe;
+
+        for(var h of this.heroes){
+
+            for(var n of h.nicks){
+
+                if(n.toLowerCase() == nick.toLowerCase()){
+
+                    heroe = h;
+                }
             }
         }
 
@@ -320,15 +340,34 @@ class Team{
 
     unSelectHeroe = (nameHero) => this.getHeroe(nameHero).selected = false;
 
-    rearrangeOnSelect(rol){
+    rearrangeOnSelect(rol,heroNick){
 
         var heroArray = [];
+        var hero = this.getHeroePerNick(heroNick);
+        var heroName = "";
 
-        for(var h of this.heroes){
+        if(hero){
+            
+            heroName = hero.name;
+        }
 
-            if(h.generalRol.name == rol && !h.selected){
+        if(this.heroIsOnTeam(heroName) && this.heroIsOnRol(heroName,rol)){
 
-                heroArray.push(h);
+            for(var h of this.heroes){
+
+                if(h == this.getHeroe(heroName) && !h.selected){
+    
+                    heroArray.push(h);
+                }
+            }
+        }else{
+
+            for(var h of this.heroes){
+
+                if(h.generalRol.name == rol && !h.selected){
+    
+                    heroArray.push(h);
+                }
             }
         }
 
@@ -350,6 +389,7 @@ class Team{
                 }
             }
         }else{
+            
             for(var h of this.heroes){
 
                 if(h.selected){
@@ -372,5 +412,40 @@ class Team{
 
             h.selected = false;
         }
+    }
+
+    heroIsOnTeam(heroName){
+        
+        var heroeOnList = false;
+
+        if(heroName){
+            for(var h of this.heroes){
+
+                if(h.name.toLowerCase() == heroName.toLowerCase()){
+    
+                    heroeOnList = true;
+                }
+            }
+        }
+
+        return heroeOnList;
+    }
+
+    heroIsOnRol(heroName, rol){
+
+        var heroOnRol = false;
+
+        if(heroName){
+
+            for(var h of this.heroes){
+
+                if(h.name.toLowerCase() == heroName.toLowerCase() && h.generalRol.name == rol){
+    
+                    heroOnRol = true;
+                }
+            }
+        }
+        
+        return heroOnRol;
     }
 }
