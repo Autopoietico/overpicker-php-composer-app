@@ -1,18 +1,27 @@
-let width677 = window.matchMedia('screen and (max-width: 677px)');
-let headerNav = document.querySelector('.header-nav');
-let burgerButton = document.getElementById('burger-menu');
+let width677, headerNav, burgerButton;
+
+function hamburgerValidation(){
+
+    console.log("hola");
+        
+    width677 = window.matchMedia('screen and (max-width: 677px)');
+    headerNav = document.querySelector('.header-nav');
+    burgerButton = document.getElementById('burger-menu');
+    
+    width677.addListener(validation);
+    validation(width677);
+}
+
+
 
 function validation(event){
+
     if(event.matches){
         burgerButton.addEventListener('click', hideShow);
     }else{
         burgerButton.removeEventListener('click',hideShow);
     }
 }
-
-width677.addListener(validation);
-
-validation(width677);
 
 function hideShow(){
     if(headerNav.classList.contains('is-active')){

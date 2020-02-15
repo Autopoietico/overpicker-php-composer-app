@@ -10,36 +10,7 @@
     <link rel="stylesheet" href="css/media.css"/> 
 </head>
 <body>
-    <i class="icon-menu burger-button" id="burger-menu"></i>
-    <header class="header">
-        <div class="header-title noselect">
-            <h1>OW Picker</h1>
-            <h2><a href="">By Autopoietico</a></h2>
-        </div>
-        <div class="header-tip noselect">
-            <p>Spend More Time Focusing On Your Surrounding, Stop Tunnel Visioning Individual Heroes.</p>
-            <span class="header-tip-title">Git Gud</span>
-        </div>
-        <nav class="header-nav">
-            <ol>
-                <li>
-                    <a href="">Counters</a>
-                </li>
-                <li>
-                    <a href="">TierList</a>
-                </li>
-                <li>
-                    <a href="">Maps</a>
-                </li>
-                <li>
-                    <a href="">Heroes</a>
-                </li>
-                <li>
-                    <a href="">Synergies</a>
-                </li>
-            </ol>
-        </nav>
-    </header>
+    <div w3-include-html="header.html"></div>
     <section class="hero-section">
         <div class="hero-text">
             <p>Find your best composition, counter the enemy comp, and find the best hero for every map in Overwatch</p>
@@ -134,14 +105,14 @@
         </div>
     </section>
     <footer class="footer" w3-include-html="footer.html"></footer>
+    <script src="js/hamburger.js"></script>
     <script src="js/include.js"></script>
+    <script>
+        includeHTML(hamburgerValidation,"header.html");
+    </script>
     <script src="js/classes.js"></script>
     <script src="js/arrays.js"></script>
     <script src="js/main.js"></script>
-    <script>
-        includeHTML();
-    </script>
-    <script src="js/hamburger.js"></script>
     <noscript>We're sorry, you don't allow javascript, the page don't work correctly</noscript>
 </body>
 </html>
