@@ -466,8 +466,7 @@ footer{
 }
 
 .footer-nav li{
-    font-size: 1.5625em;
-    
+    font-size: 1.5625em;    
 }
 
 .footer-title-section{
@@ -498,4 +497,15 @@ h2{
 
 .footer-final-line-right{
     text-align: right;
+}
+
+.footer-social-links{
+    text-align: center;
+    grid-column: 1 / span 2;
+    margin-top: 32px;
+}
+
+.footer-social-links img{
+    width: 50px;
+    height: 50px;
 }

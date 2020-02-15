@@ -1,6 +1,6 @@
-const width677 = window.matchMedia('screen and (max-width: 677px)');
-const headerNav = document.querySelector('.header-nav');
-const burgerButton = document.querySelector('#burger-menu');
+let width677 = window.matchMedia('screen and (max-width: 677px)');
+let headerNav = document.querySelector('.header-nav');
+let burgerButton = document.getElementById('burger-menu');
 
 function validation(event){
     if(event.matches){
