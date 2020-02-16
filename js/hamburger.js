@@ -2,8 +2,6 @@ let width677, headerNav, burgerButton;
 
 function hamburgerValidation(){
 
-    console.log("hola");
-        
     width677 = window.matchMedia('screen and (max-width: 677px)');
     headerNav = document.querySelector('.header-nav');
     burgerButton = document.getElementById('burger-menu');
@@ -11,8 +9,6 @@ function hamburgerValidation(){
     width677.addListener(validation);
     validation(width677);
 }
-
-
 
 function validation(event){
 

@@ -509,3 +509,28 @@ h2{
     width: 50px;
     height: 50px;
 }
+
+/*
+About Section
+*/
+
+.about-text a{
+    text-decoration: underline;
+}
+
+.about-section{
+    margin: auto 15%;
+}
+
+.about-section h2{
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.about-section a{
+    text-decoration: underline;
+}
+
+.about-div{
+    border-bottom: white 2px dashed;
+    margin-bottom: 30px;
+}
