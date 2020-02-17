@@ -11,33 +11,33 @@ const LASTDATAUPDATE = "2020-02-03"
 // DOM Elements
 //////////////////////
 
-var roleLockCBPanel = document.getElementById("cbrole-lock");
-var tierCBPanel = document.getElementById("cbtier-mode");
-var mapPoolsCBPanel = document.getElementById("cbmap-pools");
+const roleLockCBPanel = document.getElementById("cbrole-lock");
+const tierCBPanel = document.getElementById("cbtier-mode");
+const mapPoolsCBPanel = document.getElementById("cbmap-pools");
 
-var tierSelectPanel = document.getElementById("tier-select");
-var mapSelectPanel = document.getElementById("map-select");
-var pointSelectPanel = document.getElementById("point-select");
-var adcSelectPanel = document.getElementById("adc-select")
+const tierSelectPanel = document.getElementById("tier-select");
+const mapSelectPanel = document.getElementById("map-select");
+const pointSelectPanel = document.getElementById("point-select");
+const adcSelectPanel = document.getElementById("adc-select")
 
-var tanksBlueSelectPanel = document.getElementById("tanks-onselect-blue");
-var damageBlueSelectPanel = document.getElementById("damage-onselect-blue");
-var supportBlueSelectPanel = document.getElementById("support-onselect-blue");
+const tanksBlueSelectPanel = document.getElementById("tanks-onselect-blue");
+const damageBlueSelectPanel = document.getElementById("damage-onselect-blue");
+const supportBlueSelectPanel = document.getElementById("support-onselect-blue");
 
-var tanksRedSelectPanel = document.getElementById("tanks-onselect-red");
-var damageRedSelectPanel = document.getElementById("damage-onselect-red");
-var supportRedSelectPanel = document.getElementById("support-onselect-red");
+const tanksRedSelectPanel = document.getElementById("tanks-onselect-red");
+const damageRedSelectPanel = document.getElementById("damage-onselect-red");
+const supportRedSelectPanel = document.getElementById("support-onselect-red");
 
-var blueSelectedPanel = document.getElementById("heroes-selected-blue");
-var redSelectedPanel = document.getElementById("heroes-selected-red");
+const blueSelectedPanel = document.getElementById("heroes-selected-blue");
+const redSelectedPanel = document.getElementById("heroes-selected-red");
 
-var blueTeamValueSpan = document.getElementById("value-team-blue");
-var redTeamValueSpan = document.getElementById("value-team-red");
+const blueTeamValueSpan = document.getElementById("value-team-blue");
+const redTeamValueSpan = document.getElementById("value-team-red");
 
-var clearAllValuesDiv = document.getElementById("clear-all-values");
+const clearAllValuesDiv = document.getElementById("clear-all-values");
 
-var blueHeroFilterInput = document.getElementById("blue-hero-filter")
-var redHeroFilterInput = document.getElementById("red-hero-filter")
+const blueHeroFilterInput = document.getElementById("blue-hero-filter")
+const redHeroFilterInput = document.getElementById("red-hero-filter")
 
 roleLockCBPanel.onclick = roleLockOnChange;
 tierCBPanel.onclick = tierOnChange;
@@ -57,13 +57,13 @@ redHeroFilterInput.onchange = filterOnChange;
 // Selection Arrays
 //////////////////////
 
-var cBOptions = {
+let cBOptions = {
     roleLock : true,
     tierMode : true,
     mapPools : true
 }
 
-var selectedOptions = {
+let selectedOptions = {
 
     tier : "",
     map : "",
@@ -96,7 +96,7 @@ function getSelectPanelData(){
 
 function calcTeamsPoints({tier, map, point, adc}){
 
-    var mapObject = maps[map];
+    const mapObject = maps[map];
 
     teams["Blue"].calcHeroPoints(adc, mapObject, mapObject.points[point], tier ,teams["Red"]);
 
@@ -151,7 +151,7 @@ function updateMapPool(){
 
     mapSelectPanel.innerHTML = "";
 
-    for(var m of Object.keys(maps)){
+    for(let m of Object.keys(maps)){
 
         if(!cBOptions.mapPools){
             mapSelectPanel.innerHTML += `<option value="` + maps[m].selectValue + `">` + maps[m].name + `</option>`;
@@ -163,7 +163,7 @@ function updateMapPool(){
 
 function chargeSelectPanels(){
 
-    for(var t of Object.keys(tiers)){
+    for(let t of Object.keys(tiers)){
         tierSelectPanel.innerHTML += `<option value="` + tiers[t].selectValue + `">` + tiers[t].name + `</option>`;
     }
 
@@ -181,8 +181,8 @@ function updateTeamPanels(){
     damageRedSelectPanel.innerHTML = "";
     supportRedSelectPanel.innerHTML = "";
 
-    var heroFilteredBlue = blueHeroFilterInput.value;
-    var heroFilteredRed = redHeroFilterInput.value;
+    const heroFilteredBlue = blueHeroFilterInput.value;
+    const heroFilteredRed = redHeroFilterInput.value;
 
     tanksBlueSelectPanel.innerHTML += getTeamPanelInnerHTML(teams["Blue"],"Tank",heroFilteredBlue);
     damageBlueSelectPanel.innerHTML += getTeamPanelInnerHTML(teams["Blue"],"Damage",heroFilteredBlue);
@@ -195,9 +195,9 @@ function updateTeamPanels(){
 
 function getTeamPanelInnerHTML(team,rol,heroFiltered){
 
-    var teamPanelHTML = "";
+    let teamPanelHTML = "";
 
-    var htmlPieces = [
+    let htmlPieces = [
         `<figure class="hero-value" data-name="`,
         `" data-team="`,
         `" onclick="heroeOnClick(this)"><figcaption>`, 
@@ -209,7 +209,7 @@ function getTeamPanelInnerHTML(team,rol,heroFiltered){
 
     heroes = team.rearrangeOnSelect(rol,heroFiltered);
 
-    for(var h of heroes){
+    for(let h of heroes){
 
         teamPanelHTML += htmlPieces[0] + h.name + htmlPieces[1] + team.name + htmlPieces[2] + h.name + htmlPieces[3] + h.img + htmlPieces[4] + h.name + htmlPieces[5] + h.value + htmlPieces[6];
     }
@@ -246,9 +246,9 @@ function updateSelectedPanels(){
 
 function getSelectedInnerHTML(team,rol){
 
-    var selectedHTML = "";
+    let selectedHTML = "";
 
-    var htmlPieces = [
+    let htmlPieces = [
         `<figure class="hero-value" data-name="`,
         `" data-team="`,
         `" onclick="heroeOnClick(this)"><figcaption>`, 
@@ -258,13 +258,13 @@ function getSelectedInnerHTML(team,rol){
         `<div class="border-bottom-75"></div></figure>`
     ]
 
-    var whiteHTMLPiece = `<figure class="hero-value no-hero-selected"><figcaption>Blank Hero</figcaption><img src="images/assets/blank-hero.png" alt="Blank hero space"/>0<div class="border-bottom-75"></div></figure>`;
+    const whiteHTMLPiece = `<figure class="hero-value no-hero-selected"><figcaption>Blank Hero</figcaption><img src="images/assets/blank-hero.png" alt="Blank hero space"/>0<div class="border-bottom-75"></div></figure>`;
 
     if(rol){
 
-        var heroes = team.rearrangeSelected(rol);
+        const heroes = team.rearrangeSelected(rol);
 
-        for(var i=0;i<MAXHEROESONROL;i++){
+        for(let i=0;i<MAXHEROESONROL;i++){
     
             if(heroes[i]){
                 selectedHTML += htmlPieces[0] + heroes[i].name + htmlPieces[1] + team.name + htmlPieces[2] + heroes[i].name + htmlPieces[3] + heroes[i].img + htmlPieces[4] + heroes[i].name + htmlPieces[5] + heroes[i].value + htmlPieces[6];
@@ -274,9 +274,9 @@ function getSelectedInnerHTML(team,rol){
         }
     }else{
 
-        var heroes = team.rearrangeSelected();
+        const heroes = team.rearrangeSelected();
 
-        for(var i=0;i<MAXHEROESONTEAM;i++){
+        for(let i=0;i<MAXHEROESONTEAM;i++){
     
             if(heroes[i]){
                 selectedHTML += htmlPieces[0] + heroes[i].name + htmlPieces[1] + team.name + htmlPieces[2] + heroes[i].name + htmlPieces[3] + heroes[i].img + htmlPieces[4] + heroes[i].name + htmlPieces[5] + heroes[i].value + htmlPieces[6];
@@ -291,9 +291,9 @@ function getSelectedInnerHTML(team,rol){
 
 function getTeamValueInnerHTML(team){
 
-    var valueHTML = "";
+    let valueHTML = "";
 
-    var htmlPieces = [
+    let htmlPieces = [
         `Score `
     ]
 
@@ -328,20 +328,20 @@ function mapPoolsOnClick(){
 
 function mapOnChange(){
 
-    var mapSelected = mapSelectPanel.options[mapSelectPanel.selectedIndex].text
-    var map = maps[mapSelected];
+    const mapSelected = mapSelectPanel.options[mapSelectPanel.selectedIndex].text
+    const map = maps[mapSelected];
 
     pointSelectPanel.innerHTML = "";
     adcSelectPanel.innerHTML = "";
 
-    for(var p of Object.keys(map.points)){
+    for(let p of Object.keys(map.points)){
 
         pointSelectPanel.innerHTML += `<option value="` + map.points[p].selectValue + `">` + map.points[p].name + `</option>`;
     }
 
     mapType = mapTypes[map.type];
 
-    for(var adc of mapType.adc){
+    for(let adc of mapType.adc){
 
         adcSelectPanel.innerHTML += `<option value="` + adc.selectValue + `">` + adc.name + `</option>`;
     }
@@ -361,10 +361,10 @@ function adcOnChange(){
 
 function heroeOnClick(element){
 
-    var team;
+    const heroeData = element.getAttribute("data-name");
+    const teamData = element.getAttribute("data-team");
 
-    var heroeData = element.getAttribute("data-name");
-    var teamData = element.getAttribute("data-team");
+    let team;
 
     team = teams[teamData];
 

@@ -26,13 +26,13 @@ class Map{
             this.points[defaultPoints[2]] = new Point(defaultPoints[2], "Escort");
         }else if(this.mapType.type === "Control"){
 
-            for(var i=0;i<this.mapType.numPoints;i++){
+            for(let i=0;i<this.mapType.numPoints;i++){
 
                 this.points[controlMaps[this.name][i]] = new Point(controlMaps[this.name][i], this.mapType.type);
             }
         }else{
 
-            for(var i=0;i<this.mapType.numPoints;i++){
+            for(let i=0;i<this.mapType.numPoints;i++){
                 
                 this.points[defaultPoints[i]] = new Point(defaultPoints[i], this.mapType.type);
             }
@@ -109,18 +109,18 @@ class Heroe{
 
     calcTotalValue(adc, mapObject, pointObject, tier, allyTeam, enemyTeam){
 
-        var tierValue = this.getTierValue(tier);
-        var mapValue = this.getMapValue(adc,mapObject,pointObject);
-        var adcValue = this.getADCValue(adc, pointObject);
-        var sinergyValue = this.getSinergyValue(allyTeam);
-        var counterValue = this.getCounterValue(enemyTeam);
+        const tierValue = this.getTierValue(tier);
+        const mapValue = this.getMapValue(adc,mapObject,pointObject);
+        const adcValue = this.getADCValue(adc, pointObject);
+        const sinergyValue = this.getSinergyValue(allyTeam);
+        const counterValue = this.getCounterValue(enemyTeam);
 
         this.value = tierValue + mapValue + adcValue + sinergyValue + counterValue;
     }
 
     getTierValue(tier){
 
-        var tierValue = 0;
+        let tierValue = 0;
 
         if(tier){
             tierValue = heroTiers[tier][this.name];
@@ -133,7 +133,7 @@ class Heroe{
 
     getADCValue(adc,pointObject){
 
-        var adcValue = 0;
+        let adcValue = 0;
 
         if(adc=="Control"){
 
@@ -148,11 +148,11 @@ class Heroe{
 
     getSinergyValue(allyTeam){
 
-        var sinergyValue = 0;
+        const allyHeroes = allyTeam.getHeroesSelected(this);
 
-        var allyHeroes = allyTeam.getHeroesSelected(this);
+        let sinergyValue = 0;
 
-        for(var h of allyHeroes){
+        for(let h of allyHeroes){
 
             sinergyValue += synergies[this.name][h.name];
         }
@@ -162,11 +162,11 @@ class Heroe{
 
     getCounterValue(enemyTeam){
 
-        var counterValue = 0;
+        const enemyHeroes = enemyTeam.getHeroesSelected();
 
-        var enemyHeroes = enemyTeam.getHeroesSelected();
+        let counterValue = 0;
 
-        for(var h of enemyHeroes){
+        for(let h of enemyHeroes){
 
             counterValue += counters[this.name][h.name];
         }
@@ -186,7 +186,7 @@ class Team{
         this.value = 0;
         this.armor = 0;
 
-        for(var h of Object.keys(heroInfo)){
+        for(let h of Object.keys(heroInfo)){
 
             this.heroes.push(new Heroe(heroInfo[h]["Name"]));
         }
@@ -194,9 +194,9 @@ class Team{
 
     getHeroe(name){
 
-        var heroe;
+        let heroe;
 
-        for(var h of this.heroes){
+        for(let h of this.heroes){
 
             if(h.name.toLowerCase() == name.toLowerCase()){
                 heroe = h;
@@ -208,11 +208,11 @@ class Team{
 
     getHeroePerNick(nick){
 
-        var heroe;
+        let heroe;
 
-        for(var h of this.heroes){
+        for(let h of this.heroes){
 
-            for(var n of h.nicks){
+            for(let n of h.nicks){
 
                 if(n.toLowerCase() == nick.toLowerCase()){
 
@@ -226,9 +226,9 @@ class Team{
 
     getHeroesSelected(ignoredHeroe){
 
-        var heroesSelected = [];
+        let heroesSelected = [];
 
-        for(var h of this.heroes){
+        for(let h of this.heroes){
 
             if(h.selected && h != ignoredHeroe){
 
@@ -242,9 +242,9 @@ class Team{
     getValue(){
 
         this.value = 0;
-        var heroeArray = this.getHeroesSelected();
+        const heroeArray = this.getHeroesSelected();
         
-        for(var h of heroeArray){
+        for(let h of heroeArray){
 
             this.value += h.value;
         }
@@ -254,9 +254,9 @@ class Team{
     getShields(){
 
         this.shields = 0;
-        var heroeArray = this.getHeroesSelected();
+        const heroeArray = this.getHeroesSelected();
         
-        for(var h of heroeArray){
+        for(let h of heroeArray){
 
             this.shields += h.shields;
         }
@@ -266,9 +266,9 @@ class Team{
     getHealth(){
 
         this.health = 0;
-        var heroeArray = this.getHeroesSelected();
+        const heroeArray = this.getHeroesSelected();
         
-        for(var h of heroeArray){
+        for(let h of heroeArray){
 
             this.health += h.health;
         }
@@ -278,9 +278,9 @@ class Team{
     getArmor(){
 
         this.armor = 0;
-        var heroeArray = this.getHeroesSelected();
+        const heroeArray = this.getHeroesSelected();
         
-        for(var h of heroeArray){
+        for(let h of heroeArray){
 
             this.armor += h.armor;
         }
@@ -289,7 +289,7 @@ class Team{
 
     calcHeroPoints(adc,mapObject,pointObject,tier, enemyTeam){
 
-        for(var h of this.heroes){
+        for(let h of this.heroes){
 
             h.calcTotalValue(adc,mapObject,pointObject,tier, this, enemyTeam);
         }
@@ -319,7 +319,7 @@ class Team{
 
     selectHeroe(nameHero,rolLock){
 
-        var hero = this.getHeroe(nameHero);
+        const hero = this.getHeroe(nameHero);
 
         if(rolLock){
 
@@ -342,9 +342,10 @@ class Team{
 
     rearrangeOnSelect(rol,heroNick){
 
-        var heroArray = [];
-        var hero = this.getHeroePerNick(heroNick);
-        var heroName = "";
+        const hero = this.getHeroePerNick(heroNick);
+
+        let heroArray = [];
+        let heroName = "";
 
         if(hero){
             
@@ -353,7 +354,7 @@ class Team{
 
         if(this.heroIsOnTeam(heroName) && this.heroIsOnRol(heroName,rol)){
 
-            for(var h of this.heroes){
+            for(let h of this.heroes){
 
                 if(h == this.getHeroe(heroName) && !h.selected){
     
@@ -362,7 +363,7 @@ class Team{
             }
         }else{
 
-            for(var h of this.heroes){
+            for(let h of this.heroes){
 
                 if(h.generalRol.name == rol && !h.selected){
     
@@ -378,10 +379,10 @@ class Team{
 
     rearrangeSelected(rol){
         
-        var heroArray = [];
+        let heroArray = [];
 
         if(rol){
-            for(var h of this.heroes){
+            for(let h of this.heroes){
 
                 if(h.generalRol.name == rol && h.selected){
     
@@ -390,7 +391,7 @@ class Team{
             }
         }else{
             
-            for(var h of this.heroes){
+            for(let h of this.heroes){
 
                 if(h.selected){
     
@@ -406,9 +407,9 @@ class Team{
 
     resetSelectedHeroes(){
 
-        var heroArray = this.getHeroesSelected();
+        let heroArray = this.getHeroesSelected();
 
-        for(var h of heroArray){
+        for(let h of heroArray){
 
             h.selected = false;
         }
@@ -416,10 +417,10 @@ class Team{
 
     heroIsOnTeam(heroName){
         
-        var heroeOnList = false;
+        let heroeOnList = false;
 
         if(heroName){
-            for(var h of this.heroes){
+            for(let h of this.heroes){
 
                 if(h.name.toLowerCase() == heroName.toLowerCase()){
     
@@ -433,11 +434,11 @@ class Team{
 
     heroIsOnRol(heroName, rol){
 
-        var heroOnRol = false;
+        let heroOnRol = false;
 
         if(heroName){
 
-            for(var h of this.heroes){
+            for(let h of this.heroes){
 
                 if(h.name.toLowerCase() == heroName.toLowerCase() && h.generalRol.name == rol){
     
