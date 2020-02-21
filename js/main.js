@@ -58,6 +58,7 @@ redHeroFilterInput.onchange = filterOnChange;
 //////////////////////
 
 let cBOptions = {
+
     roleLock : true,
     tierMode : true,
     mapPools : true
@@ -100,6 +101,8 @@ function calcTeamsPoints({tier, map, point, adc}){
 
     teams["Blue"].calcHeroPoints(adc, mapObject, mapObject.points[point], tier ,teams["Red"]);
 
+    //If ally team is defending, enemy team is in Attack, 
+    //if ally team is attacking, enemy team is in Defense
     if(selectedOptions.adc=="Attack"){
 
         teams["Red"].calcHeroPoints("Defense", mapObject, mapObject.points[point], tier, teams["Blue"]);
@@ -124,6 +127,7 @@ function selectHeroe(heroeData, team){
 
 function getDataUpdateTeams(){
 
+    //This functions are called always there are a change in the hero selection, tier, map, etc.
     getSelectPanelData();
     calcTeamsPoints(selectedOptions);
     updateSelectedPanels();
@@ -137,11 +141,12 @@ function resetTeamsValues(){
 }
 
 //////////////////////
-// DOM Writersv
+// DOM Writers
 //////////////////////
 
 function chargeCheckboxPanels(){
 
+    //This function charge the default checkbox options define in cBOptions array
     roleLockCBPanel.checked = cBOptions.roleLock;
     tierCBPanel.checked = cBOptions.tierMode;
     mapPoolsCBPanel.checked = cBOptions.mapPools;
@@ -163,15 +168,16 @@ function updateMapPool(){
 
 function chargeSelectPanels(){
 
+    //This function charge the tier and map options
     for(let t of Object.keys(tiers)){
         tierSelectPanel.innerHTML += `<option value="` + tiers[t].selectValue + `">` + tiers[t].name + `</option>`;
     }
 
     updateMapPool();
-    mapOnChange();
+    mapOnChange(true);
 }
 
-function updateTeamPanels(){    
+function updateTeamPanels(){
 
     tanksBlueSelectPanel.innerHTML = "",
     damageBlueSelectPanel.innerHTML = "",
@@ -228,6 +234,8 @@ function updateSelectedPanels(){
     blueTeamValueSpan.innerHTML += getTeamValueInnerHTML(teams["Blue"]);
     redTeamValueSpan.innerHTML += getTeamValueInnerHTML(teams["Red"]);
 
+    //To dismiss confusion I sorted the selected heroes per rol when role lock are selected
+
     if(cBOptions.roleLock){
 
         blueSelectedPanel.innerHTML += getSelectedInnerHTML(teams["Blue"],"Tank");
@@ -258,6 +266,7 @@ function getSelectedInnerHTML(team,rol){
         `<div class="border-bottom-75"></div></figure>`
     ]
 
+    //The whiteHTMLPiece draw a white space when there are not hero selected
     const whiteHTMLPiece = `<figure class="hero-value no-hero-selected"><figcaption>Blank Hero</figcaption><img src="images/assets/blank-hero.png" alt="Blank hero space"/>0<div class="border-bottom-75"></div></figure>`;
 
     if(rol){
@@ -326,7 +335,7 @@ function mapPoolsOnClick(){
     mapOnChange();
 }
 
-function mapOnChange(){
+function mapOnChange(firstCharge){
 
     const mapSelected = mapSelectPanel.options[mapSelectPanel.selectedIndex].text
     const map = maps[mapSelected];
@@ -339,14 +348,18 @@ function mapOnChange(){
         pointSelectPanel.innerHTML += `<option value="` + map.points[p].selectValue + `">` + map.points[p].name + `</option>`;
     }
 
-    mapType = mapTypes[map.type];
+    mapType = mapTypes[map.mapType.type];
 
     for(let adc of mapType.adc){
 
         adcSelectPanel.innerHTML += `<option value="` + adc.selectValue + `">` + adc.name + `</option>`;
     }
 
-    getDataUpdateTeams();
+    //This is to dont use this function twice when the javascript is loaded
+    if(!firstCharge){
+
+        getDataUpdateTeams();
+    }
 }
 
 function pointOnChange(){

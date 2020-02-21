@@ -1,43 +1,8 @@
-class Rol{
+const getSelectValue = function(name){
 
-    constructor(name){
-
-        this.name = name;
-    }
-}
-
-class Map{
-
-    constructor(name, type, onPool){
-
-        
-        this.name = name;
-        this.type = type;
-        this.mapType = mapTypes[this.type];
-        this.points = [];
-        this.selectValue = this.name.replace(/\s+/g, '-');//https://stackoverflow.com/a/544877
-        this.selectValue = this.selectValue.toLowerCase();
-        this.onPool = onPool;
-
-        if(this.mapType.type === "Hybrid"){
-
-            this.points[defaultPoints[0]] = new Point(defaultPoints[0], "Assault");
-            this.points[defaultPoints[1]] = new Point(defaultPoints[1], "Escort");
-            this.points[defaultPoints[2]] = new Point(defaultPoints[2], "Escort");
-        }else if(this.mapType.type === "Control"){
-
-            for(let i=0;i<this.mapType.numPoints;i++){
-
-                this.points[controlMaps[this.name][i]] = new Point(controlMaps[this.name][i], this.mapType.type);
-            }
-        }else{
-
-            for(let i=0;i<this.mapType.numPoints;i++){
-                
-                this.points[defaultPoints[i]] = new Point(defaultPoints[i], this.mapType.type);
-            }
-        }
-    }
+    //https://stackoverflow.com/a/544877 changing to lowcase and changing spaces to '-'
+    let selectValue = name.replace(/\s+/g, '-');
+    return selectValue.toLowerCase();
 }
 
 class MapType{
@@ -46,15 +11,31 @@ class MapType{
 
         this.type = type;
         this.numPoints = numPoints;
-        this.adc = [];
-        if(this.type === "Control"){
+        this.adc = adcBuilder[this.type]();
+    }
+}
 
-            this.adc.push(new mapADC("Control"));
-        }else{
+class Point{
 
-            this.adc.push(new mapADC("Attack"));
-            this.adc.push(new mapADC("Defense"));
-        }
+    //Normally all the points are similar to the map, but hybrid maps start with a assault point
+    //So I save the type of point to have a idea what is better to play in
+    constructor(name, type){
+
+        this.name = name;
+        this.type = mapTypes[type];
+        this.selectValue = getSelectValue(this.name);
+    }
+}
+
+class Map{
+
+    constructor(name, type, onPool){
+        
+        this.name = name;        
+        this.mapType = mapTypes[type];
+        this.points = pointBuilder[this.mapType.type](this);
+        this.selectValue = getSelectValue(this.name);
+        this.onPool = onPool;
     }
 }
 
@@ -62,19 +43,7 @@ class mapADC{
     constructor(name){
 
         this.name = name;
-        this.selectValue = this.name.replace(/\s+/g, '-');//https://stackoverflow.com/a/544877
-        this.selectValue = this.selectValue.toLowerCase();
-    }
-}
-
-class Point{
-
-    constructor(name, type){
-
-        this.name = name;
-        this.type = mapTypes[type];
-        this.selectValue = this.name.replace(/\s+/g, '-');//https://stackoverflow.com/a/544877
-        this.selectValue = this.selectValue.toLowerCase();
+        this.selectValue = getSelectValue(this.name);
     }
 }
 
@@ -83,8 +52,16 @@ class Tier{
     constructor(name){
 
         this.name = name;
-        this.selectValue = this.name.replace(/\s+/g, '-');//https://stackoverflow.com/a/544877
-        this.selectValue = this.selectValue.toLowerCase();
+        this.selectValue = getSelectValue(this.name);
+    }
+}
+
+class Rol{
+
+    constructor(name){
+
+        this.name = name;
+        this.selectValue = getSelectValue(this.name);
     }
 }
 
@@ -105,6 +82,12 @@ class Heroe{
         this.value = 0;
 
         this.selected = false;
+    }
+
+    isMe(heroName){
+
+        //This compare the name even if is writen bad like this: dOmFiSt
+        return this.name.toLowerCase() == heroName.toLowerCase();
     }
 
     calcTotalValue(adc, mapObject, pointObject, tier, allyTeam, enemyTeam){
@@ -135,13 +118,7 @@ class Heroe{
 
         let adcValue = 0;
 
-        if(adc=="Control"){
-
-            adcValue = heroADC[this.name][adc];
-        }else{
-
-            adcValue = heroADC[this.name][adc][pointObject.type.type][pointObject.name];
-        }
+        adcValue = calcADCValue[adc](this,adc,pointObject);
 
         return adcValue;
     }
@@ -180,25 +157,37 @@ class Team{
     constructor(name, heroInfo){
 
         this.name = name;
-        this.heroes = [];
+        this.heroes = this.getAllTheHeroes();
         this.shields = 0;
         this.health = 0;
         this.value = 0;
         this.armor = 0;
 
-        for(let h of Object.keys(heroInfo)){
-
-            this.heroes.push(new Heroe(heroInfo[h]["Name"]));
-        }
     }
 
-    getHeroe(name){
+    getAllTheHeroes(){
+
+        //This function build a array with all the heroes of the game for the team.
+        //Is important to have all the heroes to make all the calcs, if a hero needs to be hided,
+        //the hero needs to be hide with one of his propierties.
+
+        let allHeroes = [];
+
+        for(let h of Object.keys(heroInfo)){
+
+            allHeroes.push(new Heroe(heroInfo[h]["Name"]));
+        }
+
+        return allHeroes;
+    }
+
+    getHeroe(heroName){
 
         let heroe;
 
         for(let h of this.heroes){
 
-            if(h.name.toLowerCase() == name.toLowerCase()){
+            if(h.isMe(heroName)){
                 heroe = h;
             }
         }
@@ -207,6 +196,8 @@ class Team{
     }
 
     getHeroePerNick(nick){
+
+        //This used by the filter
 
         let heroe;
 
@@ -347,11 +338,14 @@ class Team{
         let heroArray = [];
         let heroName = "";
 
+        
         if(hero){
             
             heroName = hero.name;
         }
 
+        //If heroNick is not introduced the function jump to the else (because heroName = "")
+        //and do the array with all the heroes
         if(this.heroIsOnTeam(heroName) && this.heroIsOnRol(heroName,rol)){
 
             for(let h of this.heroes){
@@ -382,6 +376,7 @@ class Team{
         let heroArray = [];
 
         if(rol){
+
             for(let h of this.heroes){
 
                 if(h.generalRol.name == rol && h.selected){
@@ -420,9 +415,10 @@ class Team{
         let heroeOnList = false;
 
         if(heroName){
+
             for(let h of this.heroes){
 
-                if(h.name.toLowerCase() == heroName.toLowerCase()){
+                if(h.isMe(heroName)){
     
                     heroeOnList = true;
                 }
@@ -440,7 +436,7 @@ class Team{
 
             for(let h of this.heroes){
 
-                if(h.name.toLowerCase() == heroName.toLowerCase() && h.generalRol.name == rol){
+                if(h.isMe(heroName) && h.generalRol.name == rol){
     
                     heroOnRol = true;
                 }

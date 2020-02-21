@@ -25,6 +25,32 @@ const secondaryRoles = {
     //A FlexSupport can work like a MainSupport and a OffSupport, depends of the choice of the other Support
 }
 
+const controlADCBuilder = function(){
+
+    let adc = [];
+
+    adc.push(new mapADC("Control"));
+
+    return adc;
+}
+
+const defaultADCBuilder = function(){
+
+    let adc = [];
+
+    adc.push(new mapADC("Attack"));
+    adc.push(new mapADC("Defense"));
+
+    return adc;
+}
+
+const adcBuilder = {
+    "Control" : controlADCBuilder,
+    "Assault" : defaultADCBuilder,
+    "Escort" : defaultADCBuilder,
+    "Hybrid" : defaultADCBuilder
+}
+
 const mapTypes = {
     
     "Assault" : new MapType("Assault", 2),
@@ -33,11 +59,25 @@ const mapTypes = {
     "Hybrid" : new MapType("Hybrid", 3)
 }
 
-const defaultPoints = [];
+const mapPoints = {
+    
+    "Busan" : ["Downtown","Sanctuary","MEKA Base"],
+    "Ilios" : ["Lighthouse","Well","Ruins"],
+    "Lijiang Tower" : ["Night Market","Garden","Control Center"],
+    "Nepal" : ["Village","Sanctum","Shrine"],
+    "Oasis" : ["City Center","Gardens","University"],
+    "Control": ["A","B","C"],
+    "Hybrid" : ["A","B","C"],
+    "Escort" : ["A","B","C"],
+    "Assault" : ["A","B"]
+}
 
-defaultPoints.push("A");
-defaultPoints.push("B");
-defaultPoints.push("C");
+const mapTypeDisambled = {
+    "Hybrid" : ["Assault","Escort","Escort"],
+    "Control" : ["Control","Control","Control"],
+    "Escort" : ["Escort","Escort","Escort"],
+    "Assault" : ["Assault","Assault"]
+}
 
 const controlMaps = {
     
@@ -45,7 +85,44 @@ const controlMaps = {
     "Ilios" : ["Lighthouse","Well","Ruins"],
     "Lijiang Tower" : ["Night Market","Garden","Control Center"],
     "Nepal" : ["Village","Sanctum","Shrine"],
-    "Oasis" : ["City Center","Gardens","University"]
+    "Oasis" : ["City Center","Gardens","University"],
+    "Hybrid" : ["A","B","C"],
+    "Escort" : ["A","B","C"],
+    "Assault" : ["A","B"]
+}
+
+const controlPointBuilder = function(map){
+
+    const mapTypeName = map.mapType.type;
+
+    let prePoints = [];
+
+    for(let i=0;i<mapPoints[map.name].length;i++){
+
+        prePoints[mapPoints[map.name][i]] = new Point(mapPoints[map.name][i],mapTypeDisambled[mapTypeName][i]);
+    }
+
+    return prePoints;
+}
+
+const defaultPointBuilder = function(map){
+    const mapTypeName = map.mapType.type;
+
+    let prePoints = [];
+
+    for(let i=0;i<mapPoints[mapTypeName].length;i++){
+
+        prePoints[mapPoints[mapTypeName][i]] = new Point(mapPoints[mapTypeName][i],mapTypeDisambled[mapTypeName][i]);
+    }
+
+    return prePoints;
+}
+
+const pointBuilder = {
+    "Control" : controlPointBuilder,
+    "Assault" : defaultPointBuilder,
+    "Escort" : defaultPointBuilder,
+    "Hybrid" : defaultPointBuilder
 }
 
 const maps = {
@@ -168,6 +245,23 @@ const heroADC = {
     "Wrecking Ball" : {"Attack":{"Assault":{"A":0,"B":0},"Escort":{"A":0,"B":0,"C":0}},"Defense":{"Assault":{"A":0,"B":0},"Escort":{"A":0,"B":0,"C":0}},"Control":0},
     "Zarya" : {"Attack":{"Assault":{"A":0,"B":0},"Escort":{"A":0,"B":0,"C":0}},"Defense":{"Assault":{"A":0,"B":0},"Escort":{"A":0,"B":0,"C":0}},"Control":0},
     "Zenyatta" : {"Attack":{"Assault":{"A":0,"B":0},"Escort":{"A":0,"B":0,"C":0}},"Defense":{"Assault":{"A":0,"B":0},"Escort":{"A":0,"B":0,"C":0}},"Control":0}
+}
+
+const calcControlValue = function(hero, adc){
+
+    return heroADC[hero.name][adc];
+}
+
+const calcADValue = function(hero, adc, pointObject){
+
+    return heroADC[hero.name][adc][pointObject.type.type][pointObject.name];
+}
+
+const calcADCValue = {
+    
+    "Control" : calcControlValue,
+    "Attack" : calcADValue,
+    "Defense" : calcADValue
 }
 
 const counters = {
