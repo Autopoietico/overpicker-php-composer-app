@@ -1,8 +1,8 @@
 <i class="icon-menu burger-button" id="burger-menu"></i>
 <header class="header">
     <div class="header-title noselect">
-        <h1><a href="index.html">OW Picker</a></h1>
-        <h2><a href="about.html">By Autopoietico</a></h2>
+        <h1><a href="/">OW Picker</a></h1>
+        <h2><a href="about">By Autopoietico</a></h2>
     </div>
     <div class="header-tip noselect">
         <p>Spend More Time Focusing On Your Surrounding, Stop Tunnel Visioning Individual Heroes.</p>
@@ -28,3 +28,7 @@
         </ol>
     </nav>
 </header>
+<script src="js/hamburger.js"></script>
+<script>
+    hamburgerValidation();
+</script>

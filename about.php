@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/media.css"/> 
 </head>
 <body>
-    <div w3-include-html="header.html"></div>
+    <?php include("header.php"); ?>
     <section class="hero-section">
         <div class="hero-text about-text">
             <p>The OW Picker is mostly based in the <a href="https://www.heropicker.com/">Hero Picker</a> created by jazzmasta25</p>
@@ -40,12 +40,7 @@
             <p>nizampop@gmail.com</p>
         </div>
     </section>
-    <footer class="footer" w3-include-html="footer.html"></footer>
-    <script src="js/hamburger.js"></script>
-    <script src="js/include.js"></script>
-    <script>
-        includeHTML(hamburgerValidation,"header.html");
-    </script>
+    <?php include("footer.php"); ?>
     <noscript>We're sorry, you don't allow javascript, the page don't work correctly</noscript>
 </body>
 </html>

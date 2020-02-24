@@ -20,14 +20,14 @@
                 <a href="">Sources</a>
             </li>
             <li>
-                <a href="about.html">About</a>
+                <a href="about">About</a>
             </li>
         </ol>
     </nav>
     <div class="footer-title-section">
     <div class="footer-title">
-        <h1><a href="index.html">Overwatch Picker</a></h1>
-        <h2><a href="about.html">By Autopoietico</a></h2>
+        <h1><a href="/">Overwatch Picker</a></h1>
+        <h2><a href="about">By Autopoietico</a></h2>
     </div>
     </div>
     <span class="footer-final-line-left">Last Update: 2019-09-25</span>
