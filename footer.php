@@ -17,7 +17,7 @@
                 <a href="">Synergies</a>
             </li>
             <li>
-                <a href="">Sources</a>
+                <a href="sources">Sources</a>
             </li>
             <li>
                 <a href="about">About</a>
@@ -30,8 +30,8 @@
         <h2><a href="about">By Autopoietico</a></h2>
     </div>
     </div>
-    <span class="footer-final-line-left">Last Update: 2019-09-25</span>
-    <span class="footer-final-line-right">(CC)2019</span>
+    <span class="footer-final-line-left">Last Update: <?php echo($LAST_DATA_UPDATE) ?></span>
+    <span class="footer-final-line-right">(CC)<?php echo($COPY_DATE) ?></span>
     <div class="footer-social-links">
     <a href="https://discord.gg/PBfMUzz" title="OW Picker Discord" target="_blank" class="social-link"><img src="images/social/discord-brands.svg" alt="Discord Icon"/></a>
     </div>

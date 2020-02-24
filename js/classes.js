@@ -1,3 +1,11 @@
+/*
+All this code is copyright Autopoietico, 2020.
+    -This code includes a bit of snippets found on stackoverflow.com and others
+I'm not a javascript expert, I use this project to learn how to code, and how to design web pages, is a funny hobby to do, but if I
+gain something in the process is a plus.
+Feel free to alter this code to your liking, but please do not re-host it, do not profit from it and do not present it as your own.
+*/
+
 const getSelectValue = function(name){
 
     //https://stackoverflow.com/a/544877 changing to lowcase and changing spaces to '-'
@@ -17,7 +25,7 @@ class MapType{
 
 class Point{
 
-    //Normally all the points are similar to the map, but hybrid maps start with a assault point
+    //Normally all the points have a similar maptype, but hybrid maps start with a assault point
     //So I save the type of point to have a idea what is better to play in
     constructor(name, type){
 

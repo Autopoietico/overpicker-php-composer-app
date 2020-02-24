@@ -534,3 +534,28 @@ About Section
     border-bottom: white 2px dashed;
     margin-bottom: 30px;
 }
+
+/*
+Sources Section
+*/
+
+.sources-text a{
+    text-decoration: underline;
+}
+
+.sources-section{
+    margin: auto 15%;
+}
+
+.sources-section h2{
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.sources-section a{
+    text-decoration: underline;
+}
+
+.sources-div{
+    border-bottom: white 2px dashed;
+    margin-bottom: 30px;
+}

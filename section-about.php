@@ -5,7 +5,6 @@
 </section>
 <section class="about-section">
     <div class="about-div">
-        <h2>About Me:</h2>
         <p>I'm a causal player of overwatch that love stats and things related to best heroes in certain maps, situations and metas. I'm from Colombia and my natural language is <b>Spanish</b>, but i'm learning <b>English</b> playing Overwatch.</p>
     </div>
     <div class="about-div">
@@ -24,6 +23,6 @@
     </div>
     <div>
         <h2>Paypal Email (If You Want to be grateful ;D)</h2>
-        <p>nizampop@gmail.com</p>
+        <p><b>nizampop@gmail.com</b></p>
     </div>
 </section>
