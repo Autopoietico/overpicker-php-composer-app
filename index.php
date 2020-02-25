@@ -1,9 +1,9 @@
 <?php
 
-    include("inc/functions.php");
+    include("Controller/indexController.php");
 
     $LAST_DATA_UPDATE = "2020-02-24";
-    $COPY_DATE = "2020"
+    $COPY_DATE = "2020";
 ?>
 <!DOCTYPE html>
 <html lang="en">
