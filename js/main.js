@@ -401,7 +401,39 @@ function filterOnChange(){
 //////////////////////
 // Charge Initial Data
 //////////////////////
+// This chain promises load one by one the required json files before starting the normal app
+//////////////////////
 
-chargeCheckboxPanels()
-chargeSelectPanels();
-getDataUpdateTeams();
+loadJSON(TIERS_DIR)
+.then(jsonOBJ => {
+
+    heroTiers = jsonOBJ;
+	
+    return loadJSON(HEROEINFO_DIR);
+})
+.then(jsonOBJ => {
+    
+    heroInfo = jsonOBJ;
+	
+    return loadJSON(HEROEIMG_DIR);
+})
+.then(jsonOBJ => {
+    
+    heroIMG = jsonOBJ;
+	
+    return loadJSON(HEROENICKS_DIR);
+})
+.then(jsonOBJ => {
+    
+    heroNicks = jsonOBJ;
+
+    teams = {
+        "Blue" : new Team("Blue",heroInfo),
+        "Red" : new Team("Red",heroInfo)
+    }
+    
+    chargeCheckboxPanels()
+    chargeSelectPanels();
+    getDataUpdateTeams();
+})
+.catch(onError);
