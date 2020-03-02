@@ -157,21 +157,25 @@ function updateMapPool(){
 
     mapSelectPanel.innerHTML = "";
 
-    for(let m of Object.keys(maps)){
+    for(let m in maps){
 
         if(!cBOptions.mapPools){
-            mapSelectPanel.innerHTML += `<option value="` + maps[m].selectValue + `">` + maps[m].name + `</option>`;
-        }else if(maps[m].onPool){
-            mapSelectPanel.innerHTML += `<option value="` + maps[m].selectValue + `">` + maps[m].name + `</option>`;
+
+            mapSelectPanel.innerHTML += `<option value="` + m.selectValue + `">` + m.name + `</option>`;
+        }else if(m.onPool){
+
+            mapSelectPanel.innerHTML += `<option value="` + m.selectValue + `">` + m.name + `</option>`;
         }
     }
 }
 
 function chargeSelectPanels(){
 
-    //This function charge the tier and map options
-    for(let t of Object.keys(tiers)){
-        tierSelectPanel.innerHTML += `<option value="` + tiers[t].selectValue + `">` + tiers[t].name + `</option>`;
+    //This function charge the tier and map selection options
+
+    for(let t in tiers){
+
+        tierSelectPanel.innerHTML += `<option value="` + t.selectValue + `">` + t.name + `</option>`;
     }
 
     updateMapPool();
@@ -344,9 +348,9 @@ function mapOnChange(firstCharge){
     pointSelectPanel.innerHTML = "";
     adcSelectPanel.innerHTML = "";
 
-    for(let p of Object.keys(map.points)){
+    for(let p in map.points){
 
-        pointSelectPanel.innerHTML += `<option value="` + map.points[p].selectValue + `">` + map.points[p].name + `</option>`;
+        pointSelectPanel.innerHTML += `<option value="` + p.selectValue + `">` + p.name + `</option>`;
     }
 
     mapType = mapTypes[map.mapType.type];
@@ -401,31 +405,43 @@ function filterOnChange(){
 //////////////////////
 // Charge Initial Data
 //////////////////////
-// This chain promises load one by one the required json files before starting the normal app
+// This promises chain load one by one the required json files before starting the normal app
 //////////////////////
 
 loadJSON(TIERS_DIR)
 .then(jsonOBJ => {
 
-    heroTiers = jsonOBJ;
-	
+    heroTiers = {
+        ...jsonOBJ
+    }
+
     return loadJSON(HEROEINFO_DIR);
 })
 .then(jsonOBJ => {
     
-    heroInfo = jsonOBJ;
+    heroInfo = {
+        ...jsonOBJ
+    }
+
+    if(heroInfo === jsonOBJ){
+        console.log("asfads")
+    }
 	
     return loadJSON(HEROEIMG_DIR);
 })
 .then(jsonOBJ => {
     
-    heroIMG = jsonOBJ;
+    heroIMG = {
+        ...jsonOBJ
+    }
 	
     return loadJSON(HEROENICKS_DIR);
 })
 .then(jsonOBJ => {
     
-    heroNicks = jsonOBJ;
+    heroNicks = {
+        ...jsonOBJ
+    }
 
     teams = {
         "Blue" : new Team("Blue",heroInfo),

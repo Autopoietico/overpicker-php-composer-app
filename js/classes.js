@@ -181,7 +181,7 @@ class Team{
 
         let allHeroes = [];
 
-        for(let h of Object.keys(heroInfo)){
+        for(let h in heroInfo){
 
             allHeroes.push(new Heroe(heroInfo[h]["Name"]));
         }
@@ -247,6 +247,7 @@ class Team{
 
             this.value += h.value;
         }
+
         return this.value;
     }
 
@@ -259,6 +260,7 @@ class Team{
 
             this.shields += h.shields;
         }
+
         return this.shields;
     }
 
@@ -271,6 +273,7 @@ class Team{
 
             this.health += h.health;
         }
+
         return this.health;
     }
 

@@ -32,10 +32,7 @@ function loadJSON (jsonDir){
         resolve(jsonOBJ);
       }else{
 
-        reject({
-          status: request.status,
-          statusText: request.statusText
-        });
+        reject(dir);
       }
     }
 
@@ -45,9 +42,9 @@ function loadJSON (jsonDir){
   });
 }
 
-function onError({status, statusText}){
+function onError(jsonDir){
     
-    console.log(`There are a error trying to get json, status: ${status}, ${statusText}`);
+    console.log(`There are a error trying to get json: ${jsonDir}`);
 }
 
 //////////////////////
@@ -134,7 +131,7 @@ const controlPointBuilder = function(map){
     const mapTypeName = map.mapType.type;
 
     let prePoints = [];
-
+    
     for(let i=0;i<mapPoints[map.name].length;i++){
 
         prePoints[mapPoints[map.name][i]] = new Point(mapPoints[map.name][i],mapTypeDisambled[mapTypeName][i]);
