@@ -155,16 +155,16 @@ function chargeCheckboxPanels(){
 
 function updateMapPool(){
 
-    mapSelectPanel.innerHTML = "";
+    mapSelectPanel.innerHTML = "";    
 
     for(let m in maps){
 
-        if(!cBOptions.mapPools){
+        if(!cBOptions.mapPools){            
 
-            mapSelectPanel.innerHTML += `<option value="` + m.selectValue + `">` + m.name + `</option>`;
-        }else if(m.onPool){
+            mapSelectPanel.innerHTML += `<option value="` + maps[m].selectValue + `">` + maps[m].name + `</option>`;
+        }else if(maps[m].onPool){
 
-            mapSelectPanel.innerHTML += `<option value="` + m.selectValue + `">` + m.name + `</option>`;
+            mapSelectPanel.innerHTML += `<option value="` + maps[m].selectValue + `">` + maps[m].name + `</option>`;
         }
     }
 }
@@ -175,7 +175,7 @@ function chargeSelectPanels(){
 
     for(let t in tiers){
 
-        tierSelectPanel.innerHTML += `<option value="` + t.selectValue + `">` + t.name + `</option>`;
+        tierSelectPanel.innerHTML += `<option value="` + tiers[t].selectValue + `">` + tiers[t].name + `</option>`;
     }
 
     updateMapPool();
@@ -342,7 +342,7 @@ function mapPoolsOnClick(){
 
 function mapOnChange(firstCharge){
 
-    const mapSelected = mapSelectPanel.options[mapSelectPanel.selectedIndex].text
+    const mapSelected = mapSelectPanel.options[mapSelectPanel.selectedIndex].text;
     const map = maps[mapSelected];
 
     pointSelectPanel.innerHTML = "";
@@ -350,7 +350,7 @@ function mapOnChange(firstCharge){
 
     for(let p in map.points){
 
-        pointSelectPanel.innerHTML += `<option value="` + p.selectValue + `">` + p.name + `</option>`;
+        pointSelectPanel.innerHTML += `<option value="` + map.points[p].selectValue + `">` + map.points[p].name + `</option>`;
     }
 
     mapType = mapTypes[map.mapType.type];
