@@ -1,0 +1,561 @@
+/*
+    Color Background: #1C2E37;
+    Color Font: white;
+    Color Gray: #A9ABAE;
+    Color Ally: #3D85C6;
+    Color Enemy: #CC4125;
+    font-family: 'Fjalla One', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-family: 'Abel', sans-serif;
+*/
+
+/* Icon Font */
+
+@font-face {
+    font-family: 'overwatch-picker';
+    src:  url('../fonts/overwatch-picker.eot?ta4nt5');
+    src:  url('../fonts/overwatch-picker.eot?ta4nt5#iefix') format('embedded-opentype'),
+      url('../fonts/overwatch-picker.ttf?ta4nt5') format('truetype'),
+      url('../fonts/overwatch-picker.woff?ta4nt5') format('woff'),
+      url('../fonts/overwatch-picker.svg?ta4nt5#overwatch-picker') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+  }
+  
+  [class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'overwatch-picker' !important;
+    speak-as: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+  
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-escort:before {
+    content: "\e909";
+  }
+  .icon-assault:before {
+    content: "\e90a";
+  }
+  .icon-control:before {
+    content: "\e90b";
+  }
+  .icon-hybrid:before {
+    content: "\e90c";
+  }
+  .icon-bronze:before {
+    content: "\e901";
+  }
+  .icon-diamond:before {
+    content: "\e902";
+  }
+  .icon-gold:before {
+    content: "\e903";
+  }
+  .icon-grand-master:before {
+    content: "\e904";
+  }
+  .icon-master:before {
+    content: "\e905";
+  }
+  .icon-platinum:before {
+    content: "\e906";
+  }
+  .icon-silver:before {
+    content: "\e907";
+  }
+  .icon-top-500:before {
+    content: "\e908";
+  }
+  .icon-menu:before {
+    content: "\e900";
+  }
+
+/* HTML Tags */
+
+body{
+    display: grid;
+    grid-template: repeat(5, minmax(100px, auto)) / minmax(320px, 1000px);
+    margin: 0;
+    justify-content: center;
+    font-family: 'Abel', sans-serif;
+    font-weight: normal;
+    color: white;
+    background-color: #1C2E37;
+    column-gap: 20px;
+}
+
+header{
+    display: grid;
+    justify-content: space-between;
+    justify-items: center;
+    grid-template: repeat(2, 1fr) / 46.2% 43.4%;
+    grid-template-areas: 
+        "header-title header-tip"
+        "header-nav header-nav";
+    margin-top: 20px;
+}
+
+.item{
+    border: 1px solid red;
+}
+
+h1{
+    font-family: 'Fjalla One', sans-serif;
+    font-weight: normal;
+    margin: 0px;
+}
+
+h2{
+    font-family: 'Fjalla One', sans-serif;
+    font-weight: normal;
+    margin: 0px;    
+}
+
+a{
+    color: white;
+    text-decoration: none;
+}
+
+p{
+    font-family: 'Abel', sans-serif;    
+}
+
+ol{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+figure{
+    margin: 0px;
+}
+
+footer{
+    margin-top: 50px;
+    display: grid;
+    grid-template-rows: repeat(3, auto);
+    grid-template-columns: repeat(2, 50%);
+}
+
+/* Class Tags */
+
+.burger-button{
+    font-size: 2.5em;
+    color: white;
+    position: fixed;
+    left: 5px;
+    top: 5px;
+    display: none;
+    z-index: 2;
+}
+
+.header-title{
+    grid-area: header-title;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+  }
+
+.header-title h1{
+    font-size: 3.875em;
+    text-transform: uppercase;
+    text-align: right;
+}
+
+.header-title h2{
+    font-size: 1.5em;
+    text-align: right;
+    margin-top: -10px;
+}
+
+.header-tip{
+    font-family: 'Fjalla One', sans-serif;
+    font-weight: normal;
+    text-transform: uppercase;
+    text-align: center;
+    color: #A9ABAE;
+    grid-area: header-tip;
+}
+
+.header-tip p{
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8125em;
+    text-transform: uppercase;
+    text-align: center;
+    color: white;
+    border-bottom: 2px solid white;
+}
+
+.header-tip-title{
+    font-size: 1.5625em;
+}
+
+.header-nav{
+    display: flex;
+    justify-content: space-around;
+    border-top: 2px solid white;
+    padding: 20px 0px 40px 0px;
+    grid-area: header-nav;
+    width: 100%;
+}
+
+.header-nav ol{
+    display: inline-grid;
+    grid-auto-flow: column;
+    grid-column-gap: 20px;
+}
+
+.header-nav li{
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 2.1875em;
+    text-transform: uppercase;
+}
+
+.hero-text{
+    border-bottom: 2px solid white;
+    margin-bottom: 70px;
+}
+
+.hero-text p{
+    font-family: 'Abel', sans-serif;
+    font-weight: normal;
+    font-size: 2.5em;
+    text-align: center;
+    margin: 0px;
+}
+
+.options-selection{
+    display: grid;
+    grid-template: repeat(3, auto) / repeat(4, auto);
+}
+
+.selection-team-title{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 2.1875em;
+    text-align: center;
+    grid-column: 1 / span 4;
+}
+
+.ally-team{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    color: #3D85C6;
+}
+
+.enemy-team{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    color: #CC4125;
+}
+
+.selection-team-clear-all{
+    font-family: 'Abel', sans-serif;
+    font-size: 1.875em;
+    text-align: center;
+    margin-bottom: 40px;
+    grid-column: 1 / span 4;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.selection-team-clear-all a{
+    text-decoration: underline;
+}
+
+.selection-checkbox-panel{
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 20px;
+    grid-column: 1 / span 4;
+}
+
+.selection-checkbox-panel label{
+    margin: auto 15px;
+}
+
+.selection-checkbox-panel input{
+    height: 25px;
+    width: 25px;
+}
+
+.selection-panel{
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 2.03125em;
+    margin: 0 auto;
+}
+
+.selection-panel select{
+    font-family: 'Abel', sans-serif;
+    font-size: 1.05em;
+    background-color: #1C2E37;
+    color: white;
+    height: 40px;
+    /*width: 186px;*/
+}
+
+
+.selection-map select{
+    width: 186px;
+}
+
+.heroes-selection{
+    display: grid;
+    grid-template: repeat(6, auto) / 50% 0px 50%;
+    grid-auto-flow: column;
+    justify-content: space-between;
+}
+
+.heroes-selection-title-text{
+    font-family: 'Abel', sans-serif;
+    font-size: 2.1875em;
+    width: fit-content;
+}
+
+.teams-composition{
+    display: flex;
+    justify-content: space-between;    
+}
+
+.team-composition{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+.hero-value{    
+    font-family: 'Abel', sans-serif;
+    font-size: 1.5625em;
+    width: 60px;
+    text-align: center;
+    margin-left: 3px;
+    margin-bottom: 3px;
+    position: relative;
+    cursor: pointer;
+}
+
+.hero-value img{
+    width: 60px;
+    height: 60px;
+}
+
+.hero-value figcaption{
+    display: none;
+}
+
+.no-hero-selected{
+    color: #1C2E37;
+    cursor: initial;
+}
+
+.border-bottom-75{
+    border-bottom: white 2px solid;
+    left: 12%;
+    top: 100%;
+    width: 75%;
+    position: absolute;
+}
+
+.heroes-filter{
+    text-align: left;
+    width: fit-content;
+}
+
+.heroes-filter input{
+    width: 100px;
+    margin: 10px auto;
+}
+
+.teams-heroes-selection{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    flex-wrap: wrap;
+}
+
+.team-heroes-selection-line-between{
+    width:0px;
+    border-right: 2px solid white;
+    grid-column: 2;
+    grid-row: 3 / span 4;
+}
+
+.all-rol-selection{
+    margin-top: 10px;
+}
+
+.rol-selection{
+    display: inherit;
+    flex-direction: inherit;
+    align-items: inherit;
+    border-bottom: 2px solid white;
+    margin-bottom: 5px;
+    max-width: 90%;
+    margin-right: auto;
+}
+
+.rol-selection-support{
+    border-bottom: none;
+}
+
+.rol-icon{
+    display: inline-flex;
+    width: fit-content;
+}
+
+.rol-icon img{    
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+}
+
+.rol-icon figcaption{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.875em;
+}
+
+.heroes-rol-selection{
+    display: flex;
+    flex-wrap: wrap;
+    width: fit-content;
+}
+
+.enemy-team-selection{
+    display: flex;
+    text-align: right;
+    align-items: flex-end;
+}
+
+.enemy-team-direction{
+    margin-left: auto;
+    grid-column: 3 / span 1;
+    justify-content: flex-end;
+    margin-right: 0;
+    text-align: right;
+}
+
+.footer-nav{
+    display: flex;
+    justify-content: space-around;
+    border-top: 2px solid white;
+    margin-bottom: 65px;
+    grid-column: 1 / span 2;
+}
+
+.footer-nav ol{
+    display: inline-grid;
+    grid-auto-flow: column;
+    column-gap: 30px;
+}
+
+.footer-nav li{
+    font-size: 1.5625em;    
+}
+
+.footer-title-section{
+    display: flex;
+    justify-content: space-around;
+    grid-column: 1 / span 2;
+}
+
+.footer-title h1,
+h2{
+    font-family: 'Abel', sans-serif;
+}
+
+.footer-title h1{
+    text-align: center;
+    border-bottom: 2px solid white;
+}
+
+.footer-title h2{
+    text-align: right;
+}
+
+.footer-final-line{
+    display:flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer-final-line-right{
+    text-align: right;
+}
+
+.footer-social-links{
+    text-align: center;
+    grid-column: 1 / span 2;
+    margin-top: 32px;
+}
+
+.footer-social-links img{
+    width: 50px;
+    height: 50px;
+}
+
+/*
+About Section
+*/
+
+.about-text a{
+    text-decoration: underline;
+}
+
+.about-section{
+    margin: auto 15%;
+}
+
+.about-section h2{
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.about-section a{
+    text-decoration: underline;
+}
+
+.about-div{
+    border-bottom: white 2px dashed;
+    margin-bottom: 30px;
+}
+
+/*
+Sources Section
+*/
+
+.sources-text a{
+    text-decoration: underline;
+}
+
+.sources-section{
+    margin: auto 15%;
+}
+
+.sources-section h2{
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.sources-section a{
+    text-decoration: underline;
+}
+
+.sources-div{
+    border-bottom: white 2px dashed;
+    margin-bottom: 30px;
+}
