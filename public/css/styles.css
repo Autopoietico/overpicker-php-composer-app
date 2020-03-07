@@ -349,6 +349,17 @@ footer{
     cursor: pointer;
 }
 
+.no-rotation{
+
+    cursor: initial;
+}
+
+.no-rotation img{
+    
+    /*filter: blur(2.5px);*/
+    filter: invert(100%);
+}
+
 .hero-value img{
     width: 60px;
     height: 60px;

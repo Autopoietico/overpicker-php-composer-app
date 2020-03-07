@@ -5,7 +5,8 @@
       "secondaryRol":"MainSupport",
       "Shields":0,
       "Health":200,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Ashe":{
       "Name":"Ashe",
@@ -13,7 +14,8 @@
       "secondaryRol":"HitscanDamage",
       "Shields":0,
       "Health":200,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Baptiste":{
       "Name":"Baptiste",
@@ -21,7 +23,8 @@
       "secondaryRol":"FlexSupport",
       "Shields":0,
       "Health":200,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":false
     },
     "Bastion":{
       "Name":"Bastion",
@@ -29,7 +32,8 @@
       "secondaryRol":"HitscanDamage",
       "Shields":0,
       "Health":200,
-      "Armor":100
+      "Armor":100,
+      "OnRotation":true
     },
     "Brigitte":{
       "Name":"Brigitte",
@@ -37,7 +41,8 @@
       "secondaryRol":"OffSupport",
       "Shields":500,
       "Health":200,
-      "Armor":50
+      "Armor":50,
+      "OnRotation":true
     },
     "D.Va":{
       "Name":"D.Va",
@@ -45,7 +50,8 @@
       "secondaryRol":"OffTank",
       "Shields":0,
       "Health":400,
-      "Armor":200
+      "Armor":200,
+      "OnRotation":true
     },
     "Doomfist":{
       "Name":"Doomfist",
@@ -53,7 +59,8 @@
       "secondaryRol":"FlankDamage",
       "Shields":0,
       "Health":250,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Genji":{
       "Name":"Genji",
@@ -61,7 +68,8 @@
       "secondaryRol":"FlankDamage",
       "Shields":0,
       "Health":200,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Hanzo":{
       "Name":"Hanzo",
@@ -69,7 +77,8 @@
       "secondaryRol":"ProjectileDamage",
       "Shields":0,
       "Health":200,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":false
     },
     "Junkrat":{
       "Name":"Junkrat",
@@ -77,7 +86,8 @@
       "secondaryRol":"ProjectileDamage",
       "Shields":0,
       "Health":200,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Lucio":{
       "Name":"Lucio",
@@ -85,7 +95,8 @@
       "secondaryRol":"OffSupport",
       "Shields":0,
       "Health":200,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Mccree":{
       "Name":"Mccree",
@@ -93,7 +104,8 @@
       "secondaryRol":"HitscanDamage",
       "Shields":0,
       "Health":200,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Mei":{
       "Name":"Mei",
@@ -101,7 +113,8 @@
       "secondaryRol":"ProjectileDamage",
       "Shields":0,
       "Health":250,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":false
     },
     "Mercy":{
       "Name":"Mercy",
@@ -109,7 +122,8 @@
       "secondaryRol":"FlexSupport",
       "Shields":0,
       "Health":200,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Moira":{
       "Name":"Moira",
@@ -117,7 +131,8 @@
       "secondaryRol":"MainSupport",
       "Shields":0,
       "Health":200,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Orisa":{
       "Name":"Orisa",
@@ -125,7 +140,8 @@
       "secondaryRol":"MainTank",
       "Shields":900,
       "Health":200,
-      "Armor":200
+      "Armor":200,
+      "OnRotation":false
     },
     "Pharah":{
       "Name":"Pharah",
@@ -133,7 +149,8 @@
       "secondaryRol":"ProjectileDamage",
       "Shields":0,
       "Health":200,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Reaper":{
       "Name":"Reaper",
@@ -141,7 +158,8 @@
       "secondaryRol":"FlankDamage",
       "Shields":0,
       "Health":250,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Reinhardt":{
       "Name":"Reinhardt",
@@ -149,7 +167,8 @@
       "secondaryRol":"MainTank",
       "Shields":2000,
       "Health":300,
-      "Armor":200
+      "Armor":200,
+      "OnRotation":true
     },
     "Roadhog":{
       "Name":"Roadhog",
@@ -157,7 +176,8 @@
       "secondaryRol":"OffTank",
       "Shields":0,
       "Health":600,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Sigma":{
       "Name":"Sigma",
@@ -165,7 +185,8 @@
       "secondaryRol":"FlexTank",
       "Shields":1600,
       "Health":300,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Soldier: 76":{
       "Name":"Soldier: 76",
@@ -173,7 +194,8 @@
       "secondaryRol":"HitscanDamage",
       "Shields":0,
       "Health":200,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Sombra":{
       "Name":"Sombra",
@@ -181,7 +203,8 @@
       "secondaryRol":"FlankDamage",
       "Shields":0,
       "Health":200,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Symmetra":{
       "Name":"Symmetra",
@@ -189,7 +212,8 @@
       "secondaryRol":"ProjectileDamage",
       "Shields":100,
       "Health":100,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Torbjörn":{
       "Name":"Torbjörn",
@@ -197,7 +221,8 @@
       "secondaryRol":"ProjectileDamage",
       "Shields":0,
       "Health":200,
-      "Armor":50
+      "Armor":50,
+      "OnRotation":true
     },
     "Tracer":{
       "Name":"Tracer",
@@ -205,7 +230,8 @@
       "secondaryRol":"FlankDamage",
       "Shields":0,
       "Health":150,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Widowmaker":{
       "Name":"Widowmaker",
@@ -213,7 +239,8 @@
       "secondaryRol":"HitscanDamage",
       "Shields":0,
       "Health":200,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Winston":{
       "Name":"Winston",
@@ -221,7 +248,8 @@
       "secondaryRol":"MainTank",
       "Shields":600,
       "Health":400,
-      "Armor":100
+      "Armor":100,
+      "OnRotation":true
     },
     "Wrecking Ball":{
       "Name":"Wrecking Ball",
@@ -229,7 +257,8 @@
       "secondaryRol":"FlexTank",
       "Shields":0,
       "Health":500,
-      "Armor":100
+      "Armor":100,
+      "OnRotation":true
     },
     "Zarya":{
       "Name":"Zarya",
@@ -237,7 +266,8 @@
       "secondaryRol":"OffTank",
       "Shields":600,
       "Health":200,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     },
     "Zenyatta":{
       "Name":"Zenyatta",
@@ -245,6 +275,7 @@
       "secondaryRol":"OffSupport",
       "Shields":150,
       "Health":50,
-      "Armor":0
+      "Armor":0,
+      "OnRotation":true
     }
   }

@@ -86,6 +86,7 @@ class Heroe{
         this.armor = heroInfo[this.name]["Armor"];
         this.img = heroIMG[this.name];
         this.nicks = heroNicks[this.name];
+        this.onRotation = heroInfo[this.name]["OnRotation"];
 
         this.value = 0;
 

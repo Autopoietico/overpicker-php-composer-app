@@ -15,6 +15,7 @@ const LASTDATAUPDATE = "2020-02-03"
 const roleLockCBPanel = document.getElementById("cbrole-lock");
 const tierCBPanel = document.getElementById("cbtier-mode");
 const mapPoolsCBPanel = document.getElementById("cbmap-pools");
+const heroRotationsCBPanel = document.getElementById("cbhero-rotations");
 
 const tierSelectPanel = document.getElementById("tier-select");
 const mapSelectPanel = document.getElementById("map-select");
@@ -43,6 +44,7 @@ const redHeroFilterInput = document.getElementById("red-hero-filter")
 roleLockCBPanel.onclick = roleLockOnChange;
 tierCBPanel.onclick = tierOnChange;
 mapPoolsCBPanel.onclick = mapPoolsOnClick;
+heroRotationsCBPanel.onclick = heroRotationsOnClick;
 
 tierSelectPanel.onchange = tierOnChange;
 mapSelectPanel.onchange = mapOnChange;
@@ -62,7 +64,8 @@ let cBOptions = {
 
     roleLock : true,
     tierMode : true,
-    mapPools : true
+    mapPools : true,
+    heroRotations : true
 }
 
 let selectedOptions = {
@@ -82,6 +85,7 @@ function getCheckBoxPanelData(){
     cBOptions.roleLock = roleLockCBPanel.checked;
     cBOptions.tierMode = tierCBPanel.checked;
     cBOptions.mapPools = mapPoolsCBPanel.checked;
+    cBOptions.heroRotations = heroRotationsCBPanel.checked;
 }
 
 function getSelectPanelData(){
@@ -151,6 +155,7 @@ function chargeCheckboxPanels(){
     roleLockCBPanel.checked = cBOptions.roleLock;
     tierCBPanel.checked = cBOptions.tierMode;
     mapPoolsCBPanel.checked = cBOptions.mapPools;
+    heroRotationsCBPanel.checked = cBOptions.heroRotations;
 }
 
 function updateMapPool(){
@@ -204,25 +209,43 @@ function updateTeamPanels(){
     supportRedSelectPanel.innerHTML += getTeamPanelInnerHTML(teams["Red"],"Support",heroFilteredRed);
 }
 
-function getTeamPanelInnerHTML(team,rol,heroFiltered){
+function heroOnSelectComposer(heroObject, teamName){
 
-    let teamPanelHTML = "";
+    let composedHTML;
 
     let htmlPieces = [
-        `<figure class="hero-value" data-name="`,
+        `<figure class="hero-value`,
+        ` no-rotation`,
+        `" data-name="`,
         `" data-team="`,
-        `" onclick="heroeOnClick(this)"><figcaption>`, 
+        `" `,
+        `onclick="heroeOnClick(this)"`,
+        `><figcaption>`, 
         `</figcaption><img src="`,
         `" alt="`,
         ` white schematic face"/>`,
         `</figure>`
     ]
 
+    if(heroObject.onRotation || !cBOptions["heroRotations"]){
+
+        composedHTML = htmlPieces[0]+ "" + htmlPieces[2] + heroObject.name + htmlPieces[3] + teamName + htmlPieces[4] + htmlPieces[5] + htmlPieces[6] + heroObject.name + htmlPieces[7] + heroObject.img + htmlPieces[8] + heroObject.name + htmlPieces[9] + heroObject.value + htmlPieces[10];
+    }else{
+
+        composedHTML = htmlPieces[0] + htmlPieces[1] + htmlPieces[2] + heroObject.name + htmlPieces[3] + teamName + htmlPieces[4] + "" + htmlPieces[6] + heroObject.name + htmlPieces[7] + heroObject.img + htmlPieces[8] + heroObject.name + htmlPieces[9] + heroObject.value + htmlPieces[10];
+    }
+
+    return composedHTML;
+}
+
+function getTeamPanelInnerHTML(team,rol,heroFiltered){
+
+    let teamPanelHTML = "";
     heroes = team.rearrangeOnSelect(rol,heroFiltered);
 
     for(let h of heroes){
 
-        teamPanelHTML += htmlPieces[0] + h.name + htmlPieces[1] + team.name + htmlPieces[2] + h.name + htmlPieces[3] + h.img + htmlPieces[4] + h.name + htmlPieces[5] + h.value + htmlPieces[6];
+        teamPanelHTML += heroOnSelectComposer(h, team.name);
     }
 
     return teamPanelHTML;
@@ -338,6 +361,13 @@ function mapPoolsOnClick(){
 
     updateMapPool();
     mapOnChange();
+}
+
+function heroRotationsOnClick(){
+
+    cBOptions.heroRotations = heroRotationsCBPanel.checked;
+
+    getDataUpdateTeams();
 }
 
 function mapOnChange(firstCharge){
