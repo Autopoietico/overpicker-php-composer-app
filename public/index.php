@@ -5,29 +5,68 @@
     error_reporting(E_ALL);
 
     require_once '../vendor/autoload.php';
+    
+    use Illuminate\Database\Capsule\Manager as Capsule;
+    use Aura\Router\RouterContainer;
 
-    use App\Controllers\IndexController;
+    $capsule = new Capsule;
 
-    $DATES = [
-        'LAST_DATA_UPDATE' => "2020-02-24",
-        'COPY_DATE' => "2020"
-    ];   
+    $capsule->addConnection([
+        'driver'    => 'mysql',
+        'host'      => 'localhost',
+        'database'  => 'database',
+        'username'  => 'root',
+        'password'  => 'password',
+        'charset'   => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'prefix'    => '',
+    ]);
 
-    if (isset($_GET["section"]) && $_GET["section"] != ""){
+    $capsule->setAsGlobal();
+    $capsule->bootEloquent();
+    //I'm not using capsule right now, but is installed for the future
 
-        $section = $_GET["section"];
+    //Get the HTTP request using the PSR7 standar
+    $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
+        $_SERVER,
+        $_GET,
+        $_POST,
+        $_COOKIE,
+        $_FILES
+    );
+
+    $routerContainer = new RouterContainer();
+    $map = $routerContainer->getMap();
+    $map->get('index','/',[
+        'controller' => 'App\Controllers\IndexController',
+        'action' => 'homeAction'
+    ]);
+    $map->get('sources','/sources',[
+        'controller' => 'App\Controllers\IndexController',
+        'action' => 'sourcesAction'
+    ]);
+    $map->get('about','/about',[
+        'controller' => 'App\Controllers\IndexController',
+        'action' => 'aboutAction'
+    ]);
+
+    $matcher = $routerContainer->getMatcher();
+    $route = $matcher->match($request);
+
+    if(!$route){
+
+        $controllerName = 'App\Controllers\IndexController';
+
+        $controller = new $controllerName;
+        $response = $controller->noRouteAction();
     }else{
         
-        $section = "home";
+        $handlerData = $route->handler;
+        $controllerName = $handlerData['controller'];
+        $actionName = $handlerData['action'];
+
+        $controller = new $controllerName;
+        $response = $controller->$actionName();
     }
-    
-    function activeSection($var){
-        if ($GLOBALS["section"] == $var){
 
-            echo "active";
-        }
-    }    
-
-    $inCon = new IndexController();
-
-    $inCon->indexAction($section,$DATES);
+    echo $response->getBody();
