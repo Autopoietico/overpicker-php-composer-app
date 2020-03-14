@@ -214,25 +214,33 @@ function heroOnSelectComposer(heroObject, teamName){
     let composedHTML;
 
     let htmlPieces = [
-        `<figure class="hero-value`,
-        ` no-rotation`,
-        `" data-name="`,
-        `" data-team="`,
-        `" `,
-        `onclick="heroeOnClick(this)"`,
-        `><figcaption>`, 
-        `</figcaption><img src="`,
-        `" alt="`,
-        ` white schematic face"/>`,
-        `</figure>`
+        `<figure class="hero-value`, //0
+        ` no-rotation`, //1 This is added when a hero is out of rotation
+        `" data-name="`, //2
+        //heroObject.name
+        `" data-team="`, //3
+        //teamName
+        `" `, //4
+        `onclick="heroeOnClick(this)"`,//5 This is added when a hero is on rotation
+        `><figcaption>`, //6
+        //heroObject.name
+        `</figcaption><img src="`, //7
+        //heroObject.img
+        `" alt="`, //8
+        //heroObject.name
+        ` white schematic face"/>`, //9
+        //heroObject.value
+        `<span class="hero-tip">`, //10
+        //heroObject.name
+        `</span></figure>` //11
     ]
 
     if(heroObject.onRotation || !cBOptions["heroRotations"]){
 
-        composedHTML = htmlPieces[0]+ "" + htmlPieces[2] + heroObject.name + htmlPieces[3] + teamName + htmlPieces[4] + htmlPieces[5] + htmlPieces[6] + heroObject.name + htmlPieces[7] + heroObject.img + htmlPieces[8] + heroObject.name + htmlPieces[9] + heroObject.value + htmlPieces[10];
+        composedHTML = htmlPieces[0]+ "" + htmlPieces[2] + heroObject.name + htmlPieces[3] + teamName + htmlPieces[4] + htmlPieces[5] + htmlPieces[6] + heroObject.name + htmlPieces[7] + heroObject.img + htmlPieces[8] + heroObject.name + htmlPieces[9] + heroObject.value + htmlPieces[10] + heroObject.name + htmlPieces[11];
     }else{
 
-        composedHTML = htmlPieces[0] + htmlPieces[1] + htmlPieces[2] + heroObject.name + htmlPieces[3] + teamName + htmlPieces[4] + "" + htmlPieces[6] + heroObject.name + htmlPieces[7] + heroObject.img + htmlPieces[8] + heroObject.name + htmlPieces[9] + heroObject.value + htmlPieces[10];
+        composedHTML = htmlPieces[0] + htmlPieces[1] + htmlPieces[2] + heroObject.name + htmlPieces[3] + teamName + htmlPieces[4] + "" + htmlPieces[6] + heroObject.name + htmlPieces[7] + heroObject.img + htmlPieces[8] + heroObject.name + htmlPieces[9] + heroObject.value + htmlPieces[10] + heroObject.name + htmlPieces[11];
     }
 
     return composedHTML;
@@ -285,13 +293,21 @@ function getSelectedInnerHTML(team,rol){
     let selectedHTML = "";
 
     let htmlPieces = [
-        `<figure class="hero-value" data-name="`,
-        `" data-team="`,
-        `" onclick="heroeOnClick(this)"><figcaption>`, 
-        `</figcaption><img src="`,
-        `" alt="`,
-        ` white schematic face"/>`,
-        `<div class="border-bottom-75"></div></figure>`
+        `<figure class="hero-value" data-name="`, //0
+        // heroes[i].name
+        `" data-team="`, //1
+        // team.name
+        `" onclick="heroeOnClick(this)"><figcaption>`, //2
+        // heroes[i].name
+        `</figcaption><img src="`, //3
+        // heroes[i].img
+        `" alt="`, //4
+        // heroes[i].name
+        ` white schematic face"/>`, //5
+        // heroes[i].value
+        `<span class="hero-tip">`,//6
+        // heroes[i].name
+        `</span><div class="border-bottom-75"></div></figure>` //7
     ]
 
     //The whiteHTMLPiece draw a white space when there are not hero selected
@@ -304,7 +320,7 @@ function getSelectedInnerHTML(team,rol){
         for(let i=0;i<MAXHEROESONROL;i++){
     
             if(heroes[i]){
-                selectedHTML += htmlPieces[0] + heroes[i].name + htmlPieces[1] + team.name + htmlPieces[2] + heroes[i].name + htmlPieces[3] + heroes[i].img + htmlPieces[4] + heroes[i].name + htmlPieces[5] + heroes[i].value + htmlPieces[6];
+                selectedHTML += htmlPieces[0] + heroes[i].name + htmlPieces[1] + team.name + htmlPieces[2] + heroes[i].name + htmlPieces[3] + heroes[i].img + htmlPieces[4] + heroes[i].name + htmlPieces[5] + heroes[i].value + htmlPieces[6] + heroes[i].name + htmlPieces[7];
             }else{
                 selectedHTML += whiteHTMLPiece;
             }
@@ -316,7 +332,7 @@ function getSelectedInnerHTML(team,rol){
         for(let i=0;i<MAXHEROESONTEAM;i++){
     
             if(heroes[i]){
-                selectedHTML += htmlPieces[0] + heroes[i].name + htmlPieces[1] + team.name + htmlPieces[2] + heroes[i].name + htmlPieces[3] + heroes[i].img + htmlPieces[4] + heroes[i].name + htmlPieces[5] + heroes[i].value + htmlPieces[6];
+                selectedHTML += htmlPieces[0] + heroes[i].name + htmlPieces[1] + team.name + htmlPieces[2] + heroes[i].name + htmlPieces[3] + heroes[i].img + htmlPieces[4] + heroes[i].name + htmlPieces[5] + heroes[i].value + htmlPieces[6] + heroes[i].name + htmlPieces[7];
             }else{
                 selectedHTML += whiteHTMLPiece;
             }
