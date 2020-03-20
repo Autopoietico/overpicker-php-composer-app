@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="Find your best composition, counter the enemy comp, and find the best hero for every map in Overwatch">
 	<meta name="keywords" content="overwatch, counters, heroes, synergies, maps, tiers, composition">
-    <title>OW Picker{{title}}</title>
+    <title>OverPicker{{title}}</title>
     <!--
         All this code is copyright Autopoietico, 2020.
             -This code includes a bit of snippets found on stackoverflow.com and others
@@ -16,13 +16,26 @@
     -->
     <link href="https://fonts.googleapis.com/css?family=Abel|Fjalla+One|Poppins&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css"/>
-    <link rel="stylesheet" href="css/media.css"/> 
+    <link rel="stylesheet" href="css/media.css"/>
+    <link rel="apple-touch-icon" sizes="57x57" href="img/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="img/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="img/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="img/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="img/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="img/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="img/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
 </head>
 <body>
     <i class="icon-menu burger-button" id="burger-menu"></i>
     <header class="header">
         <div class="header-title noselect">
-            <h1><a href="/">OW Picker</a></h1>
+            <h1><a href="/">OverPicker</a></h1>
             <h2><a href="about">By Autopoietico</a></h2>
         </div>
         <div class="header-tip noselect">
@@ -30,7 +43,7 @@
             <span class="header-tip-title">Git Gud</span>
         </div>
         <nav class="header-nav">
-            <ol>
+            {# <ol>
                 <li>
                     <a href="">Counters</a>
                 </li>
@@ -46,7 +59,7 @@
                 <li>
                     <a href="">Synergies</a>
                 </li>
-            </ol>
+            </ol> #}
         </nav>
     </header>
     <script src="js/hamburger.js"></script>
@@ -54,7 +67,7 @@
     <footer class="footer">
         <nav class="footer-nav">
             <ol>
-                <li>
+                {# <li>
                     <a href="">Counters</a>
                 </li>
                 <li>
@@ -68,7 +81,7 @@
                 </li>
                 <li>
                     <a href="">Synergies</a>
-                </li>
+                </li> #}
                 <li>
                     <a href="sources">Sources</a>
                 </li>
@@ -87,6 +100,7 @@
         <span class="footer-final-line-right">(CC){{copy}}</span>
         <div class="footer-social-links">
         <a href="https://discord.gg/PBfMUzz" title="OW Picker Discord" target="_blank" class="social-link"><img src="images/social/discord-brands.svg" alt="Discord Icon"/></a>
+        <a href="https://paypal.me/car930" title="OW Picker Discord" target="_blank" class="social-link"><img src="images/social/paypal-brands.svg" alt="Paypal Icon"/></a>
         </div>
     </footer>
     <script>

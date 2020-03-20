@@ -156,6 +156,7 @@
     .selection-panel{
         width: initial;
         font-size: 1.415em;
+        display: initial;
     }
 
     .selection-panel select{

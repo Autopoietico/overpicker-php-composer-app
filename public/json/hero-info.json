@@ -24,7 +24,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Bastion":{
       "Name":"Bastion",
@@ -42,7 +42,7 @@
       "Shields":500,
       "Health":200,
       "Armor":50,
-      "OnRotation":true
+      "OnRotation":false
     },
     "D.Va":{
       "Name":"D.Va",
@@ -60,7 +60,7 @@
       "Shields":0,
       "Health":250,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Genji":{
       "Name":"Genji",
@@ -78,7 +78,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Junkrat":{
       "Name":"Junkrat",
@@ -114,7 +114,7 @@
       "Shields":0,
       "Health":250,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Mercy":{
       "Name":"Mercy",
@@ -141,7 +141,7 @@
       "Shields":900,
       "Health":200,
       "Armor":200,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Pharah":{
       "Name":"Pharah",
@@ -177,7 +177,7 @@
       "Shields":0,
       "Health":600,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Sigma":{
       "Name":"Sigma",
@@ -186,7 +186,7 @@
       "Shields":1600,
       "Health":300,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Soldier: 76":{
       "Name":"Soldier: 76",
