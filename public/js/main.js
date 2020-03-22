@@ -184,7 +184,7 @@ function chargeSelectPanels(){
     }
 
     updateMapPool();
-    mapOnChange(true);
+    mapOnChange();
 }
 
 function updateTeamPanels(){
@@ -386,7 +386,7 @@ function heroRotationsOnClick(){
     getDataUpdateTeams();
 }
 
-function mapOnChange(firstCharge){
+function mapOnChange(){
 
     const mapSelected = mapSelectPanel.options[mapSelectPanel.selectedIndex].text;
     const map = maps[mapSelected];
@@ -406,11 +406,7 @@ function mapOnChange(firstCharge){
         adcSelectPanel.innerHTML += `<option value="` + adc.selectValue + `">` + adc.name + `</option>`;
     }
 
-    //This is to dont use this function twice when the javascript is loaded
-    if(!firstCharge){
-
-        getDataUpdateTeams();
-    }
+    getDataUpdateTeams();
 }
 
 function pointOnChange(){
