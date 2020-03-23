@@ -114,6 +114,8 @@ function calcTeamsPoints({tier, map, point, adc}){
     }else if(selectedOptions.adc=="Defense"){
 
         teams["Red"].calcHeroPoints("Attack", mapObject, mapObject.points[point], tier, teams["Blue"]);
+    }else{
+        teams["Red"].calcHeroPoints("Control", mapObject, mapObject.points[point], tier, teams["Blue"]);        
     }
     
 }
