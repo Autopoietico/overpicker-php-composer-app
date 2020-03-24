@@ -117,7 +117,12 @@ function calcTeamsPoints({tier, map, point, adc}){
     }else{
         teams["Red"].calcHeroPoints("Control", mapObject, mapObject.points[point], tier, teams["Blue"]);        
     }
-    
+}
+
+function calcTeamsPointsNoMap({tier}){
+
+    teams["Blue"].calcHeroPointsNoMap(tier ,teams["Red"]);
+    teams["Red"].calcHeroPointsNoMap(tier, teams["Blue"]);
 }
 
 function selectHeroe(heroeData, team){
@@ -136,7 +141,15 @@ function getDataUpdateTeams(){
 
     //This functions are called always there are a change in the hero selection, tier, map, etc.
     getSelectPanelData();
-    calcTeamsPoints(selectedOptions);
+
+    if(selectedOptions.map == "None"){
+
+        calcTeamsPointsNoMap(selectedOptions);
+    }else{
+
+        calcTeamsPoints(selectedOptions);
+    }
+    
     updateSelectedPanels();
     updateTeamPanels();
 }
@@ -162,7 +175,7 @@ function chargeCheckboxPanels(){
 
 function updateMapPool(){
 
-    mapSelectPanel.innerHTML = "";    
+    mapSelectPanel.innerHTML += `<option value="` + getSelectValue("None") + `">None</option>`;
 
     for(let m in maps){
 
@@ -396,16 +409,23 @@ function mapOnChange(){
     pointSelectPanel.innerHTML = "";
     adcSelectPanel.innerHTML = "";
 
-    for(let p in map.points){
+    if(mapSelected == "None"){
 
-        pointSelectPanel.innerHTML += `<option value="` + map.points[p].selectValue + `">` + map.points[p].name + `</option>`;
-    }
+        pointSelectPanel.innerHTML += `<option value="` + getSelectValue("None") + `">None</option>`;
+        adcSelectPanel.innerHTML += `<option value="` + getSelectValue("None") + `">None</option>`;
+    }else{
 
-    mapType = mapTypes[map.mapType.type];
-
-    for(let adc of mapType.adc){
-
-        adcSelectPanel.innerHTML += `<option value="` + adc.selectValue + `">` + adc.name + `</option>`;
+        for(let p in map.points){
+    
+            pointSelectPanel.innerHTML += `<option value="` + map.points[p].selectValue + `">` + map.points[p].name + `</option>`;
+        }
+    
+        mapType = mapTypes[map.mapType.type];
+    
+        for(let adc of mapType.adc){
+    
+            adcSelectPanel.innerHTML += `<option value="` + adc.selectValue + `">` + adc.name + `</option>`;
+        }
     }
 
     getDataUpdateTeams();

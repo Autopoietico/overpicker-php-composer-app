@@ -110,6 +110,17 @@ class Heroe{
         this.value = tierValue + mapValue + adcValue + sinergyValue + counterValue;
     }
 
+    calcTotalValueNoMap(tier, allyTeam, enemyTeam){
+
+        const tierValue = this.getTierValue(tier);
+        const mapValue = 0;
+        const adcValue = 0;
+        const sinergyValue = this.getSinergyValue(allyTeam);
+        const counterValue = this.getCounterValue(enemyTeam);
+
+        this.value = tierValue + mapValue + adcValue + sinergyValue + counterValue;
+    }
+
     getTierValue(tier){
 
         let tierValue = 0;
@@ -295,6 +306,14 @@ class Team{
         for(let h of this.heroes){
 
             h.calcTotalValue(adc,mapObject,pointObject,tier, this, enemyTeam);
+        }
+    }
+
+    calcHeroPointsNoMap(tier, enemyTeam){
+
+        for(let h of this.heroes){
+
+            h.calcTotalValueNoMap(tier, this, enemyTeam);
         }
     }
 
