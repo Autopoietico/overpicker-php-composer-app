@@ -24,7 +24,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Bastion":{
       "Name":"Bastion",
@@ -42,7 +42,7 @@
       "Shields":500,
       "Health":200,
       "Armor":50,
-      "OnRotation":false
+      "OnRotation":true
     },
     "D.Va":{
       "Name":"D.Va",
@@ -51,7 +51,7 @@
       "Shields":0,
       "Health":400,
       "Armor":200,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Doomfist":{
       "Name":"Doomfist",
@@ -60,7 +60,7 @@
       "Shields":0,
       "Health":250,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Genji":{
       "Name":"Genji",
@@ -105,7 +105,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Mei":{
       "Name":"Mei",
@@ -177,7 +177,7 @@
       "Shields":0,
       "Health":600,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Sigma":{
       "Name":"Sigma",
@@ -186,7 +186,7 @@
       "Shields":1600,
       "Health":300,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Soldier: 76":{
       "Name":"Soldier: 76",
@@ -195,7 +195,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Sombra":{
       "Name":"Sombra",
@@ -204,7 +204,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Symmetra":{
       "Name":"Symmetra",
@@ -240,7 +240,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Winston":{
       "Name":"Winston",
