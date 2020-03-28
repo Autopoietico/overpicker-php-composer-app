@@ -178,7 +178,7 @@ const maps = {
     "Dorado" : new Map("Dorado","Escort",true),
     "Havana" : new Map("Havana","Escort",false),
     "Junkertown" : new Map("Junkertown","Escort",true),
-    "Rialto" : new Map("Nepal","Escort",false),
+    "Rialto" : new Map("Rialto","Escort",false),
     "Route 66" : new Map("Route 66", "Escort"),
     "Watchpoint: Gibraltar" : new Map("Watchpoint: Gibraltar", "Escort",true),
     

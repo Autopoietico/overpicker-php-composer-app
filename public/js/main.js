@@ -175,6 +175,8 @@ function chargeCheckboxPanels(){
 
 function updateMapPool(){
 
+    mapSelectPanel.innerHTML = "";
+
     mapSelectPanel.innerHTML += `<option value="` + getSelectValue("None") + `">None</option>`;
 
     for(let m in maps){
