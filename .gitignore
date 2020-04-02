@@ -1,0 +1,6 @@
+# The Vendor Folder needs to be created using the composer.phar file with the composer.json and composer.lock config
+vendor/
+#Ignore binary files
+*.png
+#Ignore env variables
+.env

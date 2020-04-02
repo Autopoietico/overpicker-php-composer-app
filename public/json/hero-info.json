@@ -24,7 +24,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Bastion":{
       "Name":"Bastion",
@@ -51,7 +51,7 @@
       "Shields":0,
       "Health":400,
       "Armor":200,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Doomfist":{
       "Name":"Doomfist",
@@ -78,7 +78,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Junkrat":{
       "Name":"Junkrat",
@@ -105,7 +105,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Mei":{
       "Name":"Mei",
@@ -123,7 +123,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Moira":{
       "Name":"Moira",
@@ -195,7 +195,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Sombra":{
       "Name":"Sombra",
@@ -204,7 +204,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Symmetra":{
       "Name":"Symmetra",
@@ -240,7 +240,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Winston":{
       "Name":"Winston",
@@ -258,7 +258,7 @@
       "Shields":0,
       "Health":500,
       "Armor":100,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Zarya":{
       "Name":"Zarya",
