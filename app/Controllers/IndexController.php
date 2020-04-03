@@ -14,7 +14,7 @@ class IndexController extends BaseController{
 
     public function homeAction(){
 
-        $title = ' - Home';
+        $title = ' - Overwatch tool made to build Composition based in Counter and Synergies';
 
         return $this->renderHTML('section-home.twig', [
             'title' => $title,
