@@ -78,7 +78,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Junkrat":{
       "Name":"Junkrat",
@@ -96,7 +96,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Mccree":{
       "Name":"Mccree",
@@ -123,7 +123,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Moira":{
       "Name":"Moira",
@@ -150,7 +150,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Reaper":{
       "Name":"Reaper",
@@ -213,7 +213,7 @@
       "Shields":100,
       "Health":100,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Torbjörn":{
       "Name":"Torbjörn",
@@ -258,7 +258,7 @@
       "Shields":0,
       "Health":500,
       "Armor":100,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Zarya":{
       "Name":"Zarya",
@@ -267,7 +267,7 @@
       "Shields":600,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Zenyatta":{
       "Name":"Zenyatta",
