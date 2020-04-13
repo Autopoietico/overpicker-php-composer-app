@@ -42,7 +42,7 @@
       "Shields":500,
       "Health":200,
       "Armor":50,
-      "OnRotation":true
+      "OnRotation":false
     },
     "D.Va":{
       "Name":"D.Va",
@@ -96,7 +96,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Mccree":{
       "Name":"Mccree",
@@ -105,7 +105,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Mei":{
       "Name":"Mei",
@@ -150,7 +150,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Reaper":{
       "Name":"Reaper",
@@ -168,7 +168,7 @@
       "Shields":2000,
       "Health":300,
       "Armor":200,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Roadhog":{
       "Name":"Roadhog",
@@ -213,7 +213,7 @@
       "Shields":100,
       "Health":100,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Torbjörn":{
       "Name":"Torbjörn",
@@ -240,7 +240,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Winston":{
       "Name":"Winston",
@@ -267,7 +267,7 @@
       "Shields":600,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Zenyatta":{
       "Name":"Zenyatta",
