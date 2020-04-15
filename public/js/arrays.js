@@ -164,29 +164,29 @@ const pointBuilder = {
 const maps = {
     
     "Hanamura" : new Map("Hanamura","Assault",true),
-    "Horizon Lunar Colony" : new Map("Horizon Lunar Colony","Assault",true),
-    "Paris" : new Map("Paris","Assault"),
-    "Temple of Anubis" : new Map("Temple of Anubis","Assault",false),
+    "Horizon Lunar Colony" : new Map("Horizon Lunar Colony","Assault",false),
+    "Paris" : new Map("Paris","Assault",false),
+    "Temple of Anubis" : new Map("Temple of Anubis","Assault",true),
     "Volskaya Industries" : new Map("Volskaya Industries", "Assault",true),
     
     "Busan" : new Map("Busan","Control",true),
-    "Ilios" : new Map("Ilios","Control",false),
+    "Ilios" : new Map("Ilios","Control",true),
     "Lijiang Tower" : new Map("Lijiang Tower","Control",true),
-    "Nepal" : new Map("Nepal","Control"),
+    "Nepal" : new Map("Nepal","Control",true),
     "Oasis" : new Map("Oasis", "Control",true),
     
     "Dorado" : new Map("Dorado","Escort",true),
-    "Havana" : new Map("Havana","Escort",false),
+    "Havana" : new Map("Havana","Escort",true),
     "Junkertown" : new Map("Junkertown","Escort",true),
-    "Rialto" : new Map("Rialto","Escort",false),
-    "Route 66" : new Map("Route 66", "Escort"),
+    "Rialto" : new Map("Rialto","Escort",true),
+    "Route 66" : new Map("Route 66", "Escort",true),
     "Watchpoint: Gibraltar" : new Map("Watchpoint: Gibraltar", "Escort",true),
     
     "Blizzard World" : new Map("Blizzard World","Hybrid",true),
-    "Eichenwalde" : new Map("Eichenwalde","Hybrid",false),
+    "Eichenwalde" : new Map("Eichenwalde","Hybrid",true),
     "Hollywood" : new Map("Hollywood","Hybrid",true),
     "King's Row" : new Map("King's Row","Hybrid",true),
-    "Numbani" : new Map("Numbani", "Hybrid",false)
+    "Numbani" : new Map("Numbani", "Hybrid",true)
 }
 
 const calcControlValue = function(hero, adc){
