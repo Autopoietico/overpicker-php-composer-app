@@ -62,6 +62,15 @@
       "Armor":0,
       "OnRotation":true
     },
+    "Echo":{
+      "Name":"Echo",
+      "generalRol":"Damage",
+      "secondaryRol":"FlankDamage",
+      "Shields":0,
+      "Health":200,
+      "Armor":0,
+      "OnRotation":true
+    },
     "Genji":{
       "Name":"Genji",
       "generalRol":"Damage",

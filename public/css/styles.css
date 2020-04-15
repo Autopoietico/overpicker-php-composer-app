@@ -83,13 +83,14 @@
 body{
     display: grid;
     grid-template: repeat(5, minmax(100px, auto)) / minmax(320px, 1000px);
-    margin: 0;
+    margin: 0 auto;
     justify-content: center;
     font-family: 'Abel', sans-serif;
     font-weight: normal;
     color: white;
     background-color: #1C2E37;
     column-gap: 20px;
+    width: 1000px;
 }
 
 header{
