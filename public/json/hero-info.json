@@ -42,7 +42,7 @@
       "Shields":500,
       "Health":200,
       "Armor":50,
-      "OnRotation":false
+      "OnRotation":true
     },
     "D.Va":{
       "Name":"D.Va",
@@ -69,7 +69,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Genji":{
       "Name":"Genji",
@@ -114,7 +114,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Mei":{
       "Name":"Mei",
@@ -141,7 +141,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Orisa":{
       "Name":"Orisa",
@@ -150,7 +150,7 @@
       "Shields":900,
       "Health":200,
       "Armor":200,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Pharah":{
       "Name":"Pharah",
@@ -177,7 +177,7 @@
       "Shields":2000,
       "Health":300,
       "Armor":200,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Roadhog":{
       "Name":"Roadhog",
@@ -240,7 +240,7 @@
       "Shields":0,
       "Health":150,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Widowmaker":{
       "Name":"Widowmaker",
@@ -249,7 +249,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Winston":{
       "Name":"Winston",
