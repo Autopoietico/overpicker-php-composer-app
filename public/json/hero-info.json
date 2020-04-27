@@ -69,7 +69,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Genji":{
       "Name":"Genji",
@@ -114,7 +114,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Mei":{
       "Name":"Mei",
@@ -132,7 +132,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Moira":{
       "Name":"Moira",
@@ -141,7 +141,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Orisa":{
       "Name":"Orisa",
@@ -150,7 +150,7 @@
       "Shields":900,
       "Health":200,
       "Armor":200,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Pharah":{
       "Name":"Pharah",
@@ -240,7 +240,7 @@
       "Shields":0,
       "Health":150,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Widowmaker":{
       "Name":"Widowmaker",
@@ -249,7 +249,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Winston":{
       "Name":"Winston",
@@ -267,7 +267,7 @@
       "Shields":0,
       "Health":500,
       "Armor":100,
-      "OnRotation":true
+      "OnRotation":false
     },
     "Zarya":{
       "Name":"Zarya",
