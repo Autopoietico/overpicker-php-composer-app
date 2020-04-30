@@ -9,6 +9,13 @@ Feel free to alter this code to your liking, but please do not re-host it, do no
 const LASTDATAUPDATE = "2020-04-30"
 
 //////////////////////
+// API LOAD
+//////////////////////
+
+const heroInfoURL = "https://api.overpicker.win/hero-data/hero-info.json";
+
+
+//////////////////////
 // Model Elements
 //////////////////////
 
@@ -17,6 +24,15 @@ class ModelTeam{
     constructor(name){
         
         this.name = name;
+        this.value = 0;
+        this.heroes = this.getAllTheHeroes;
+    }
+
+    getAllTheHeroes(){
+
+        //This function build a array with all the heroes of the game for the team.
+        //Is important to have all the heroes to make all the calcs, all the heroes, despite
+        //not been selected need his own score.
     }
 }
 
@@ -24,10 +40,12 @@ class ModelOverPiker{
 
     constructor(){
 
-        this.teams = [
-            "Blue" = new ModelTeam("Blue"),
-            "Red" = new ModelTeam("Red")
-        ]
+        
+
+        this.teams = {
+            "Blue" : new ModelTeam("Blue"),
+            "Red" : new ModelTeam("Red")
+        }
     }
 
     
@@ -56,4 +74,4 @@ class ControllerOverPiker{
     }
 }
 
-const app = new Controller(new Model(), new View());
+const calculator = new ControllerOverPiker(new ModelOverPiker(), new ViewOverPiker());
