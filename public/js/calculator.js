@@ -59,14 +59,33 @@ class ModelAPI{
         
         console.log(`There are a error trying to get the requested API data: ${dir}`);
     }
+
+    findElement(jsonOBJ, name, valueName){
+
+        //Find the position for a element in a JSON based in the name of the element, and return the desire value
+
+        for(let jO in jsonOBJ){
+
+            if(jsonOBJ[jO]["name"] == name){
+
+                return jsonOBJ[jO][valueName];
+            }
+        }
+
+        return "";
+    }
 }
 
 //////////////////////
 // Model Elements
 //////////////////////
 
-class ModelPanel{
-    
+class ModelMap{
+
+    constructor(mapData){
+
+        
+    }
 }
 
 class ModelHero{
@@ -77,6 +96,13 @@ class ModelHero{
         this.generalRol = heroData["general_rol"];
         this.nicks = heroData["nicks"];
         this.onRotation = heroData["on_rotation"];
+        this.IMG = [];
+    }
+
+    addIMG(IMGUrl, type){
+
+        //The type define the type of img we want, normally white, but probably a Echo type, a SVG or a black type
+        this.IMG[type] = IMGUrl;
     }
 }
 
@@ -96,14 +122,22 @@ class ModelTeam{
         //not been selected need his own score.
         let allHeroes = [];
 
-        
-
         for(let h in heroInfo){
 
            allHeroes.push(new ModelHero(heroInfo[h]));
         }
 
         this.heroes = allHeroes;
+    }
+
+    loadAllTheHeroIMG(APIData){
+
+        for(let h in this.heroes){
+
+            let whiteURL = APIData.findElement(APIData.heroIMG,this.heroes[h].name,"white-img");
+
+            this.heroes[h].IMG["white-img"] = whiteURL;
+        }
     }
 }
 
@@ -113,18 +147,64 @@ class ModelOverPiker{
 
         this.APIData = new ModelAPI();
 
+        this.maps = [];
+
         this.teams = {
+
             "Blue" : new ModelTeam("Blue"),
             "Red" : new ModelTeam("Red")
         }
+
+        this.panelOptions = [
+            {optionName: "Role Lock", state : true},
+            {optionName: "Tier Mode", state : true},
+            {optionName: "Map Pools", state : true},
+            {optionName: "Hero Rotation", state : true}
+        ]
+
+        this.panelSelections = [
+            {selectionName: "Tier", value : ""},
+            {selectionName: "Map", value : ""},
+            {selectionName: "Point", value : ""},
+            {selectionName: "A/D", value : ""},
+        ]
     }
 
-    getHeroesForAllTeams(){
+    loadHeroDataForTeams(){
 
         for(let t in this.teams){
 
             this.teams[t].loadAllTheHeroes(this.APIData.heroInfo);
         }
+    }
+
+    loadHeroIMGForTeams(){
+
+        for(let t in this.teams){
+
+            this.teams[t].loadAllTheHeroIMG(this.APIData);
+        }
+    }
+
+    buildMapPool(mapInfo){
+
+        for(let m in mapInfo){
+
+            this.maps.push(new ModelMap(mapInfo(m)));
+        }
+    }
+
+    //Flip the option panel
+    toggleOptionPanel(optionName){
+
+        this.panelOptions = this.panelOptions.map(option => {
+
+            if(option.optionName === optionName){
+                option = {optionName: option.optionName, state : !option.state};
+            }else{
+                option = option;
+            }
+        });
     }
 }
 
@@ -136,6 +216,48 @@ class ViewOverPiker{
 
     constructor(){
 
+        //Get Option Panel Element
+        this.panel = this.getElement(".selection-checkbox-panel");
+    }
+
+    createElement(tag, className){
+        //This create a DOM element, the CSS class is optional
+
+        const element = document.createElement(tag);
+
+        if(className){
+
+            element.classList.add(className);
+        }
+
+        return element;
+    }
+
+    getElement(selector){
+        //This get element from the DOM with the desire queryselector
+        
+        const element = document.querySelector(selector);
+
+        return element;
+    }
+
+    displayOptions(panelOptions){
+
+        //Create panel options nodes
+        panelOptions.forEach(option =>{
+
+            //Label enclose the elements
+            const optionLabel = this.createElement('label');
+
+            const checkbox = this.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = option.state;
+
+            const span = this.createElement('span');
+            span.textContent = option.name;
+
+            optionLabel.append(checkbox,span);
+        });
     }
 }
 
@@ -146,6 +268,7 @@ class ViewOverPiker{
 class ControllerOverPiker{
 
     constructor(model, view){
+
         this.model = model;
         this.view = view;
     }
@@ -163,16 +286,21 @@ APIModel.loadAPIJSON(API_URL, HEROINFO_URL)
 .then(jsonOBJ => {
 
     APIModel.heroInfo = {
+
         ...jsonOBJ
     }
+
+    calculator.model.loadHeroDataForTeams();
 
     return APIModel.loadAPIJSON(API_URL, HEROIMG_URL);
-}).then(jsonOBJ => {
+})
+.then(jsonOBJ => {
     
     APIModel.heroIMG = {
+
         ...jsonOBJ
     }
 
-    calculator.model.getHeroesForAllTeams();
+    calculator.model.loadHeroIMGForTeams();
 })
 .catch(APIModel.onError);
