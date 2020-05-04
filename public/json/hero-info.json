@@ -114,7 +114,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Mei":{
       "Name":"Mei",
@@ -132,7 +132,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Moira":{
       "Name":"Moira",
@@ -249,7 +249,7 @@
       "Shields":0,
       "Health":200,
       "Armor":0,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Winston":{
       "Name":"Winston",
@@ -267,7 +267,7 @@
       "Shields":0,
       "Health":500,
       "Armor":100,
-      "OnRotation":false
+      "OnRotation":true
     },
     "Zarya":{
       "Name":"Zarya",
