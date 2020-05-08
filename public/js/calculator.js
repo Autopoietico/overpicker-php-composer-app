@@ -9,6 +9,17 @@ Feel free to alter this code to your liking, but please do not re-host it, do no
 const LASTDATAUPDATE = "2020-04-30"
 
 //////////////////////
+// Miscelaneus
+//////////////////////
+
+const getSelectValue = function(name){
+
+    //https://stackoverflow.com/a/544877 changing to lowcase and changing spaces to '-'
+    let selectValue = name.replace(/\s+/g, '-');
+    return selectValue.toLowerCase();
+}
+
+//////////////////////
 // API METHODS
 //////////////////////
 
@@ -155,18 +166,18 @@ class ModelOverPiker{
             "Red" : new ModelTeam("Red")
         }
 
-        this.panelOptions = [
-            {optionName: "Role Lock", state : true},
-            {optionName: "Tier Mode", state : true},
-            {optionName: "Map Pools", state : true},
-            {optionName: "Hero Rotation", state : true}
+        this.panelOptions = JSON.parse(localStorage.getItem('panelOptions')) || [
+            {text: "Role Lock", id: getSelectValue("Role Lock"), state : true},
+            {text: "Tier Mode", id: getSelectValue("Tier Mode"), state : true},
+            {text: "Map Pools", id: getSelectValue("Map Pools"), state : true},
+            {text: "Hero Rotation", id: getSelectValue("Hero Rotation"), state : true}
         ]
 
         this.panelSelections = [
-            {selectionName: "Tier", value : ""},
-            {selectionName: "Map", value : ""},
-            {selectionName: "Point", value : ""},
-            {selectionName: "A/D", value : ""},
+            {text: "Tier", id: getSelectValue("Tier"), value : ""},
+            {text: "Map", id: getSelectValue("Map"), value : ""},
+            {text: "Point", id: getSelectValue("Point"), value : ""},
+            {text: "A/D", id: getSelectValue("A/D"), value : ""},
         ]
     }
 
@@ -194,17 +205,24 @@ class ModelOverPiker{
         }
     }
 
+    bindOptionChanged(callback){
+        this.onOptionsChanged = callback;
+    }
+
+    _commitOptions(panelOptions){
+
+        this.onOptionsChanged(panelOptions);
+        localStorage.setItem('panelOptions', JSON.stringify(panelOptions));
+    }
+
     //Flip the option panel
-    toggleOptionPanel(optionName){
+    toggleOptionPanel(id){
 
-        this.panelOptions = this.panelOptions.map(option => {
+        this.panelOptions = this.panelOptions.map(option => 
+            option.id === id ? {text: option.text, id: option.id, state: !option.state} : option
+        );
 
-            if(option.optionName === optionName){
-                option = {optionName: option.optionName, state : !option.state};
-            }else{
-                option = option;
-            }
-        });
+        this._commitOptions(this.panelOptions);
     }
 }
 
@@ -243,6 +261,11 @@ class ViewOverPiker{
 
     displayOptions(panelOptions){
 
+        while(this.panel.firstChild){
+
+            this.panel.removeChild(this.panel.firstChild);
+        }
+
         //Create panel options nodes
         panelOptions.forEach(option =>{
 
@@ -252,11 +275,26 @@ class ViewOverPiker{
             const checkbox = this.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.checked = option.state;
+            checkbox.id = option.id;
 
             const span = this.createElement('span');
-            span.textContent = option.name;
+            span.textContent = option.text;
 
             optionLabel.append(checkbox,span);
+
+            this.panel.append(optionLabel);
+        });
+    }
+
+    bindToggleOptions(handler){
+
+        this.panel.addEventListener('change', event => {
+
+            if(event.target.type == 'checkbox'){
+
+                const id = event.target.id;
+                handler(id);
+            }
         });
     }
 }
@@ -271,6 +309,22 @@ class ControllerOverPiker{
 
         this.model = model;
         this.view = view;
+
+        //Display initial options
+        this.model.bindOptionChanged(this.onOptionsChanged);
+        this.view.bindToggleOptions(this.handleToggleOptions);
+
+        this.onOptionsChanged(this.model.panelOptions);
+    }
+
+    onOptionsChanged = panelOptions => {
+
+        this.view.displayOptions(panelOptions);
+    }
+
+    handleToggleOptions = id => {
+
+        this.model.toggleOptionPanel(id);
     }
 }
 
