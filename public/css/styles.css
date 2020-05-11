@@ -80,17 +80,20 @@
 
 /* HTML Tags */
 
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body{
     display: grid;
-    grid-template: repeat(5, minmax(100px, auto)) / minmax(320px, 1000px);
+    grid-template: repeat(5, minmax(6.25em, auto)) / 80vw;
     margin: 0 auto;
-    justify-content: center;
     font-family: 'Abel', sans-serif;
-    font-weight: normal;
     color: white;
     background-color: #1C2E37;
-    column-gap: 20px;
-    width: 1000px;
+    width: 80vw;
 }
 
 header{
@@ -101,23 +104,17 @@ header{
     grid-template-areas: 
         "header-title header-tip"
         "header-nav header-nav";
-    margin-top: 20px;
-}
-
-.item{
-    border: 1px solid red;
+    margin-top: 1.5em;
 }
 
 h1{
     font-family: 'Fjalla One', sans-serif;
     font-weight: normal;
-    margin: 0px;
 }
 
 h2{
     font-family: 'Fjalla One', sans-serif;
     font-weight: normal;
-    margin: 0px;    
 }
 
 a{
@@ -131,19 +128,11 @@ p{
 
 ol{
     list-style: none;
-    margin: 0px;
-    padding: 0px;
-}
-
-figure{
-    margin: 0px;
 }
 
 footer{
-    margin-top: 50px;
+    margin-top: 3.125em;
     display: grid;
-    grid-template-rows: repeat(3, auto);
-    grid-template-columns: repeat(2, 50%);
 }
 
 /* Class Tags */
@@ -152,8 +141,8 @@ footer{
     font-size: 2.5em;
     color: white;
     position: fixed;
-    left: 5px;
-    top: 5px;
+    left: 0.5em;
+    top: 0.5em;
     display: none;
     z-index: 2;
 }
@@ -170,36 +159,41 @@ footer{
           -ms-user-select: none; /* Internet Explorer/Edge */
               user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome and Opera */
-  }
+}
+
+.header-title{
+    grid-area: header-title;
+}
 
 .header-title h1{
     font-size: 3.875em;
     text-transform: uppercase;
-    text-align: right;
 }
 
 .header-title h2{
-    font-size: 1.5em;
     text-align: right;
-    margin-top: -10px;
+    margin-top: -0.5em;
+}
+
+.header-title h2 a{
+    color: rgb(242, 242, 242);
 }
 
 .header-tip{
     font-family: 'Fjalla One', sans-serif;
-    font-weight: normal;
-    text-transform: uppercase;
-    text-align: center;
     color: #A9ABAE;
     grid-area: header-tip;
+    margin: auto;
+    text-align: center;
+    text-transform: uppercase;
 }
 
 .header-tip p{
     font-family: 'Poppins', sans-serif;
     font-size: 0.8125em;
-    text-transform: uppercase;
-    text-align: center;
     color: white;
     border-bottom: 2px solid white;
+    margin-bottom: 0.5em;
 }
 
 .header-tip-title{
@@ -233,16 +227,12 @@ footer{
 }
 
 .hero-text p{
-    font-family: 'Abel', sans-serif;
-    font-weight: normal;
     font-size: 2.5em;
     text-align: center;
-    margin: 0px;
 }
 
 .options-selection{
     display: grid;
-    grid-template: repeat(3, auto) / repeat(4, auto);
 }
 
 .selection-team-title{
@@ -254,19 +244,14 @@ footer{
 }
 
 .ally-team{
-    font-family: 'Poppins', sans-serif;
-    font-weight: bold;
     color: #3D85C6;
 }
 
 .enemy-team{
-    font-family: 'Poppins', sans-serif;
-    font-weight: bold;
     color: #CC4125;
 }
 
 .selection-team-clear-all{
-    font-family: 'Abel', sans-serif;
     font-size: 1.875em;
     text-align: center;
     margin-bottom: 40px;
@@ -287,12 +272,12 @@ footer{
 }
 
 .selection-checkbox-panel label{
-    margin: auto 15px;
+    margin: auto 1em;
 }
 
 .selection-checkbox-panel input{
-    height: 25px;
-    width: 25px;
+    height: 1.8em;
+    width: 1.8em;
 }
 
 .selection-panel{
@@ -307,13 +292,11 @@ footer{
     font-size: 1.05em;
     background-color: #1C2E37;
     color: white;
-    height: 40px;
-    /*width: 186px;*/
+    height: 1.1em;
 }
 
-
 .selection-map select{
-    width: 186px;
+    width: 6em;
 }
 
 .heroes-selection{
@@ -493,7 +476,7 @@ footer{
 .footer-nav ol{
     display: inline-grid;
     grid-auto-flow: column;
-    column-gap: 30px;
+    column-gap: 1.5em;
 }
 
 .footer-nav li{
@@ -512,12 +495,15 @@ h2{
 }
 
 .footer-title h1{
-    text-align: center;
     border-bottom: 2px solid white;
 }
 
 .footer-title h2{
-    text-align: right;
+    text-align: right;    
+}
+
+.footer-title h2 a{
+    color: rgb(242, 242, 242);
 }
 
 .footer-final-line{
@@ -537,8 +523,8 @@ h2{
 }
 
 .footer-social-links img{
-    width: 50px;
-    height: 50px;
+    width: 3em;
+    height: 3em;
 }
 
 /*
@@ -563,7 +549,7 @@ About Section
 
 .about-div{
     border-bottom: white 2px dashed;
-    margin-bottom: 30px;
+    margin-bottom: 2em;
 }
 
 /*
@@ -588,5 +574,5 @@ Sources Section
 
 .sources-div{
     border-bottom: white 2px dashed;
-    margin-bottom: 30px;
+    margin-bottom: 2em;
 }
