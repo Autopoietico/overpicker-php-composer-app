@@ -28,6 +28,7 @@ const API_URL = "https://api.overpicker.win/"
 //subdirectory link in the API.
 const HEROINFO_URL = "hero-info";
 const HEROIMG_URL = "hero-img";
+const MAPINFO_URL = "map-info"
 
 class ModelAPI{
 
@@ -35,6 +36,7 @@ class ModelAPI{
 
         this.heroInfo = [];
         this.heroIMG = [];
+        this.mapInfo = [];
     }
 
     loadAPIJSON (apiURL, jsonURL){
@@ -95,7 +97,10 @@ class ModelMap{
 
     constructor(mapData){
 
-        
+        this.name = mapData["name"];
+        this.type = mapData["type"];
+        this.onPool = mapData["onPool"];
+        this.points = mapData["points"];
     }
 }
 
@@ -197,11 +202,11 @@ class ModelOverPiker{
         }
     }
 
-    buildMapPool(mapInfo){
+    buildMapPool(){
 
-        for(let m in mapInfo){
+        for(let m in this.APIData.mapInfo){
 
-            this.maps.push(new ModelMap(mapInfo(m)));
+            this.maps.push(new ModelMap(this.APIData.mapInfo[m]));
         }
     }
 
@@ -211,6 +216,7 @@ class ModelOverPiker{
 
     _commitOptions(panelOptions){
 
+        //Save the changes of panelOptions in local storage
         this.onOptionsChanged(panelOptions);
         localStorage.setItem('panelOptions', JSON.stringify(panelOptions));
     }
@@ -356,5 +362,16 @@ APIModel.loadAPIJSON(API_URL, HEROINFO_URL)
     }
 
     calculator.model.loadHeroIMGForTeams();
+
+    return APIModel.loadAPIJSON(API_URL, MAPINFO_URL);
+})
+.then(jsonOBJ => {
+    
+    APIModel.mapInfo = {
+
+        ...jsonOBJ
+    }
+
+    calculator.model.buildMapPool();
 })
 .catch(APIModel.onError);
