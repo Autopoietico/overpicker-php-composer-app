@@ -29,6 +29,7 @@ const API_URL = "https://api.overpicker.win/"
 const HEROINFO_URL = "hero-info";
 const HEROIMG_URL = "hero-img";
 const MAPINFO_URL = "map-info"
+const HEROTIERS_URL = "hero-tiers"
 
 class ModelAPI{
 
@@ -37,6 +38,7 @@ class ModelAPI{
         this.heroInfo = [];
         this.heroIMG = [];
         this.mapInfo = [];
+        this.heroTiers = [];
     }
 
     loadAPIJSON (apiURL, jsonURL){
@@ -92,6 +94,26 @@ class ModelAPI{
 //////////////////////
 // Model Elements
 //////////////////////
+
+class ModelTier{
+
+    constructor(heroTier){        
+
+        this.name = heroTier["name"];
+        this.heroTiers = [];
+        this.loadHeroTiers(heroTier["hero-tiers"])
+    }
+
+    loadHeroTiers(heroTiers){        
+
+        
+        for(let ht in heroTiers){            
+
+            this.heroTiers[ht] = heroTiers[ht];
+            
+        }
+    }
+}
 
 class ModelMap{
 
@@ -165,6 +187,8 @@ class ModelOverPiker{
 
         this.maps = [];
 
+        this.tiers = [];
+
         this.teams = {
 
             "Blue" : new ModelTeam("Blue"),
@@ -199,6 +223,14 @@ class ModelOverPiker{
         for(let t in this.teams){
 
             this.teams[t].loadAllTheHeroIMG(this.APIData);
+        }
+    }
+
+    loadHeroTiers(){        
+
+        for(let ht in this.APIData.heroTiers){
+
+            this.tiers.push(new ModelTier(this.APIData.heroTiers[ht]));
         }
     }
 
@@ -373,5 +405,16 @@ APIModel.loadAPIJSON(API_URL, HEROINFO_URL)
     }
 
     calculator.model.buildMapPool();
+
+    return APIModel.loadAPIJSON(API_URL, HEROTIERS_URL);
+})
+.then(jsonOBJ => {
+    
+    APIModel.heroTiers = {
+
+        ...jsonOBJ
+    }
+
+        calculator.model.loadHeroTiers();
 })
 .catch(APIModel.onError);
