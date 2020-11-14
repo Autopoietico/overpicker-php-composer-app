@@ -368,8 +368,9 @@ footer{
 }
 
 .hero-value figcaption{
-    font-size: 0.5em;
-    max-height: 1.2em;
+    font-size: 0.6em;
+    max-height: 1.5em;
+    margin-left: -3px;
 }
 
 .no-hero-selected{
