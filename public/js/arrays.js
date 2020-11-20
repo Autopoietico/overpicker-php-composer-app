@@ -236,6 +236,7 @@ const secondaryRoles = {
 
 const tiers = {
   "All Ranks" : new Tier("All Ranks"),
+  "Top 500" : new Tier("Top 500"),
   "Grand Master" : new Tier("Grand Master"),
   "Master" : new Tier("Master"),
   "Diamond" : new Tier("Diamond"),
