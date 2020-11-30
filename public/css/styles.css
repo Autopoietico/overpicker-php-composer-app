@@ -82,7 +82,7 @@
 
 body{
     display: grid;
-    grid-template: repeat(5, minmax(100px, auto)) / minmax(320px, 1000px);
+    grid-template: repeat(5, minmax(100px, auto)) / minmax(320px, 75vw);
     margin: 0 auto;
     justify-content: center;
     font-family: 'Abel', sans-serif;
@@ -90,7 +90,7 @@ body{
     color: white;
     background-color: #1C2E37;
     column-gap: 20px;
-    width: 1000px;
+    width: 75vw;
 }
 
 header{
