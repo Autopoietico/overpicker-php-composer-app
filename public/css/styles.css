@@ -264,11 +264,14 @@ footer{
     text-decoration: underline;
 }
 
+.calculator{
+    grid-column: 1 / span 4;
+}
+
 .selection-checkbox-panel{
     font-size: 2em;
     text-align: center;
-    margin-bottom: 20px;
-    grid-column: 1 / span 4;
+    margin-bottom: 20px;    
 }
 
 .selection-checkbox-panel label{

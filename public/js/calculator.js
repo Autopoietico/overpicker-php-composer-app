@@ -139,7 +139,7 @@ class ModelHero{
 
     addIMG(IMGUrl, type){
 
-        //The type define the type of img we want, normally white, but probably a Echo type, a SVG or a black type
+        //The type define the type of img we want, normally white, but probably a "Echo" type, a SVG or a black type
         this.IMG[type] = IMGUrl;
     }
 }
@@ -155,8 +155,8 @@ class ModelTeam{
 
     loadAllTheHeroes(heroInfo){
 
-        //This function build a array with all the heroes of the game for the team.
-        //Is important to have all the heroes to make all the calcs, all the heroes despite
+        //This function build an array with all the heroes of the game for the team.
+        //Is important to have all the heroes loaded before we make all the calcs, all the heroes despite
         //not been selected need his own score.
         let allHeroes = [];
 
@@ -196,17 +196,17 @@ class ModelOverPiker{
         }
 
         this.panelOptions = JSON.parse(localStorage.getItem('panelOptions')) || [
-            {text: "Role Lock", id: getSelectValue("Role Lock"), state : true},
-            {text: "Tier Mode", id: getSelectValue("Tier Mode"), state : true},
-            {text: "Map Pools", id: getSelectValue("Map Pools"), state : true},
-            {text: "Hero Rotation", id: getSelectValue("Hero Rotation"), state : true}
+            {text: "Role Lock", id: `cb${getSelectValue("Role Lock")}`, state : true},
+            {text: "Tier Mode", id: `cb${getSelectValue("Tier Mode")}`, state : true},
+            {text: "Map Pools", id: `cb${getSelectValue("Map Pools")}`, state : true},
+            {text: "Hero Rotation", id: `cb${getSelectValue("Hero Rotation")}`, state : true}
         ]
 
         this.panelSelections = [
-            {text: "Tier", id: getSelectValue("Tier"), value : ""},
-            {text: "Map", id: getSelectValue("Map"), value : ""},
-            {text: "Point", id: getSelectValue("Point"), value : ""},
-            {text: "A/D", id: getSelectValue("A/D"), value : ""},
+            {text: "Tier", id: getSelectValue("Tier") + "-select", value : "", class : '', options : []},
+            {text: "Map", id: getSelectValue("Map") + "-select", value : "", class : 'selection-map', options : []},
+            {text: "Point", id: getSelectValue("Point") + "-select", value : "", class : '', options : []},
+            {text: "A/D", id: getSelectValue("A/D") + "-select", value : "", class : '', options : []},
         ]
     }
 
@@ -273,17 +273,27 @@ class ViewOverPiker{
     constructor(){
 
         //Get Option Panel Element
-        this.panel = this.getElement(".selection-checkbox-panel");
+        this.calculator = this.getElement('.calculator');
+        this.checkboxPanel = this.createElement('div','selection-checkbox-panel');
+        this.selectionPanel = this.createElement('div','selection-panel');
+
+        this.calculator.append(this.checkboxPanel);
+        this.calculator.append(this.selectionPanel);
     }
 
-    createElement(tag, className){
-        //This create a DOM element, the CSS class is optional
+    createElement(tag, className, id){
+        //This create a DOM element, the CSS class and the ID is optional
 
         const element = document.createElement(tag);
 
         if(className){
 
             element.classList.add(className);
+        }
+
+        if(id){
+
+            element.id = id;
         }
 
         return element;
@@ -299,9 +309,9 @@ class ViewOverPiker{
 
     displayOptions(panelOptions){
 
-        while(this.panel.firstChild){
+        while(this.checkboxPanel.firstChild){
 
-            this.panel.removeChild(this.panel.firstChild);
+            this.checkboxPanel.removeChild(this.checkboxPanel.firstChild);
         }
 
         //Create panel options nodes
@@ -320,13 +330,43 @@ class ViewOverPiker{
 
             optionLabel.append(checkbox,span);
 
-            this.panel.append(optionLabel);
+            this.checkboxPanel.append(optionLabel);
+        });
+    }
+
+    displaySelection(panelSelections){
+
+        while(this.selectionPanel.firstChild){
+
+            this.selectionPanel.removeChild(this.selectionPanel.firstChild);
+        }
+
+        //Create panel selection nodes
+        panelOptions.forEach(selector =>{
+
+            //Add a special class for selectors that have long names
+            const selectorSpan = this.createElement('span', selector.class);
+            const select = this.createElement('select', '', selector.id);
+
+            //The text don't have a html label
+            selectorSpan.classList.add('selection-panel');
+            selectorSpan.textContent = selector.text + ":";
+
+            selector.options.forEach(option =>{
+
+                const optionElement = this.createElement('option');
+
+                optionElement.value = option.value;
+                optionElement.textContent = option.text;
+
+                select.append(optionElement);
+            })
         });
     }
 
     bindToggleOptions(handler){
 
-        this.panel.addEventListener('change', event => {
+        this.checkboxPanel.addEventListener('change', event => {
 
             if(event.target.type == 'checkbox'){
 
