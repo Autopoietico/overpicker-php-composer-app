@@ -132,7 +132,10 @@ class Heroe{
         return tierValue;
     }
 
-    getMapValue = (adc,mapObject,pointObject) => heroMaps[this.name][adc][mapObject.name][pointObject.name];
+    getMapValue(adc,mapObject,pointObject){
+
+        return heroMaps[this.name][adc][mapObject.name][pointObject.name];
+    }
 
     getADCValue(adc,pointObject){
 
