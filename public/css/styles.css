@@ -300,6 +300,7 @@ footer{
     font-size: 2.03125em;
     margin: 0 auto;
     display: flex;
+    align-items: center;
 }
 
 .selection-panel select{
@@ -311,6 +312,9 @@ footer{
     /*width: 186px;*/
 }
 
+.selection-tier select{
+    width: 195px;
+}
 
 .selection-map select{
     width: 186px;
@@ -342,8 +346,8 @@ footer{
 
 .hero-value{    
     font-family: 'Abel', sans-serif;
-    font-size: 1.5625em;
-    width: 60px;
+    font-size: 1.25em;
+    width: 48px;
     text-align: center;
     margin-left: 3px;
     margin-bottom: 3px;
@@ -363,12 +367,12 @@ footer{
 }
 
 .hero-value img{
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
 }
 
 .hero-value figcaption{
-    font-size: 0.6em;
+    font-size: 0.48em;
     max-height: 1.5em;
     margin-left: -3px;
 }

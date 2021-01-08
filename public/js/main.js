@@ -52,6 +52,7 @@ class Map{
 }
 
 class mapADC{
+    
     constructor(name){
 
         this.name = name;
