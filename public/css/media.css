@@ -43,12 +43,20 @@
         grid-template-columns: repeat(4, 1fr);
     }
 
+    .selection-checkbox-panel{
+        font-size: 1.125em;
+    }
+
+    .selection-checkbox-panel label{
+        margin: 0;
+    }
+
     .selection-tier select{
-        max-width: 55px;
+        max-width: 100px;
     }
 
     .selection-map select{
-        max-width: 55px;
+        max-width: 100px;
     }
 }
 
@@ -165,6 +173,7 @@
 
     .selection-checkbox-panel{
         grid-column: initial;
+        font-size: 2em;
     }
 
     .selection-checkbox-panel label {
