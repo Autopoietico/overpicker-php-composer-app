@@ -1362,11 +1362,6 @@ loadJSON(TIERS_DIR)
     heroInfo = {
         ...jsonOBJ
     }
-
-    if(heroInfo === jsonOBJ){
-        console.log("asfads")
-    }
-	
     return loadJSON(HEROEIMG_DIR);
 })
 .then(jsonOBJ => {
