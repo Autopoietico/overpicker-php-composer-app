@@ -37,10 +37,29 @@ class ModelAPI{
 
     constructor(){
 
-        this.heroInfo = [];
-        this.heroIMG = [];
-        this.mapInfo = [];
-        this.heroTiers = [];
+        //This are temporary data savers before the model take the data from the API.
+        this.heroInfo = JSON.parse(localStorage.getItem('heroInfo')) || [];
+        this.heroIMG = JSON.parse(localStorage.getItem('heroIMG')) || [];
+        this.mapInfo = JSON.parse(localStorage.getItem('mapInfo')) || [];
+        this.heroTiers = JSON.parse(localStorage.getItem('heroTiers')) || [];
+    }
+
+    loadLocalStorage(model){
+
+        if(this.heroInfo != [] && this.heroIMG != []){
+
+            model.loadHeroDataForTeams();
+        }
+
+        if(this.mapInfo != []){
+
+            model.buildMapPool();
+        }
+
+        if(this.heroTiers != []){
+
+            model.loadHeroTiers();
+        }
     }
 
     loadAPIJSON (apiURL, jsonURL, model){
@@ -54,8 +73,7 @@ class ModelAPI{
                     ...data
                 }
 
-                model.loadHeroDataForTeams();
-
+                localStorage.setItem('heroInfo', JSON.stringify(this.heroInfo));
                 return fetch(apiURL + jsonURL["heroIMG"]);
             })
             .then(res => res.json())
@@ -66,8 +84,9 @@ class ModelAPI{
                     ...data
                 }
 
-                model.loadHeroIMGForTeams();
+                model.loadHeroDataForTeams();
 
+                localStorage.setItem('heroIMG', JSON.stringify(this.heroIMG));
                 return fetch(apiURL + jsonURL["mapInfo"]);
             })
             .then(res => res.json())
@@ -80,6 +99,7 @@ class ModelAPI{
 
                 model.buildMapPool();
 
+                localStorage.setItem('mapInfo', JSON.stringify(this.mapInfo));
                 return fetch(apiURL + jsonURL["heroTiers"]);
             })
             .then(res => res.json())
@@ -91,6 +111,8 @@ class ModelAPI{
                 }
 
                 model.loadHeroTiers();
+
+                localStorage.setItem('heroTiers', JSON.stringify(this.heroTiers));
             })
     }
 
@@ -225,30 +247,29 @@ class ModelOverPiker{
             {text: "Point", id: getSelectValue("Point") + "-select", value : "", class : '', options : []},
             {text: "A/D", id: getSelectValue("A/D") + "-select", value : "", class : '', options : []},
         ]
+
+        this.loadTiersSelections();
     }
 
     loadHeroDataForTeams(){
-
+        
         for(let t in this.teams){
 
             this.teams[t].loadAllTheHeroes(this.APIData.heroInfo);
-        }
-    }
-
-    loadHeroIMGForTeams(){
-
-        for(let t in this.teams){
-
             this.teams[t].loadAllTheHeroIMG(this.APIData);
         }
     }
 
-    loadHeroTiers(){        
+    loadHeroTiers(){
+
+        this.tiers = [];
 
         for(let ht in this.APIData.heroTiers){
 
             this.tiers.push(new ModelTier(this.APIData.heroTiers[ht]));
-        }
+        }        
+
+        this.loadTiersSelections();
     }
 
     buildMapPool(){
@@ -256,6 +277,21 @@ class ModelOverPiker{
         for(let m in this.APIData.mapInfo){
 
             this.maps.push(new ModelMap(this.APIData.mapInfo[m]));
+        }
+    }
+
+    loadTiersSelections(){   
+
+        if(this.tiers.length){
+
+            this.panelSelections[0].options = [];
+
+            this.panelSelections[0].value = getSelectValue(this.tiers[0].name);
+
+            for(let t in this.tiers){
+
+                this.panelSelections[0].options.push(this.tiers[t].name);
+            }
         }
     }
 
@@ -432,4 +468,5 @@ const calculator = new ControllerOverPiker(new ModelOverPiker(), new ViewOverPik
 let APIModel = calculator.model.APIData;
 let model = calculator.model;
 
+APIModel.loadLocalStorage(model);
 APIModel.loadAPIJSON(API_URL,JSON_URL,model);
