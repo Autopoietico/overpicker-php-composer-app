@@ -26,10 +26,12 @@ const getSelectValue = function(name){
 const API_URL = "https://api.overpicker.win/"
 
 //subdirectory link in the API.
-const HEROINFO_URL = "hero-info";
-const HEROIMG_URL = "hero-img";
-const MAPINFO_URL = "map-info"
-const HEROTIERS_URL = "hero-tiers"
+const JSON_URL = {
+    "heroInfo" : "hero-info",
+    "heroIMG" : "hero-img",
+    "mapInfo" : "map-info",
+    "heroTiers" : "hero-tiers"
+}
 
 class ModelAPI{
 
@@ -41,38 +43,47 @@ class ModelAPI{
         this.heroTiers = [];
     }
 
-    loadAPIJSON (apiURL, jsonURL){
+    loadAPIJSON (apiURL, jsonURL, apiModel){
     
-        const dir = `${apiURL}${jsonURL}`;
-        let request = new XMLHttpRequest();  
-    
-        request.overrideMimeType("application/json");  
-    
-        return new Promise(function (resolve, reject){    
-    
-            request.onreadystatechange = function (){
-    
-                if (request.readyState !== 4) return;
-    
-                if(request.status >= 200 && request.status < 400){
+        fetch(apiURL + jsonURL["heroInfo"])
+            .then(res => res.json())
+            .then(data => {
 
-                    let jsonOBJ = JSON.parse(request.responseText);
-                    resolve(jsonOBJ);
-                }else{     
-    
-                    reject(dir);
+                apiModel.heroInfo = {
+
+                    ...data
                 }
-            }
-    
-            request.open('GET', dir, true);
-    
-            request.send(null);
-        });
-    }
-    
-    onError(dir){
-        
-        console.log(`There are a error trying to get the requested API data: ${dir}`);
+
+                return fetch(apiURL + jsonURL["heroIMG"]);
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                apiModel.heroIMG = {
+
+                    ...data
+                }
+
+                return fetch(apiURL + jsonURL["heroInfo"]);
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                apiModel.heroInfo = {
+
+                    ...data
+                }
+
+                return fetch(apiURL + jsonURL["heroTiers"]);
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                apiModel.heroTiers = {
+
+                    ...data
+                }
+            })
     }
 
     findElement(jsonOBJ, name, valueName){
@@ -414,47 +425,4 @@ const calculator = new ControllerOverPiker(new ModelOverPiker(), new ViewOverPik
 
 let APIModel = calculator.model.APIData;
 
-APIModel.loadAPIJSON(API_URL, HEROINFO_URL)
-.then(jsonOBJ => {
-
-    APIModel.heroInfo = {
-
-        ...jsonOBJ
-    }
-
-    calculator.model.loadHeroDataForTeams();
-
-    return APIModel.loadAPIJSON(API_URL, HEROIMG_URL);
-})
-.then(jsonOBJ => {
-    
-    APIModel.heroIMG = {
-
-        ...jsonOBJ
-    }
-
-    calculator.model.loadHeroIMGForTeams();
-
-    return APIModel.loadAPIJSON(API_URL, MAPINFO_URL);
-})
-.then(jsonOBJ => {
-    
-    APIModel.mapInfo = {
-
-        ...jsonOBJ
-    }
-
-    calculator.model.buildMapPool();
-
-    return APIModel.loadAPIJSON(API_URL, HEROTIERS_URL);
-})
-.then(jsonOBJ => {
-    
-    APIModel.heroTiers = {
-
-        ...jsonOBJ
-    }
-
-        calculator.model.loadHeroTiers();
-})
-.catch(APIModel.onError);
+APIModel.loadAPIJSON(API_URL,JSON_URL,APIModel);
