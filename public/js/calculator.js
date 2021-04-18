@@ -43,46 +43,54 @@ class ModelAPI{
         this.heroTiers = [];
     }
 
-    loadAPIJSON (apiURL, jsonURL, apiModel){
+    loadAPIJSON (apiURL, jsonURL, model){
     
         fetch(apiURL + jsonURL["heroInfo"])
             .then(res => res.json())
             .then(data => {
 
-                apiModel.heroInfo = {
+                this.heroInfo = {
 
                     ...data
                 }
+
+                model.loadHeroDataForTeams();
 
                 return fetch(apiURL + jsonURL["heroIMG"]);
             })
             .then(res => res.json())
             .then(data => {
 
-                apiModel.heroIMG = {
+                this.heroIMG = {
 
                     ...data
                 }
 
-                return fetch(apiURL + jsonURL["heroInfo"]);
+                model.loadHeroIMGForTeams();
+
+                return fetch(apiURL + jsonURL["mapInfo"]);
             })
             .then(res => res.json())
             .then(data => {
 
-                apiModel.heroInfo = {
+                this.mapInfo = {
 
                     ...data
                 }
+
+                model.buildMapPool();
 
                 return fetch(apiURL + jsonURL["heroTiers"]);
             })
             .then(res => res.json())
             .then(data => {
 
-                apiModel.heroTiers = {
+                this.heroTiers = {
 
                     ...data
                 }
+
+                model.loadHeroTiers();
             })
     }
 
@@ -115,13 +123,11 @@ class ModelTier{
         this.loadHeroTiers(heroTier["hero-tiers"])
     }
 
-    loadHeroTiers(heroTiers){        
+    loadHeroTiers(heroTiers){
 
-        
         for(let ht in heroTiers){            
 
-            this.heroTiers[ht] = heroTiers[ht];
-            
+            this.heroTiers[ht] = heroTiers[ht];         
         }
     }
 }
@@ -424,5 +430,6 @@ class ControllerOverPiker{
 const calculator = new ControllerOverPiker(new ModelOverPiker(), new ViewOverPiker());
 
 let APIModel = calculator.model.APIData;
+let model = calculator.model;
 
-APIModel.loadAPIJSON(API_URL,JSON_URL,APIModel);
+APIModel.loadAPIJSON(API_URL,JSON_URL,model);
