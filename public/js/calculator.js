@@ -46,17 +46,17 @@ class ModelAPI{
 
     loadLocalStorage(model){
 
-        if(this.heroInfo != [] && this.heroIMG != []){
+        if(Object.keys(this.heroInfo).length && Object.keys(this.heroInfo).length){
 
             model.loadHeroDataForTeams();
         }
 
-        if(this.mapInfo != []){
+        if(Object.keys(this.mapInfo).length){
 
             model.buildMapPool();
         }
 
-        if(this.heroTiers != []){
+        if(Object.keys(this.heroTiers).length){
 
             model.loadHeroTiers();
         }
