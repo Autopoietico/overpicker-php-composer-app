@@ -46,6 +46,8 @@ class ModelAPI{
 
     loadLocalStorage(model){
 
+        //If local storage data is aviable these is loaded in the model
+
         if(Object.keys(this.heroInfo).length && Object.keys(this.heroInfo).length){
 
             model.loadHeroDataForTeams();
@@ -63,6 +65,8 @@ class ModelAPI{
     }
 
     loadAPIJSON (apiURL, jsonURL, model){
+
+        //This charge the data from the API one by one
     
         fetch(apiURL + jsonURL["heroInfo"])
             .then(res => res.json())
@@ -118,7 +122,7 @@ class ModelAPI{
 
     findElement(jsonOBJ, name, valueName){
 
-        //Find the position for a element in a JSON based in the name of the element, and return the desire value
+        //Find the position for a element in a JSON, based in the name of the element, and return the desire value
 
         for(let jO in jsonOBJ){
 
@@ -241,14 +245,14 @@ class ModelOverPiker{
             {text: "Hero Rotation", id: `cb${getSelectValue("Hero Rotation")}`, state : true}
         ]
 
-        this.panelSelections = [
-            {text: "Tier", id: getSelectValue("Tier") + "-select", value : "", class : '', options : []},
-            {text: "Map", id: getSelectValue("Map") + "-select", value : "", class : 'selection-map', options : []},
-            {text: "Point", id: getSelectValue("Point") + "-select", value : "", class : '', options : []},
-            {text: "A/D", id: getSelectValue("A/D") + "-select", value : "", class : '', options : []},
+        this.panelSelections = JSON.parse(localStorage.getItem('panelSelections')) || [
+            {text: "Tier", id: getSelectValue("Tier") + "-select", selectedIndex : 0, class : '', options : []},
+            {text: "Map", id: getSelectValue("Map") + "-select", selectedIndex : 0, class : 'selection-map', options : []},
+            {text: "Point", id: getSelectValue("Point") + "-select", selectedIndex : 0, class : '', options : []},
+            {text: "A/D", id: getSelectValue("A/D") + "-select", selectedIndex : 0, class : '', options : []},
         ]
 
-        this.loadTiersSelections();
+        this.APIData.loadLocalStorage(this);
     }
 
     loadHeroDataForTeams(){
@@ -286,8 +290,6 @@ class ModelOverPiker{
 
             this.panelSelections[0].options = [];
 
-            this.panelSelections[0].value = getSelectValue(this.tiers[0].name);
-
             for(let t in this.tiers){
 
                 this.panelSelections[0].options.push(this.tiers[t].name);
@@ -299,11 +301,22 @@ class ModelOverPiker{
         this.onOptionsChanged = callback;
     }
 
+    bindSelectionsChanged(callback){
+        this.onSelectionsChanged = callback;
+    }
+
     _commitOptions(panelOptions){
 
         //Save the changes of panelOptions in local storage
         this.onOptionsChanged(panelOptions);
         localStorage.setItem('panelOptions', JSON.stringify(panelOptions));
+    }
+
+    _commitSelections(panelSelections){
+
+        //Save the changes of panelSelections in local storage
+        this.onSelectionsChanged(panelSelections);
+        localStorage.setItem('panelSelections', JSON.stringify(panelSelections));
     }
 
     //Flip the option panel
@@ -314,6 +327,16 @@ class ModelOverPiker{
         );
 
         this._commitOptions(this.panelOptions);
+    }
+
+    editSelected(id, newSelIndex){
+
+        
+        this.panelSelections = this.panelSelections.map(selector => 
+            selector.id === id ? {text: selector.text, id: selector.id, selectedIndex : newSelIndex, class : selector.class, options : selector.options} : selector
+        );
+        
+        this._commitSelections(this.panelSelections);
     }
 }
 
@@ -387,7 +410,7 @@ class ViewOverPiker{
         });
     }
 
-    displaySelection(panelSelections){
+    displaySelections(panelSelections){
 
         while(this.selectionPanel.firstChild){
 
@@ -395,25 +418,30 @@ class ViewOverPiker{
         }
 
         //Create panel selection nodes
-        panelOptions.forEach(selector =>{
+        panelSelections.forEach(selector =>{            
 
             //Add a special class for selectors that have long names
             const selectorSpan = this.createElement('span', selector.class);
             const select = this.createElement('select', '', selector.id);
 
             //The text don't have a html label
-            selectorSpan.classList.add('selection-panel');
+            selectorSpan.classList.add('selection-span');
             selectorSpan.textContent = selector.text + ":";
 
             selector.options.forEach(option =>{
 
                 const optionElement = this.createElement('option');
 
-                optionElement.value = option.value;
-                optionElement.textContent = option.text;
+                optionElement.value = getSelectValue(option);
+                optionElement.textContent = option;
 
                 select.append(optionElement);
             })
+
+            select.selectedIndex = selector.selectedIndex;       
+
+            selectorSpan.append(select);
+            this.selectionPanel.append(selectorSpan);
         });
     }
 
@@ -425,6 +453,19 @@ class ViewOverPiker{
 
                 const id = event.target.id;
                 handler(id);
+            }
+        });
+    }
+
+    bindEditSelected(handler){
+
+        this.selectionPanel.addEventListener('change', event => {
+
+            if(event.target.type == 'select-one'){
+
+                const id = event.target.id;
+                const selIndex = event.target.options.selectedIndex;
+                handler(id, selIndex);
             }
         });
     }
@@ -445,7 +486,12 @@ class ControllerOverPiker{
         this.model.bindOptionChanged(this.onOptionsChanged);
         this.view.bindToggleOptions(this.handleToggleOptions);
 
+        //Display initial selections
+        this.model.bindSelectionsChanged(this.onSelectionsChanged);
+        this.view.bindEditSelected(this.handleEditSelected);
+
         this.onOptionsChanged(this.model.panelOptions);
+        this.onSelectionsChanged(this.model.panelSelections);
     }
 
     onOptionsChanged = panelOptions => {
@@ -453,9 +499,26 @@ class ControllerOverPiker{
         this.view.displayOptions(panelOptions);
     }
 
+    onSelectionsChanged = panelSelections => {
+
+        this.view.displaySelections(panelSelections);
+    }
+
     handleToggleOptions = id => {
 
         this.model.toggleOptionPanel(id);
+    }
+
+    handleEditSelected = (id, selIndex) => {
+
+        this.model.editSelected(id, selIndex);
+    }
+
+    loadAPIJSON(apiURL,jsonURL){
+
+        this.model.APIData.loadAPIJSON(apiURL,jsonURL,this.model);
+        this.onOptionsChanged(this.model.panelOptions);
+        this.onSelectionsChanged(this.model.panelSelections);
     }
 }
 
@@ -465,8 +528,4 @@ class ControllerOverPiker{
 
 const calculator = new ControllerOverPiker(new ModelOverPiker(), new ViewOverPiker());
 
-let APIModel = calculator.model.APIData;
-let model = calculator.model;
-
-APIModel.loadLocalStorage(model);
-APIModel.loadAPIJSON(API_URL,JSON_URL,model);
+calculator.loadAPIJSON(API_URL,JSON_URL);
