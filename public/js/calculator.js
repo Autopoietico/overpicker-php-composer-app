@@ -246,13 +246,79 @@ class ModelOverPiker{
         ]
 
         this.panelSelections = JSON.parse(localStorage.getItem('panelSelections')) || [
-            {text: "Tier", id: getSelectValue("Tier") + "-select", selectedIndex : 0, class : '', options : []},
-            {text: "Map", id: getSelectValue("Map") + "-select", selectedIndex : 0, class : 'selection-map', options : []},
-            {text: "Point", id: getSelectValue("Point") + "-select", selectedIndex : 0, class : '', options : []},
-            {text: "A/D", id: getSelectValue("A/D") + "-select", selectedIndex : 0, class : '', options : []},
+            {text: "Tier", id: getSelectValue("Tier") + "-select", selectedIndex : 0, class : '', options : ["None"]},
+            {text: "Map", id: getSelectValue("Map") + "-select", selectedIndex : 0, class : 'selection-map', options : ["None"]},
+            {text: "Point", id: getSelectValue("Point") + "-select", selectedIndex : 0, class : '', options : ["None"]},
+            {text: "A/D", id: getSelectValue("A/D") + "-select", selectedIndex : 0, class : '', options : ["None"]},
         ]
 
+        //The pre-saved data from localstorage are loaded first into the model
         this.APIData.loadLocalStorage(this);
+    }
+    
+    //This push the tiers to the panel selections
+    loadTiersSelections(){        
+
+        if(this.tiers.length){
+
+            this.panelSelections[0].options = [];
+
+            for(let t in this.tiers){
+
+                this.panelSelections[0].options.push(this.tiers[t].name);
+            }
+        }
+    }
+
+    //This push the maps, the points and the A/D to the panel selections
+    loadMapSelections(){
+
+        console.log(this.maps);
+
+        if(this.maps.length){
+
+            this.panelSelections[1].options = ["None"];
+
+            for(let m in this.maps){
+                
+                this.panelSelections[1].options.push(this.maps[m].name);
+            }
+
+            let selIndex = this.panelSelections[1].selectedIndex;
+            let mapLength = this.maps.length;
+
+            //A small check if index is in a bad position
+            if(selIndex > mapLength){
+
+                this.panelSelections[1].selectedIndex = 0
+                selIndex = 0;
+            }
+            
+            this.panelSelections[2].options = ["None"];
+            this.panelSelections[3].options = ["None"];
+
+            if(selIndex){
+
+                //Index is 0 for None, but in the map pool 0 is the first map.
+                let fixedIndex = selIndex-1;
+
+                this.panelSelections[2].options = [];
+
+                for(let p in this.maps[selIndex].points){
+                
+                    this.panelSelections[2].options.push(this.maps[fixedIndex].points[p]);
+                }
+
+                if(this.maps[fixedIndex].type == "Control"){
+
+                    this.panelSelections[3].options = ["Control"];
+                    this.panelSelections[3].selectedIndex = 0;
+                }else{
+
+                    this.panelSelections[3].options = ["Attack", "Deffense"];
+                }
+            }
+        }
     }
 
     loadHeroDataForTeams(){
@@ -278,23 +344,14 @@ class ModelOverPiker{
 
     buildMapPool(){
 
+        this.maps = [];
+
         for(let m in this.APIData.mapInfo){
 
             this.maps.push(new ModelMap(this.APIData.mapInfo[m]));
         }
-    }
 
-    loadTiersSelections(){   
-
-        if(this.tiers.length){
-
-            this.panelSelections[0].options = [];
-
-            for(let t in this.tiers){
-
-                this.panelSelections[0].options.push(this.tiers[t].name);
-            }
-        }
+        this.loadMapSelections();
     }
 
     bindOptionChanged(callback){
@@ -329,13 +386,14 @@ class ModelOverPiker{
         this._commitOptions(this.panelOptions);
     }
 
+    //Selected option in the panel are saved here
     editSelected(id, newSelIndex){
-
         
         this.panelSelections = this.panelSelections.map(selector => 
             selector.id === id ? {text: selector.text, id: selector.id, selectedIndex : newSelIndex, class : selector.class, options : selector.options} : selector
         );
-        
+
+        this.loadMapSelections();        
         this._commitSelections(this.panelSelections);
     }
 }
@@ -376,7 +434,7 @@ class ViewOverPiker{
     }
 
     getElement(selector){
-        //This get element from the DOM with the desire queryselector
+        //Get element from the DOM with the desire queryselector
         
         const element = document.querySelector(selector);
 
@@ -461,10 +519,12 @@ class ViewOverPiker{
 
         this.selectionPanel.addEventListener('change', event => {
 
+            console.log(event.target.type)
             if(event.target.type == 'select-one'){
 
                 const id = event.target.id;
                 const selIndex = event.target.options.selectedIndex;
+                console.log(selIndex);
                 handler(id, selIndex);
             }
         });
@@ -516,6 +576,7 @@ class ControllerOverPiker{
 
     loadAPIJSON(apiURL,jsonURL){
 
+        //Charge the API data and update the model and the view
         this.model.APIData.loadAPIJSON(apiURL,jsonURL,this.model);
         this.onOptionsChanged(this.model.panelOptions);
         this.onSelectionsChanged(this.model.panelSelections);
@@ -528,4 +589,5 @@ class ControllerOverPiker{
 
 const calculator = new ControllerOverPiker(new ModelOverPiker(), new ViewOverPiker());
 
+//After the calculator is loaded we call the data from the API, this data is saved in local and then load in the model
 calculator.loadAPIJSON(API_URL,JSON_URL);
