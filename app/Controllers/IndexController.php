@@ -8,7 +8,7 @@ class IndexController extends BaseController{
 
     public $DATES = [
 
-        'LAST_DATA_UPDATE' => "2021-05-27",
+        'LAST_DATA_UPDATE' => "2021-06-03",
         'COPY_DATE' => "2021"
     ];
 
