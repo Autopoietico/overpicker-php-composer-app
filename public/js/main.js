@@ -647,30 +647,27 @@ const pointBuilder = {
 //The boolean stament set what map are in rotation or not
 const maps = {
     
-    "Hanamura" : new Map("Hanamura","Assault",true),
-    "Horizon Lunar Colony" : new Map("Horizon Lunar Colony","Assault",false),
-    "Paris" : new Map("Paris","Assault",false),
-    "Temple of Anubis" : new Map("Temple of Anubis","Assault",true),
-    "Volskaya Industries" : new Map("Volskaya Industries", "Assault",true),
-    
+    "Blizzard World" : new Map("Blizzard World","Hybrid",true),
     "Busan" : new Map("Busan","Control",true),
+    "Dorado" : new Map("Dorado","Escort",true),
+    "Eichenwalde" : new Map("Eichenwalde","Hybrid",true),
+    "Hanamura" : new Map("Hanamura","Assault",true),
+    "Havana" : new Map("Havana","Escort",true),
+    "Hollywood" : new Map("Hollywood","Hybrid",true),
+    "Horizon Lunar Colony" : new Map("Horizon Lunar Colony","Assault",false),
     "Ilios" : new Map("Ilios","Control",true),
+    "Junkertown" : new Map("Junkertown","Escort",true),
+    "King's Row" : new Map("King's Row","Hybrid",true),
     "Lijiang Tower" : new Map("Lijiang Tower","Control",true),
     "Nepal" : new Map("Nepal","Control",true),
+    "Numbani" : new Map("Numbani", "Hybrid",true),
     "Oasis" : new Map("Oasis", "Control",true),
-    
-    "Dorado" : new Map("Dorado","Escort",true),
-    "Havana" : new Map("Havana","Escort",true),
-    "Junkertown" : new Map("Junkertown","Escort",true),
+    "Paris" : new Map("Paris","Assault",false),
     "Rialto" : new Map("Rialto","Escort",true),
     "Route 66" : new Map("Route 66", "Escort",true),
-    "Watchpoint: Gibraltar" : new Map("Watchpoint: Gibraltar", "Escort",true),
-    
-    "Blizzard World" : new Map("Blizzard World","Hybrid",true),
-    "Eichenwalde" : new Map("Eichenwalde","Hybrid",true),
-    "Hollywood" : new Map("Hollywood","Hybrid",true),
-    "King's Row" : new Map("King's Row","Hybrid",true),
-    "Numbani" : new Map("Numbani", "Hybrid",true)
+    "Temple of Anubis" : new Map("Temple of Anubis","Assault",true),
+    "Volskaya Industries" : new Map("Volskaya Industries", "Assault",true),
+    "Watchpoint: Gibraltar" : new Map("Watchpoint: Gibraltar", "Escort",true)
 }
 
 const calcControlValue = function(hero, adc){
