@@ -101,6 +101,8 @@ class ModelAPI{
                     ...data
                 }
 
+                console.log(this.mapInfo);
+
                 model.buildMapPool();
 
                 localStorage.setItem('mapInfo', JSON.stringify(this.mapInfo));
@@ -114,7 +116,7 @@ class ModelAPI{
                     ...data
                 }
 
-                model.loadHeroTiers();
+                model.loadHeroTiers();                
 
                 localStorage.setItem('heroTiers', JSON.stringify(this.heroTiers));
             })
@@ -273,8 +275,6 @@ class ModelOverPiker{
     //This push the maps, the points and the A/D to the panel selections
     loadMapSelections(){
 
-        console.log(this.maps);
-
         if(this.maps.length){
 
             this.panelSelections[1].options = ["None"];
@@ -299,12 +299,13 @@ class ModelOverPiker{
 
             if(selIndex){
 
+                
                 //Index is 0 for None, but in the map pool 0 is the first map.
                 let fixedIndex = selIndex-1;
 
                 this.panelSelections[2].options = [];
 
-                for(let p in this.maps[selIndex].points){
+                for(let p in this.maps[fixedIndex].points){
                 
                     this.panelSelections[2].options.push(this.maps[fixedIndex].points[p]);
                 }
@@ -486,10 +487,11 @@ class ViewOverPiker{
             selectorSpan.classList.add('selection-span');
             selectorSpan.textContent = selector.text + ":";
 
+            
             selector.options.forEach(option =>{
-
+                
                 const optionElement = this.createElement('option');
-
+                
                 optionElement.value = getSelectValue(option);
                 optionElement.textContent = option;
 
@@ -519,12 +521,10 @@ class ViewOverPiker{
 
         this.selectionPanel.addEventListener('change', event => {
 
-            console.log(event.target.type)
             if(event.target.type == 'select-one'){
 
                 const id = event.target.id;
                 const selIndex = event.target.options.selectedIndex;
-                console.log(selIndex);
                 handler(id, selIndex);
             }
         });
