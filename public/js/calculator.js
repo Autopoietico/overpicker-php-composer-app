@@ -101,8 +101,6 @@ class ModelAPI{
                     ...data
                 }
 
-                console.log(this.mapInfo);
-
                 model.buildMapPool();
 
                 localStorage.setItem('mapInfo', JSON.stringify(this.mapInfo));
