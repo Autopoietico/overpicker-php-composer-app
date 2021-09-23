@@ -27,10 +27,11 @@ const API_URL = "https://api.overpicker.win/"
 
 //subdirectory link in the API.
 const JSON_URL = {
+    "mapInfo" : "map-info",
+    "mapTypes" : "map-type",
     "heroInfo" : "hero-info",
     "heroIMG" : "hero-img",
-    "mapInfo" : "map-info",
-    "heroTiers" : "hero-tiers"
+    "heroTiers" : "hero-tiers",
 }
 
 class ModelAPI{
@@ -38,9 +39,10 @@ class ModelAPI{
     constructor(){
 
         //This are temporary data savers before the model take the data from the API.
-        this.heroInfo = JSON.parse(localStorage.getItem('heroInfo')) || [];
-        this.heroIMG = JSON.parse(localStorage.getItem('heroIMG')) || [];
         this.mapInfo = JSON.parse(localStorage.getItem('mapInfo')) || [];
+        this.mapTypes = JSON.parse(localStorage.getItem('mapTypes')) || [];
+        this.heroInfo = JSON.parse(localStorage.getItem('heroInfo')) || [];
+        this.heroIMG = JSON.parse(localStorage.getItem('heroIMG')) || [];        
         this.heroTiers = JSON.parse(localStorage.getItem('heroTiers')) || [];
     }
 
@@ -100,7 +102,7 @@ class ModelAPI{
 
                     ...data
                 }
-
+                
                 model.buildMapPool();
 
                 localStorage.setItem('mapInfo', JSON.stringify(this.mapInfo));
@@ -117,6 +119,19 @@ class ModelAPI{
                 model.loadHeroTiers();                
 
                 localStorage.setItem('heroTiers', JSON.stringify(this.heroTiers));
+                return fetch(apiURL + jsonURL["mapTypes"]);
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                this.mapTypes = {
+
+                    ...data
+                }
+                
+                
+
+                localStorage.setItem('mapTypes', JSON.stringify(this.mapTypes));
             })
     }
 
@@ -142,6 +157,7 @@ class ModelAPI{
 
 class ModelTier{
 
+    //Model of every Tier
     constructor(heroTier){        
 
         this.name = heroTier["name"];
@@ -158,8 +174,19 @@ class ModelTier{
     }
 }
 
+class ModelMapType{
+
+    //Model of the type of point
+    constructor(mapTypeData){
+
+        this.name = mapTypeData["name"];
+        this.pointsType = mapTypeData["internal_type"];
+    }
+}
+
 class ModelMap{
 
+    //Model of every map
     constructor(mapData){
 
         this.name = mapData["name"];
@@ -171,6 +198,7 @@ class ModelMap{
 
 class ModelHero{
 
+    //Model of every hero
     constructor(heroData){
 
         this.name = heroData["name"];
@@ -229,6 +257,8 @@ class ModelOverPiker{
         this.APIData = new ModelAPI();
 
         this.maps = [];
+
+        this.mapTypes = [];
 
         this.tiers = [];
 
