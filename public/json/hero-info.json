@@ -107,8 +107,8 @@
       "Armor":0,
       "OnRotation":true
     },
-    "Mccree":{
-      "Name":"Mccree",
+    "Cassidy":{
+      "Name":"Cassidy",
       "generalRol":"Damage",
       "secondaryRol":"HitscanDamage",
       "Shields":0,
