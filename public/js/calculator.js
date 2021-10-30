@@ -32,7 +32,10 @@ const JSON_URL = {
     "heroInfo" : "hero-info",
     "heroIMG" : "hero-img",
     "heroTiers" : "hero-tiers",
-    "heroCounters" : "hero-counters"
+    "heroCounters" : "hero-counters",
+    "heroSynergies" : "hero-synergies",
+    "heroMaps" : "hero-maps",
+    "heroADC" : "hero-adc"
 }
 
 class ModelAPI{
@@ -42,34 +45,43 @@ class ModelAPI{
         //This are temporary data savers before the model take the data from the API.
         this.mapInfo = JSON.parse(localStorage.getItem('mapInfo')) || [];
         this.mapTypes = JSON.parse(localStorage.getItem('mapTypes')) || [];
-        this.heroInfo = JSON.parse(localStorage.getItem('heroInfo')) || [];
-        this.heroIMG = JSON.parse(localStorage.getItem('heroIMG')) || [];        
         this.heroTiers = JSON.parse(localStorage.getItem('heroTiers')) || [];
+        this.heroInfo = JSON.parse(localStorage.getItem('heroInfo')) || [];
+        this.heroIMG = JSON.parse(localStorage.getItem('heroIMG')) || [];
         this.heroCounters = JSON.parse(localStorage.getItem('heroCounters')) || [];
+        this.heroSynergies = JSON.parse(localStorage.getItem('heroSynergies')) || [];
+        this.heroMaps = JSON.parse(localStorage.getItem('heroMaps')) || [];
+        this.heroADC = JSON.parse(localStorage.getItem('heroADC')) || [];
     }
 
     loadLocalStorage(model){
 
         //If local storage data is aviable these is loaded in the model
 
-        if(Object.keys(this.heroInfo).length && Object.keys(this.heroIMG).length){
-
-            model.loadHeroDataForTeams();
-        }
-
         if(Object.keys(this.mapInfo).length){
 
             model.buildMapPool();
+        }
+
+        if(Object.keys(this.mapTypes).length){
+
+            model.loadMapTypes();
         }
 
         if(Object.keys(this.heroTiers).length){
 
             model.loadHeroTiers();
         }
+        
+        if(Object.keys(this.heroTiers).length
+        && Object.keys(this.heroInfo).length 
+        && Object.keys(this.heroIMG).length
+        && Object.keys(this.heroCounters).length
+        && Object.keys(this.heroSynergies).length
+        && Object.keys(this.heroMaps).length
+        && Object.keys(this.heroADC).length){
 
-        if(Object.keys(this.mapTypes).length){
-
-            model.mapTypes();
+            model.loadHeroDataForTeams();
         }
     }
 
@@ -77,7 +89,46 @@ class ModelAPI{
 
         //This charge the data from the API one by one
     
-        fetch(apiURL + jsonURL["heroInfo"])
+        fetch(apiURL + jsonURL["mapInfo"])
+            .then(res => res.json())
+            .then(data => {
+
+                this.mapInfo = {
+
+                    ...data
+                }
+
+                model.buildMapPool();
+
+                localStorage.setItem('mapInfo', JSON.stringify(this.mapInfo));
+                return fetch(apiURL + jsonURL["mapTypes"]);
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                this.mapTypes = {
+
+                    ...data
+                }
+
+                model.loadMapTypes();
+
+                localStorage.setItem('mapTypes', JSON.stringify(this.mapTypes));
+                return fetch(apiURL + jsonURL["heroTiers"]);
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                this.heroTiers = {
+
+                    ...data
+                }
+
+                model.loadHeroTiers();
+
+                localStorage.setItem('heroTiers', JSON.stringify(this.heroTiers));
+                return fetch(apiURL + jsonURL["heroInfo"]);
+            })  
             .then(res => res.json())
             .then(data => {
 
@@ -97,61 +148,53 @@ class ModelAPI{
                     ...data
                 }
 
+                localStorage.setItem('heroIMG', JSON.stringify(this.heroIMG));
+                return fetch(apiURL + jsonURL["heroCounters"]);
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                this.heroCounters = {
+
+                    ...data
+                }
+
+                localStorage.setItem('heroCounters', JSON.stringify(this.heroCounters));
+                return fetch(apiURL + jsonURL["heroSynergies"]);
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                this.heroSynergies = {
+
+                    ...data
+                }
+
+                localStorage.setItem('heroSynergies', JSON.stringify(this.heroSynergies));
+                return fetch(apiURL + jsonURL["heroMaps"]);
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                this.heroMaps = {
+
+                    ...data
+                }
+
+                localStorage.setItem('heroMaps', JSON.stringify(this.heroMaps));
+                return fetch(apiURL + jsonURL["heroADC"]);
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                this.heroADC = {
+
+                    ...data
+                }
+
                 model.loadHeroDataForTeams();
 
-                localStorage.setItem('heroIMG', JSON.stringify(this.heroIMG));
-                return fetch(apiURL + jsonURL["mapInfo"]);
-            })
-            .then(res => res.json())
-            .then(data => {
-
-                this.mapInfo = {
-
-                    ...data
-                }
-                
-                model.buildMapPool();
-
-                localStorage.setItem('mapInfo', JSON.stringify(this.mapInfo));
-                return fetch(apiURL + jsonURL["heroTiers"]);
-            })
-            .then(res => res.json())
-            .then(data => {
-
-                this.heroTiers = {
-
-                    ...data
-                }
-
-                model.loadHeroTiers();
-
-                localStorage.setItem('heroTiers', JSON.stringify(this.heroTiers));
-                return fetch(apiURL + jsonURL["mapTypes"]);
-            })
-            .then(res => res.json())
-            .then(data => {
-
-                this.mapTypes = {
-
-                    ...data
-                }
-                
-                model.loadMapTypes();
-
-                localStorage.setItem('mapTypes', JSON.stringify(this.mapTypes));
-                return fetch(apiURL + jsonURL["mapTypes"]);
-            })
-            .then(res => res.json())
-            .then(data => {
-
-                this.mapTypes = {
-
-                    ...data
-                }
-                
-                model.loadMapTypes();
-
-                localStorage.setItem('mapTypes', JSON.stringify(this.mapTypes));
+                localStorage.setItem('heroADC', JSON.stringify(this.heroADC));
             })
     }
 
@@ -397,7 +440,7 @@ class ModelOverPiker{
 
         for(let mt in this.APIData.mapTypes){
 
-            this.mapTypes.push(new ModelTier(this.APIData.mapTypes[mt]));
+            this.mapTypes.push(new ModelMapType(this.APIData.mapTypes[mt]));
         }
     }
 
