@@ -269,6 +269,14 @@ class ModelHero{
         this.nicks = heroData["nicks"];
         this.onRotation = heroData["on_rotation"];
         this.IMG = [];
+
+        this.tiers = [];
+        this.counters = [];
+        this.synergies = [];
+        this.maps = [];
+        this.adc = [];
+
+        this.value = 0;
     }
 
     addIMG(IMGUrl, type){
