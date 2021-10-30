@@ -32,6 +32,7 @@ const JSON_URL = {
     "heroInfo" : "hero-info",
     "heroIMG" : "hero-img",
     "heroTiers" : "hero-tiers",
+    "heroCounters" : "hero-counters"
 }
 
 class ModelAPI{
@@ -44,13 +45,14 @@ class ModelAPI{
         this.heroInfo = JSON.parse(localStorage.getItem('heroInfo')) || [];
         this.heroIMG = JSON.parse(localStorage.getItem('heroIMG')) || [];        
         this.heroTiers = JSON.parse(localStorage.getItem('heroTiers')) || [];
+        this.heroCounters = JSON.parse(localStorage.getItem('heroCounters')) || [];
     }
 
     loadLocalStorage(model){
 
         //If local storage data is aviable these is loaded in the model
 
-        if(Object.keys(this.heroInfo).length && Object.keys(this.heroInfo).length){
+        if(Object.keys(this.heroInfo).length && Object.keys(this.heroIMG).length){
 
             model.loadHeroDataForTeams();
         }
@@ -63,6 +65,11 @@ class ModelAPI{
         if(Object.keys(this.heroTiers).length){
 
             model.loadHeroTiers();
+        }
+
+        if(Object.keys(this.mapTypes).length){
+
+            model.mapTypes();
         }
     }
 
@@ -116,7 +123,7 @@ class ModelAPI{
                     ...data
                 }
 
-                model.loadHeroTiers();                
+                model.loadHeroTiers();
 
                 localStorage.setItem('heroTiers', JSON.stringify(this.heroTiers));
                 return fetch(apiURL + jsonURL["mapTypes"]);
@@ -129,7 +136,20 @@ class ModelAPI{
                     ...data
                 }
                 
+                model.loadMapTypes();
+
+                localStorage.setItem('mapTypes', JSON.stringify(this.mapTypes));
+                return fetch(apiURL + jsonURL["mapTypes"]);
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                this.mapTypes = {
+
+                    ...data
+                }
                 
+                model.loadMapTypes();
 
                 localStorage.setItem('mapTypes', JSON.stringify(this.mapTypes));
             })
@@ -369,6 +389,16 @@ class ModelOverPiker{
         }        
 
         this.loadTiersSelections();
+    }
+
+    loadMapTypes(){
+
+        this.mapTypes = [];
+
+        for(let mt in this.APIData.mapTypes){
+
+            this.mapTypes.push(new ModelTier(this.APIData.mapTypes[mt]));
+        }
     }
 
     buildMapPool(){
