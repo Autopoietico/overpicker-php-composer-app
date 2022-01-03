@@ -292,6 +292,7 @@ class ModelTeam{
         
         this.name = name;
         this.value = 0;
+        this.selectedHeroes = ["None","None","None","None","None","None"];
         this.heroes = [];
     }
 
@@ -333,7 +334,7 @@ class ModelOverPiker{
 
         this.tiers = [];
 
-        this.teams = {
+        this.teams = JSON.parse(localStorage.getItem('teams')) || {
 
             "Blue" : new ModelTeam("Blue"),
             "Red" : new ModelTeam("Red")
@@ -465,25 +466,39 @@ class ModelOverPiker{
     }
 
     bindOptionChanged(callback){
+
         this.onOptionsChanged = callback;
     }
 
     bindSelectionsChanged(callback){
+
         this.onSelectionsChanged = callback;
+    }
+
+    bindTeamsChanged(callback){
+
+        this.onTeamsChanged = callback;
     }
 
     _commitOptions(panelOptions){
 
-        //Save the changes of panelOptions in local storage
+        //Save the changes of panelOptions on the local storage
         this.onOptionsChanged(panelOptions);
         localStorage.setItem('panelOptions', JSON.stringify(panelOptions));
     }
 
     _commitSelections(panelSelections){
 
-        //Save the changes of panelSelections in local storage
+        //Save the changes of panelSelections on the local storage
         this.onSelectionsChanged(panelSelections);
         localStorage.setItem('panelSelections', JSON.stringify(panelSelections));
+    }
+
+    _commitTeams(teams){
+
+        //Save the changes of Teams on the local storage
+        this.onTeamsChanged(teams);
+        localStorage.setItem('teams', JSON.stringify(teams));
     }
 
     //Flip the option panel
@@ -522,6 +537,7 @@ class ViewOverPiker{
         this.selectionPanel = this.createElement('div','selection-panel');
         this.blueTeamScore = this.createElement('div', 'heroes-selection-title-text');
         this.redTeamScore = this.createElement('div', 'heroes-selection-title-text');
+        this.teamBlueComposition = this.createElement('div', 'team-composition', 'heroes-selected-blue');
 
         this.calculator.append(this.checkboxPanel);
         this.calculator.append(this.selectionPanel);
@@ -621,12 +637,12 @@ class ViewOverPiker{
     displayTeams(teams){
 
 
-        //Team Titles
+        //Team Titles and Score
         const blueTitleStrong = this.createElement('strong', 'ally-team');
         blueTitleStrong.textContent = "Ally Team";
 
-        const teamScoreSeparator = this.createElement('span', 'heroes-selection-title-separator');
-        teamScoreSeparator.textContent = " - ";
+        const teamBlueScoreSeparator = this.createElement('span', 'heroes-selection-title-separator');
+        teamBlueScoreSeparator.textContent = " - ";
 
         const teamBlueScoreSpan = this.createElement('span', 'value-team-blue');
         teamBlueScoreSpan.textContent = "Score " + teams["Blue"].value;        
@@ -636,11 +652,30 @@ class ViewOverPiker{
 
         const teamRedScoreSpan = this.createElement('span', 'value-team-blue');
         teamRedScoreSpan.textContent = "Score " + teams["Red"].value;
+        
+        const teamRedScoreSeparator = this.createElement('span', 'heroes-selection-title-separator');
+        teamRedScoreSeparator.textContent = teamBlueScoreSeparator.textContent;
 
+        //Team Composition
+        
+        const heroesSelected = [];
+
+        for(const selectedHero in teams["Blue"].selectedHeroes){
+
+            console.log(selectedHero);
+
+            //ME QUEDE AQUI (Hay que comprobar si el heroe seleccionado es nulo y si es así mandar un figCaption vacío, si no es así, mandar uno completo con el nombre del heroe y su puntaje)
+            const blankHeroFigCaption = this.createElement('figCaption');
+            const blankHeroIMG = 
+
+            heroesSelected.push(this.createElement('figure', 'hero-value'));
+            heroesSelected[selectedHero].classList.add('no-hero-selected');
+        }
+        console.log(heroesSelected)
 
         //Apend elements to the view
-        this.blueTeamScore.append(blueTitleStrong,teamScoreSeparator,teamBlueScoreSpan);
-        this.redTeamScore.append(redTitleStrong,teamScoreSeparator,teamRedScoreSpan);
+        this.blueTeamScore.append(blueTitleStrong, teamBlueScoreSeparator, teamBlueScoreSpan);
+        this.redTeamScore.append(redTitleStrong, teamRedScoreSeparator, teamRedScoreSpan);
     }
 
     bindToggleOptions(handler){
@@ -667,6 +702,10 @@ class ViewOverPiker{
             }
         });
     }
+
+    bindTeamsClicked(handler){
+
+    }
 }
 
 //////////////////////
@@ -688,11 +727,12 @@ class ControllerOverPiker{
         this.model.bindSelectionsChanged(this.onSelectionsChanged);
         this.view.bindEditSelected(this.handleEditSelected);
 
+        //Display team Score and Hero Selection
+        this.model.bindTeamsChanged(this.onTeamsChanged);
+
         this.onOptionsChanged(this.model.panelOptions);
         this.onSelectionsChanged(this.model.panelSelections);
-
-        //Display team Score and Hero Selections
-        this.view.displayTeams(this.model.teams);
+        this.onTeamsChanged(this.model.teams);
     }
 
     onOptionsChanged = panelOptions => {
@@ -703,6 +743,11 @@ class ControllerOverPiker{
     onSelectionsChanged = panelSelections => {
 
         this.view.displaySelections(panelSelections);
+    }
+
+    onTeamsChanged = teams => {
+
+        this.view.displayTeams(teams);
     }
 
     handleToggleOptions = id => {
