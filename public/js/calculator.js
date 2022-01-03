@@ -618,18 +618,29 @@ class ViewOverPiker{
         });
     }
 
-    displayTeamScores(teams){
+    displayTeams(teams){
 
+
+        //Team Titles
         const blueTitleStrong = this.createElement('strong', 'ally-team');
         blueTitleStrong.textContent = "Ally Team";
 
         const teamScoreSeparator = this.createElement('span', 'heroes-selection-title-separator');
         teamScoreSeparator.textContent = " - ";
 
-        const teamScoreSpan = this.createElement('span', 'value-team-blue');
-        teamScoreSpan.textContent = "Score " + teams["Blue"].value;
+        const teamBlueScoreSpan = this.createElement('span', 'value-team-blue');
+        teamBlueScoreSpan.textContent = "Score " + teams["Blue"].value;        
 
-        this.blueTeamScore.append(blueTitleStrong,teamScoreSeparator,teamScoreSpan);
+        const redTitleStrong = this.createElement('strong', 'enemy-team');
+        redTitleStrong.textContent = "Enemy Team";
+
+        const teamRedScoreSpan = this.createElement('span', 'value-team-blue');
+        teamRedScoreSpan.textContent = "Score " + teams["Red"].value;
+
+
+        //Apend elements to the view
+        this.blueTeamScore.append(blueTitleStrong,teamScoreSeparator,teamBlueScoreSpan);
+        this.redTeamScore.append(redTitleStrong,teamScoreSeparator,teamRedScoreSpan);
     }
 
     bindToggleOptions(handler){
@@ -681,7 +692,7 @@ class ControllerOverPiker{
         this.onSelectionsChanged(this.model.panelSelections);
 
         //Display team Score and Hero Selections
-        this.view.displayTeamScores(this.model.teams);
+        this.view.displayTeams(this.model.teams);
     }
 
     onOptionsChanged = panelOptions => {
