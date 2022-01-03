@@ -292,7 +292,7 @@ class ModelTeam{
         
         this.name = name;
         this.value = 0;
-        this.selectedHeroes = ["None","None","None","None","None","None"];
+        this.selectedHeroes = ["None","None","None","None","None","None"]; //Este es un error, es mejor mover esta info al ModelHero y almacenarla en un boleano
         this.heroes = [];
     }
 
@@ -660,11 +660,14 @@ class ViewOverPiker{
         
         const heroesSelected = [];
 
+        //Este codigo esta mal porque usa una variable de ModelTeams para hacer el check de los heroes seleccionados, es mejor que haya un boleano por cada heroe indicando 
+        //si este está seleccionado o no, luego mostrar los heroes seleccionados en orden de puntaje (En un futuro se podrían arrastrar a una posición especifica, pero en el futuro)
         for(const selectedHero in teams["Blue"].selectedHeroes){
 
             console.log(selectedHero);
 
-            //ME QUEDE AQUI (Hay que comprobar si el heroe seleccionado es nulo y si es así mandar un figCaption vacío, si no es así, mandar uno completo con el nombre del heroe y su puntaje)
+            //ME QUEDE AQUI (Hay que comprobar si el heroe seleccionado es nulo y si es así mandar un figCaption vacío, si no es así, mandar uno completo con el nombre 
+            //del heroe y su puntaje)
             const blankHeroFigCaption = this.createElement('figCaption');
             const blankHeroIMG = 
 
@@ -705,6 +708,7 @@ class ViewOverPiker{
 
     bindTeamsClicked(handler){
 
+        //No se aún como hare el bind entre la zona de Teams y el view, hay 3 paneles distintos de información clickable (los heroes seleccionados, los heroes por seleccionar y el filtro, esto para cada uno de los teams)
     }
 }
 
