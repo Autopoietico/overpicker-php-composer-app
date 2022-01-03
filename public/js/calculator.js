@@ -520,9 +520,13 @@ class ViewOverPiker{
         this.calculator = this.getElement('.calculator');
         this.checkboxPanel = this.createElement('div','selection-checkbox-panel');
         this.selectionPanel = this.createElement('div','selection-panel');
+        this.blueTeamScore = this.createElement('div', 'heroes-selection-title-text');
+        this.redTeamScore = this.createElement('div', 'heroes-selection-title-text');
 
         this.calculator.append(this.checkboxPanel);
         this.calculator.append(this.selectionPanel);
+        this.calculator.append(this.blueTeamScore);
+        this.calculator.append(this.redTeamScore);
     }
 
     createElement(tag, className, id){
@@ -614,6 +618,20 @@ class ViewOverPiker{
         });
     }
 
+    displayTeamScores(teams){
+
+        const blueTitleStrong = this.createElement('strong', 'ally-team');
+        blueTitleStrong.textContent = "Ally Team";
+
+        const teamScoreSeparator = this.createElement('span', 'heroes-selection-title-separator');
+        teamScoreSeparator.textContent = " - ";
+
+        const teamScoreSpan = this.createElement('span', 'value-team-blue');
+        teamScoreSpan.textContent = "Score " + teams["Blue"].value;
+
+        this.blueTeamScore.append(blueTitleStrong,teamScoreSeparator,teamScoreSpan);
+    }
+
     bindToggleOptions(handler){
 
         this.checkboxPanel.addEventListener('change', event => {
@@ -661,6 +679,9 @@ class ControllerOverPiker{
 
         this.onOptionsChanged(this.model.panelOptions);
         this.onSelectionsChanged(this.model.panelSelections);
+
+        //Display team Score and Hero Selections
+        this.view.displayTeamScores(this.model.teams);
     }
 
     onOptionsChanged = panelOptions => {
