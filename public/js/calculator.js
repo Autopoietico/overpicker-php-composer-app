@@ -283,6 +283,7 @@ class ModelHero{
         for(t in APIData.tiers){
 
             this.tiers[APIData.tiers[t].name] = APIData.findElement(APIData.tiers[t],"hero-tiers",this.name);
+            //ME QUEDE AQUI
         }
     }
 }
