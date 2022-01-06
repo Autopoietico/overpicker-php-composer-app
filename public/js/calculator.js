@@ -224,16 +224,7 @@ class ModelTier{
     constructor(heroTier){        
 
         this.name = heroTier["name"];
-        this.heroTiers = [];
-        this.loadHeroTiers(heroTier["hero-tiers"])
-    }
-
-    loadHeroTiers(heroTiers){
-
-        for(let ht in heroTiers){            
-
-            this.heroTiers[ht] = heroTiers[ht];         
-        }
+        this.heroTiers = heroTier["hero-tiers"];
     }
 }
 
@@ -277,6 +268,8 @@ class ModelHero{
         this.adc = [];
 
         this.value = 0;
+
+        this.selected = false;
     }
 
     addIMG(IMGUrl, type){
@@ -334,7 +327,7 @@ class ModelOverPiker{
 
         this.tiers = [];
 
-        this.teams = JSON.parse(localStorage.getItem('teams')) || {
+        this.teams = {
 
             "Blue" : new ModelTeam("Blue"),
             "Red" : new ModelTeam("Red")
@@ -352,6 +345,11 @@ class ModelOverPiker{
             {text: "Map", id: getSelectValue("Map") + "-select", selectedIndex : 0, class : 'selection-map', options : ["None"]},
             {text: "Point", id: getSelectValue("Point") + "-select", selectedIndex : 0, class : '', options : ["None"]},
             {text: "A/D", id: getSelectValue("A/D") + "-select", selectedIndex : 0, class : '', options : ["None"]},
+        ]
+
+        this.selectedHeroes = JSON.parse(localStorage.getItem('selectedHeroes')) || [
+            {team: "Blue", selectedHeroes: ["None","None","None","None","None","None"]},
+            {team: "Red", selectedHeroes: ["None","None","None","None","None","None"]}
         ]
 
         //The pre-saved data from localstorage are loaded first into the model
@@ -420,6 +418,22 @@ class ModelOverPiker{
                 }
             }
         }
+    }   
+
+    loadHeroSelections(){
+
+        //This take the selected heroes in the Team Panel and then copy them in the Model Teams
+        for(team in this.teams){
+
+            selectedHeroes = this.selectedHeroes[team].selectedHeroes;
+
+            for(selected in selectedHeros){
+
+                this.teams[team].selectHero(selectedHeros[selected]);
+            }
+        }
+
+        this.calcTeamScores();
     }
 
     loadHeroDataForTeams(){
@@ -465,6 +479,11 @@ class ModelOverPiker{
         this.loadMapSelections();
     }
 
+    calcTeamScores(){
+
+        //Aquí se envía la info a los teams sobre las selecciones actuales
+    }
+
     bindOptionChanged(callback){
 
         this.onOptionsChanged = callback;
@@ -494,11 +513,11 @@ class ModelOverPiker{
         localStorage.setItem('panelSelections', JSON.stringify(panelSelections));
     }
 
-    _commitTeams(teams){
+    _commitSelectedHeroes(selectedHeroes){
 
-        //Save the changes of Teams on the local storage
-        this.onTeamsChanged(teams);
-        localStorage.setItem('teams', JSON.stringify(teams));
+        //Save the changes of Selected Heroes on the local storage
+        this.onSeleectedHeroesChanged(selectedHeroes);
+        localStorage.setItem('selectedHeroes', JSON.stringify(selectedHeroes));
     }
 
     //Flip the option panel
@@ -520,6 +539,31 @@ class ModelOverPiker{
 
         this.loadMapSelections();        
         this._commitSelections(this.panelSelections);
+    }
+
+    editSelectedHeroes(team, i, hero){
+
+        this.selectedHeroes = this.selectedHeroes.map(function(selector){
+
+            if(selector.team === team){
+
+                for(selected in selector.selectedHeroes){
+
+                    if(selected === i){
+
+                        selector.selectedHeroes[i] = hero;
+                    }
+                }
+
+                return selector;
+            }else{
+
+                return selector;
+            }
+        });
+
+        this.loadHeroSelections();
+        this._commitSelectedHeroes(this.selectedHeroes);
     }
 }
 
@@ -660,21 +704,7 @@ class ViewOverPiker{
         
         const heroesSelected = [];
 
-        //Este codigo esta mal porque usa una variable de ModelTeams para hacer el check de los heroes seleccionados, es mejor que haya un boleano por cada heroe indicando 
-        //si este está seleccionado o no, luego mostrar los heroes seleccionados en orden de puntaje (En un futuro se podrían arrastrar a una posición especifica, pero en el futuro)
-        for(const selectedHero in teams["Blue"].selectedHeroes){
-
-            console.log(selectedHero);
-
-            //ME QUEDE AQUI (Hay que comprobar si el heroe seleccionado es nulo y si es así mandar un figCaption vacío, si no es así, mandar uno completo con el nombre 
-            //del heroe y su puntaje)
-            const blankHeroFigCaption = this.createElement('figCaption');
-            const blankHeroIMG = 
-
-            heroesSelected.push(this.createElement('figure', 'hero-value'));
-            heroesSelected[selectedHero].classList.add('no-hero-selected');
-        }
-        console.log(heroesSelected)
+        //Aquí va el código que dibuja los heroes seleccionables y seleccionados con sus respectivos puntajes
 
         //Apend elements to the view
         this.blueTeamScore.append(blueTitleStrong, teamBlueScoreSeparator, teamBlueScoreSpan);
@@ -732,7 +762,6 @@ class ControllerOverPiker{
         this.view.bindEditSelected(this.handleEditSelected);
 
         //Display team Score and Hero Selection
-        this.model.bindTeamsChanged(this.onTeamsChanged);
 
         this.onOptionsChanged(this.model.panelOptions);
         this.onSelectionsChanged(this.model.panelSelections);
@@ -747,11 +776,6 @@ class ControllerOverPiker{
     onSelectionsChanged = panelSelections => {
 
         this.view.displaySelections(panelSelections);
-    }
-
-    onTeamsChanged = teams => {
-
-        this.view.displayTeams(teams);
     }
 
     handleToggleOptions = id => {
