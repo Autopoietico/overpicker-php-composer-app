@@ -277,6 +277,14 @@ class ModelHero{
         //The type define the type of img we want, normally white, but probably a "Echo" type, a SVG or a black type
         this.IMG[type] = IMGUrl;
     }
+
+    addTiers(APIData){
+
+        for(t in APIData.tiers){
+
+            this.tiers[APIData.tiers[t].name] = APIData.findElement(APIData.tiers[t],"hero-tiers",this.name);
+        }
+    }
 }
 
 class ModelTeam{
@@ -311,6 +319,14 @@ class ModelTeam{
             let whiteURL = APIData.findElement(APIData.heroIMG,this.heroes[h].name,"white-img");
 
             this.heroes[h].IMG["white-img"] = whiteURL;
+        }
+    }
+
+    loadAllTheHeroTiers(APIData){
+
+        for(let h in this.heroes){
+
+            this.heroes[h].addTiers(APIData);
         }
     }
 }
@@ -442,6 +458,7 @@ class ModelOverPiker{
 
             this.teams[t].loadAllTheHeroes(this.APIData.heroInfo);
             this.teams[t].loadAllTheHeroIMG(this.APIData);
+            //this.teams[t].loadAllTheHeroTiers(this.APIData.tiers);
         }
     }
 
@@ -492,11 +509,6 @@ class ModelOverPiker{
     bindSelectionsChanged(callback){
 
         this.onSelectionsChanged = callback;
-    }
-
-    bindTeamsChanged(callback){
-
-        this.onTeamsChanged = callback;
     }
 
     _commitOptions(panelOptions){
@@ -765,7 +777,6 @@ class ControllerOverPiker{
 
         this.onOptionsChanged(this.model.panelOptions);
         this.onSelectionsChanged(this.model.panelSelections);
-        this.onTeamsChanged(this.model.teams);
     }
 
     onOptionsChanged = panelOptions => {
