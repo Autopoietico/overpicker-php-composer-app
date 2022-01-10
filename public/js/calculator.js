@@ -226,6 +226,18 @@ class ModelTier{
         this.name = heroTier["name"];
         this.heroTiers = heroTier["hero-tiers"];
     }
+
+    findScore(heroName){
+
+        console.log()
+        if(this.heroTiers[heroName]){
+
+            return this.heroTiers[heroName];
+        }else{
+
+            return 0;
+        }
+    }
 }
 
 class ModelMapType{
@@ -262,7 +274,7 @@ class ModelHero{
         this.IMG = [];
 
         this.tiers = [];
-        this.counters = [];
+        this.counters = []; //This are the heroes that are countered by this hero
         this.synergies = [];
         this.maps = [];
         this.adc = [];
@@ -278,12 +290,39 @@ class ModelHero{
         this.IMG[type] = IMGUrl;
     }
 
-    addTiers(APIData){
+    addTier(tierName, tierScore){
 
-        for(t in APIData.tiers){
+        this.tiers[tierName] = tierScore;
+    }
 
-            this.tiers[APIData.tiers[t].name] = APIData.findElement(APIData.tiers[t],"hero-tiers",this.name);
-            //ME QUEDE AQUI
+    addCounters(counters){
+
+        this.counters = counters[this.name];
+    }
+
+    addSynergies(synergies){
+
+        this.synergies = synergies[this.name];
+    }
+    
+    addMaps(maps){
+
+        let heroMaps = maps[this.name];
+
+        //Hard coded because of things
+        for(let mt in heroMaps){
+
+            this.maps[mt] = heroMaps[mt];
+        }
+    }
+
+    addADC(adc){
+
+        let heroADC = adc[this.name];
+
+        for(let mt in heroADC){
+
+            this.adc[mt] = heroADC[mt];
         }
     }
 }
@@ -294,11 +333,10 @@ class ModelTeam{
         
         this.name = name;
         this.value = 0;
-        this.selectedHeroes = ["None","None","None","None","None","None"]; //Este es un error, es mejor mover esta info al ModelHero y almacenarla en un boleano
         this.heroes = [];
     }
 
-    loadAllTheHeroes(heroInfo){
+    loadHeroes(heroInfo){
 
         //This function build an array with all the heroes of the game for the team.
         //Is important to have all the heroes loaded before we make all the calcs, all the heroes despite
@@ -313,21 +351,60 @@ class ModelTeam{
         this.heroes = allHeroes;
     }
 
-    loadAllTheHeroIMG(APIData){
+    loadHeroIMG(APIData){
 
         for(let h in this.heroes){
 
             let whiteURL = APIData.findElement(APIData.heroIMG,this.heroes[h].name,"white-img");
 
-            this.heroes[h].IMG["white-img"] = whiteURL;
+            this.heroes[h].addIMG(whiteURL, "white-img");
         }
     }
 
-    loadAllTheHeroTiers(APIData){
+    loadHeroTiers(tiers){
+
+        for(let h in this.heroes){
+            
+            for(let t in tiers){
+
+                let heroName = this.heroes[h].name;
+                let tierName = tiers[t].name;
+                let tierScore = tiers[t].findScore(heroName);
+
+                this.heroes[h].addTier(tierName, tierScore);
+            }
+        }
+    }
+
+    loadHeroCounters(APIData){
 
         for(let h in this.heroes){
 
-            this.heroes[h].addTiers(APIData);
+            this.heroes[h].addCounters(APIData.heroCounters);
+        }
+    }
+
+    loadHeroSynergies(APIData){
+
+        for(let h in this.heroes){
+
+            this.heroes[h].addSynergies(APIData.heroSynergies);
+        }
+    }
+
+    loadHeroMaps(APIData){
+
+        for(let h in this.heroes){
+
+            this.heroes[h].addMaps(APIData.heroMaps);
+        }
+    }
+
+    loadHeroADC(APIData){
+
+        for(let h in this.heroes){
+
+            this.heroes[h].addADC(APIData.heroADC);
         }
     }
 }
@@ -339,10 +416,9 @@ class ModelOverPiker{
         this.APIData = new ModelAPI();
 
         this.maps = [];
-
         this.mapTypes = [];
-
         this.tiers = [];
+        //this.adc = []; I'm going to hard code this because of things
 
         this.teams = {
 
@@ -372,7 +448,57 @@ class ModelOverPiker{
         //The pre-saved data from localstorage are loaded first into the model
         this.APIData.loadLocalStorage(this);
     }
-    
+
+    buildMapPool(){
+
+        this.maps = [];
+
+        for(let m in this.APIData.mapInfo){
+
+            this.maps.push(new ModelMap(this.APIData.mapInfo[m]));
+        }
+
+        this.loadMapSelections();
+    }
+
+    loadMapTypes(){
+
+        this.mapTypes = [];
+
+        for(let mt in this.APIData.mapTypes){
+
+            this.mapTypes.push(new ModelMapType(this.APIData.mapTypes[mt]));
+        }
+    }
+
+    loadHeroDataForTeams(){
+        
+        for(let t in this.teams){
+
+            this.teams[t].loadHeroes(this.APIData.heroInfo);
+            this.teams[t].loadHeroIMG(this.APIData);
+            this.teams[t].loadHeroTiers(this.tiers);
+            this.teams[t].loadHeroCounters(this.APIData);
+            this.teams[t].loadHeroSynergies(this.APIData);
+            this.teams[t].loadHeroMaps(this.APIData);
+            this.teams[t].loadHeroADC(this.APIData);
+        }
+    }
+
+    loadHeroTiers(){
+
+        this.tiers = [];
+
+        for(let ht in this.APIData.heroTiers){
+
+            this.tiers.push(new ModelTier(this.APIData.heroTiers[ht]));
+        }        
+
+        this.loadTiersSelections();
+    }
+
+
+     
     //This push the tiers to the panel selections
     loadTiersSelections(){        
 
@@ -425,6 +551,7 @@ class ModelOverPiker{
                     this.panelSelections[2].options.push(this.maps[fixedIndex].points[p]);
                 }
 
+                //I don't want to hard code this part, but is hard
                 if(this.maps[fixedIndex].type == "Control"){
 
                     this.panelSelections[3].options = ["Control"];
@@ -435,7 +562,7 @@ class ModelOverPiker{
                 }
             }
         }
-    }   
+    }
 
     loadHeroSelections(){
 
@@ -451,50 +578,6 @@ class ModelOverPiker{
         }
 
         this.calcTeamScores();
-    }
-
-    loadHeroDataForTeams(){
-        
-        for(let t in this.teams){
-
-            this.teams[t].loadAllTheHeroes(this.APIData.heroInfo);
-            this.teams[t].loadAllTheHeroIMG(this.APIData);
-            //this.teams[t].loadAllTheHeroTiers(this.APIData.tiers);
-        }
-    }
-
-    loadHeroTiers(){
-
-        this.tiers = [];
-
-        for(let ht in this.APIData.heroTiers){
-
-            this.tiers.push(new ModelTier(this.APIData.heroTiers[ht]));
-        }        
-
-        this.loadTiersSelections();
-    }
-
-    loadMapTypes(){
-
-        this.mapTypes = [];
-
-        for(let mt in this.APIData.mapTypes){
-
-            this.mapTypes.push(new ModelMapType(this.APIData.mapTypes[mt]));
-        }
-    }
-
-    buildMapPool(){
-
-        this.maps = [];
-
-        for(let m in this.APIData.mapInfo){
-
-            this.maps.push(new ModelMap(this.APIData.mapInfo[m]));
-        }
-
-        this.loadMapSelections();
     }
 
     calcTeamScores(){
