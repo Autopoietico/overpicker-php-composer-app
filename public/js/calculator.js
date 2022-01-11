@@ -275,7 +275,7 @@ class ModelHero{
 
         this.tiers = [];
         this.counters = []; //This are the heroes that are countered by this hero
-        this.synergies = [];
+        this.synergies = []; //This are the heroes that have sinergy with your hero
         this.maps = [];
         this.adc = [];
 
@@ -345,7 +345,7 @@ class ModelTeam{
 
         for(let h in heroInfo){
 
-           allHeroes.push(new ModelHero(heroInfo[h]));
+           allHeroes[heroInfo[h].name] = new ModelHero(heroInfo[h]);
         }
 
         this.heroes = allHeroes;
@@ -407,6 +407,19 @@ class ModelTeam{
             this.heroes[h].addADC(APIData.heroADC);
         }
     }
+
+    selectHero(hero){
+
+        this.heroes[hero].selected = true;
+    }
+
+    unselectAllHeroes(){
+
+        for(let h in this.heroes){
+
+            this.heroes[h].selected = false;
+        }
+    }
 }
 
 class ModelOverPiker{
@@ -418,7 +431,6 @@ class ModelOverPiker{
         this.maps = [];
         this.mapTypes = [];
         this.tiers = [];
-        //this.adc = []; I'm going to hard code this because of things
 
         this.teams = {
 
@@ -445,7 +457,7 @@ class ModelOverPiker{
             {team: "Red", selectedHeroes: ["None","None","None","None","None","None"]}
         ]
 
-        //The pre-saved data from localstorage are loaded first into the model
+        //The pre-saved APIdata from localstorage are loaded first into the model before calling the API
         this.APIData.loadLocalStorage(this);
     }
 
@@ -473,6 +485,7 @@ class ModelOverPiker{
 
     loadHeroDataForTeams(){
         
+        //Data for every hero in every team
         for(let t in this.teams){
 
             this.teams[t].loadHeroes(this.APIData.heroInfo);
@@ -497,8 +510,6 @@ class ModelOverPiker{
         this.loadTiersSelections();
     }
 
-
-     
     //This push the tiers to the panel selections
     loadTiersSelections(){        
 
@@ -564,10 +575,12 @@ class ModelOverPiker{
         }
     }
 
-    loadHeroSelections(){
+    calcTeamScores(){
 
-        //This take the selected heroes in the Team Panel and then copy them in the Model Teams
+        //This take the selected heroes in the Team Panel and then copy them in the Model Teams and calculate scores
         for(team in this.teams){
+
+            this.teams[team].unselectAllHeroes();
 
             selectedHeroes = this.selectedHeroes[team].selectedHeroes;
 
@@ -576,13 +589,6 @@ class ModelOverPiker{
                 this.teams[team].selectHero(selectedHeros[selected]);
             }
         }
-
-        this.calcTeamScores();
-    }
-
-    calcTeamScores(){
-
-        //Aquí se envía la info a los teams sobre las selecciones actuales
     }
 
     bindOptionChanged(callback){
@@ -658,7 +664,7 @@ class ModelOverPiker{
             }
         });
 
-        this.loadHeroSelections();
+        this.calcTeamScores();
         this._commitSelectedHeroes(this.selectedHeroes);
     }
 }
