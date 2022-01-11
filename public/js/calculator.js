@@ -248,6 +248,11 @@ class ModelMapType{
         this.name = mapTypeData["name"];
         this.pointsType = mapTypeData["internal_type"];
     }
+
+    getType(point){
+
+        this.pointsType[point];
+    }
 }
 
 class ModelMap{
@@ -325,6 +330,24 @@ class ModelHero{
             this.adc[mt] = heroADC[mt];
         }
     }
+
+    getSinergyValue(alliedHeroes){
+
+    }
+
+    getCounterValue(enemyHeroes){
+
+    }
+
+    calcScore(tier, map, point, adc, mapType, pointType, alliedHeroes, enemyHeroes){
+
+        this.value = 0;
+        this.value += this.tiers[tier];
+        this.value += this.maps[mapType][map][point];
+        this.value += this.adc[adc][pointType][point];
+        this.value += this.getSinergyValue(alliedHeroes);
+        this.value += this.getCounterValue(enemyHeroes);
+    }
 }
 
 class ModelTeam{
@@ -334,6 +357,7 @@ class ModelTeam{
         this.name = name;
         this.value = 0;
         this.heroes = [];
+        this.selectedHeroes = [];
     }
 
     loadHeroes(heroInfo){
@@ -408,16 +432,48 @@ class ModelTeam{
         }
     }
 
-    selectHero(hero){
+    selectHeroes(hero){
+
+        this.selectedHeroes.push(hero);
 
         this.heroes[hero].selected = true;
     }
 
     unselectAllHeroes(){
 
+        this.selectedHeroes = [];
         for(let h in this.heroes){
 
             this.heroes[h].selected = false;
+        }
+    }
+
+    resetValues(){
+
+        this.value = 0;
+
+        for(let h in this.heroes){
+
+            this.heroes[h].value = 0;
+        }
+    }
+
+    calcScores(tier, map, point, adc, mapType, pointType, enemyHeroes){
+
+        let alliedHeroes = this.selectedHeroes;
+
+        this.resetValues();
+
+        for(let h in this.heroes){
+
+            let isHeroSelected = this.heroes[h].selected;
+
+            this.heroes[h].calcScore(tier, map, point, adc, mapType, pointType, alliedHeroes, enemyHeroes);
+
+            if(isHeroSelected){
+
+                this.value += this.heroes[h].value;
+            }
         }
     }
 }
@@ -467,7 +523,8 @@ class ModelOverPiker{
 
         for(let m in this.APIData.mapInfo){
 
-            this.maps.push(new ModelMap(this.APIData.mapInfo[m]));
+            let mapName = this.APIData.mapInfo[m].name;
+            this.maps[mapName] = new ModelMap(this.APIData.mapInfo[m]);
         }
 
         this.loadMapSelections();
@@ -479,7 +536,8 @@ class ModelOverPiker{
 
         for(let mt in this.APIData.mapTypes){
 
-            this.mapTypes.push(new ModelMapType(this.APIData.mapTypes[mt]));
+            let nameMapType = this.APIData.mapTypes[mt].mapType;
+            this.mapTypes[nameMapType] = new ModelMapType(this.APIData.mapTypes[mt]);
         }
     }
 
@@ -577,7 +635,7 @@ class ModelOverPiker{
 
     calcTeamScores(){
 
-        //This take the selected heroes in the Team Panel and then copy them in the Model Teams and calculate scores
+        //This take the selected heroes in the Team Panel and then copy them in the Teams Models
         for(team in this.teams){
 
             this.teams[team].unselectAllHeroes();
@@ -586,9 +644,38 @@ class ModelOverPiker{
 
             for(selected in selectedHeros){
 
-                this.teams[team].selectHero(selectedHeros[selected]);
+                this.teams[team].selectHero(selectedHeroes[selected]);
             }
         }
+
+        //We get the other selected values, map, point, etc
+
+        let isTierSelected = this.panelOptions[1].state;
+        let tier = "None";
+        let map = "None";
+        let point = "None";
+        let adc = "None";
+        let mapType = "None";
+        let pointType = "None";
+
+        map = this.panelSelections[1].options[this.panelSelections[1].selectedIndex];
+        point = this.panelSelections[2].options[this.panelSelections[2].selectedIndex];
+        adc = this.panelSelections[3].options[this.panelSelections[3].selectedIndex];
+        mapType = this.maps[map].type;
+
+        //Even if a tier is selected we don't want to send it to the teams when the tier option is no selected
+        if(isTierSelected){
+
+            tier = this.panelSelections[0].options[this.panelSelections.selectedIndex];
+        }
+
+        //The map type depend from the map, but also for the point (first point in Hybrid is assault)
+        let pointNumber = this.panelSelections[2].selectedIndex
+        pointType = this.mapTypes[map].getType(pointNumber);
+
+        //Now we calculate scores for teams and their heroes
+        this.teams["Blue"].calcScores(tier, map, point, adc, mapType, pointType, this.teams["Red"].selectedHeroes);
+        this.teams["Red"].calcScores(tier, map, point, adc, mapType, pointType, this.teams["Blue"].selectedHeroes);
     }
 
     bindOptionChanged(callback){
