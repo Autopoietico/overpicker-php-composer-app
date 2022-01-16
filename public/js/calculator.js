@@ -229,7 +229,6 @@ class ModelTier{
 
     findScore(heroName){
 
-        console.log()
         if(this.heroTiers[heroName]){
 
             return this.heroTiers[heroName];
@@ -331,12 +330,39 @@ class ModelHero{
         }
     }
 
+    getIMG(type){
+
+        this.IMG[type];
+    }
+
     getSinergyValue(alliedHeroes){
 
+        let sinergyValue = 0;
+
+        for(let ah in alliedHeroes){
+
+            if(ah != this.name){
+                
+                sinergyValue += this.synergies[ah];
+            }
+        }
+
+        return sinergyValue;
     }
 
     getCounterValue(enemyHeroes){
 
+        let counterValue = 0;
+
+        for(let ah in enemyHeroes){
+
+            if(ah != this.name){
+                
+                counterValue += this.synergies[ah];
+            }
+        }
+
+        return counterValue;
     }
 
     calcScore(tier, map, point, adc, mapType, pointType, alliedHeroes, enemyHeroes){
@@ -345,6 +371,7 @@ class ModelHero{
         this.value += this.tiers[tier];
         this.value += this.maps[mapType][map][point];
         this.value += this.adc[adc][pointType][point];
+        //AQUI ME QUEDE
         this.value += this.getSinergyValue(alliedHeroes);
         this.value += this.getCounterValue(enemyHeroes);
     }
@@ -432,7 +459,12 @@ class ModelTeam{
         }
     }
 
-    selectHeroes(hero){
+    getHero(hero){
+
+        return this.heroes[hero];
+    }
+
+    selectHero(hero){
 
         this.selectedHeroes.push(hero);
 
@@ -764,18 +796,51 @@ class ViewOverPiker{
 
     constructor(){
 
-        //Get Option Panel Element
         this.calculator = this.getElement('.calculator');
+        //Selection and Option Panels
         this.checkboxPanel = this.createElement('div','selection-checkbox-panel');
         this.selectionPanel = this.createElement('div','selection-panel');
+
+        //Team Scores
         this.blueTeamScore = this.createElement('div', 'heroes-selection-title-text');
         this.redTeamScore = this.createElement('div', 'heroes-selection-title-text');
+        this.redTeamScore.classList.add('enemy-team-direction');
+
+        //Team Hero Selections
         this.teamBlueComposition = this.createElement('div', 'team-composition', 'heroes-selected-blue');
+        this.teamRedComposition = this.createElement('div', 'team-composition', 'heroes-selected-red')
+        this.teamRedComposition.classList.add('enemy-team-direction');
+
+        //Filters
+        this.blueFilter = this.createElement('div', 'heroes-filter');
+        this.redFilter = this.createElement('div', 'heroes-filter');
+        this.redFilter.classList.add('enemy-team-direction');
+
+        //Hero per Rol Options
+        this.blueTankRolSelection = this.createElement('div', 'rol-selection');
+        this.blueDamageRolSelection = this.createElement('div', 'rol-selection');
+        this.blueSupportRolSelection = this.createElement('div', 'rol-selection');
+        this.blueSupportRolSelection.classList.add('rol-selection-support');
+        this.redTankRolSelection = this.createElement('div', 'rol-selection');
+        this.redTankRolSelection.classList.add('enemy-team-direction');
+        this.redDamageRolSelection = this.createElement('div', 'rol-selection');
+        this.redDamageRolSelection.classList.add('enemy-team-direction');
+        this.redSupportRolSelection = this.createElement('div', 'rol-selection');
+        this.redSupportRolSelection.classList.add('rol-selection-support');
+        this.redSupportRolSelection.classList.add('enemy-team-direction');
+
+        //Border
+        this.teamSeparator = this.createElement('div', 'team-heroes-selection-line-between');
 
         this.calculator.append(this.checkboxPanel);
         this.calculator.append(this.selectionPanel);
         this.calculator.append(this.blueTeamScore);
+        this.calculator.append(this.teamBlueComposition);
+        this.calculator.append(this.blueFilter);
+        this.calculator.append(this.teamSeparator);
         this.calculator.append(this.redTeamScore);
+        this.calculator.append(this.teamRedComposition);
+        this.calculator.append(this.redFilter);
     }
 
     createElement(tag, className, id){
@@ -794,6 +859,47 @@ class ViewOverPiker{
         }
 
         return element;
+    }
+
+    createHeroFigure(hero, team, value, heroIMG){
+
+        const figure = this.createElement('figure', 'hero-value');
+
+        if(hero == "None"){
+            
+            figure.classList.add('no-hero-selected');
+
+            const figcaption = this.createElement('figcaption');
+            figcaption.textContent = 'Blank Hero';
+
+            const img = this.createElement('img');
+            img.src = 'images/assets/blank-hero.png';
+            img.alt = 'Blank hero space';
+
+            const border = this.createElement('div', 'border-bottom-75');
+
+            figure.append(figcaption, img, "0", border);
+        }else{
+
+            figure.dataset.name = hero;
+            figure.dataset.team = team;
+
+            const figcaption = this.createElement('figcaption');
+            figcaption.textContent = hero;
+
+            const img = this.createElement('img');
+            img.src = heroIMG;
+            img.alt = hero + " white schematic face";
+            
+            const heroTip = this.createElement('span');
+            span.textContent = hero;
+
+            const border = this.createElement('div', 'border-bottom-75');
+
+            figure.append(figcaption, img, value, heroTip, border);
+        }
+
+        return figure;
     }
 
     getElement(selector){
@@ -867,8 +973,7 @@ class ViewOverPiker{
         });
     }
 
-    displayTeams(teams){
-
+    displayTeamScores(teams){
 
         //Team Titles and Score
         const blueTitleStrong = this.createElement('strong', 'ally-team');
@@ -877,27 +982,88 @@ class ViewOverPiker{
         const teamBlueScoreSeparator = this.createElement('span', 'heroes-selection-title-separator');
         teamBlueScoreSeparator.textContent = " - ";
 
-        const teamBlueScoreSpan = this.createElement('span', 'value-team-blue');
+        const teamBlueScoreSpan = this.createElement('span', '', 'value-team-blue');
         teamBlueScoreSpan.textContent = "Score " + teams["Blue"].value;        
 
         const redTitleStrong = this.createElement('strong', 'enemy-team');
         redTitleStrong.textContent = "Enemy Team";
 
-        const teamRedScoreSpan = this.createElement('span', 'value-team-blue');
+        const teamRedScoreSpan = this.createElement('span', '' , 'value-team-red');
         teamRedScoreSpan.textContent = "Score " + teams["Red"].value;
         
         const teamRedScoreSeparator = this.createElement('span', 'heroes-selection-title-separator');
         teamRedScoreSeparator.textContent = teamBlueScoreSeparator.textContent;
 
-        //Team Composition
-        
-        const heroesSelected = [];
-
-        //Aquí va el código que dibuja los heroes seleccionables y seleccionados con sus respectivos puntajes
-
-        //Apend elements to the view
         this.blueTeamScore.append(blueTitleStrong, teamBlueScoreSeparator, teamBlueScoreSpan);
-        this.redTeamScore.append(redTitleStrong, teamRedScoreSeparator, teamRedScoreSpan);
+        this.redTeamScore.append(teamRedScoreSpan, teamRedScoreSeparator, redTitleStrong);
+    }
+
+    displaySelectedHeroes(teams, selectedHeroes){
+
+        //Display Blue Team
+        for(let shb in selectedHeroes[0].selectedHeroes){
+            
+            let hero = selectedHeroes[0].selectedHeroes[shb];
+            let team = "Blue";
+            let value = 0;
+            let heroIMG = '';
+
+            if(hero != "None"){
+
+                value = teams.heroes[hero].value;
+                heroIMG = teams.heroes[hero].getIMG("white-img");                
+            }
+
+            const figure = this.createHeroFigure(hero, team, value, heroIMG);
+            this.teamBlueComposition.append(figure);
+        }
+
+        //Display Red Team
+        for(let shb in selectedHeroes[1].selectedHeroes){
+            
+            let hero = selectedHeroes[1].selectedHeroes[shb];
+            let team = "Red";
+            let value = 0;
+            let heroIMG = '';
+
+            if(hero != "None"){
+
+                value = teams.heroes[hero].value;
+                heroIMG = teams.heroes[hero].getIMG("white-img");                
+            }
+
+            const figure = this.createHeroFigure(hero, team, value, heroIMG);
+            this.teamRedComposition.append(figure);
+        }
+    }
+
+    displayFilters(){
+
+        const blueInput = this.createElement('input', '', 'blue-hero-filter');
+        blueInput.type = 'text';
+        blueInput.name = 'filter';
+        blueInput.placeholder = 'Genji';
+
+        const redInput = this.createElement('input', '', 'red-hero-filter');
+        redInput.type = 'text';
+        redInput.name = 'filter';
+        redInput.placeholder = 'Genji';
+
+        this.blueFilter.append('Filter:', blueInput);
+        this.redFilter.append('Filter:', redInput);
+    }
+
+    displayHeroRoles(teams){
+
+        
+    }
+
+    displayTeams(teams, selectedHeroes){
+
+        this.displayTeamScores(teams);
+        this.displaySelectedHeroes(teams, selectedHeroes);
+        this.displayFilters();
+        this.displayHeroRoles(teams);
     }
 
     bindToggleOptions(handler){
@@ -951,6 +1117,7 @@ class ControllerOverPiker{
         this.view.bindEditSelected(this.handleEditSelected);
 
         //Display team Score and Hero Selection
+        this.view.displayTeams(this.model.teams,this.model.selectedHeroes);
 
         this.onOptionsChanged(this.model.panelOptions);
         this.onSelectionsChanged(this.model.panelSelections);
