@@ -1253,7 +1253,21 @@ class ViewOverPiker{
 
     bindTeamsClicked(handler){
 
-        //No se aún como hare el bind entre la zona de Teams y el view, hay 3 paneles distintos de información clickable (los heroes seleccionados, los heroes por seleccionar y el filtro, esto para cada uno de los teams)
+        this.blueTankRolSelection.addEventListener('click', event => {
+
+            let element;
+
+            if(event.target.getAttribute('data-name')){
+
+                element = event.target;
+
+            }else if(event.target.parentElement.getAttribute('data-name')){
+
+                element = event.target.parentElement;
+            }
+            
+            //AQUI ME QUEDE
+        });
     }
 }
 
@@ -1277,7 +1291,7 @@ class ControllerOverPiker{
         this.view.bindEditSelected(this.handleEditSelected);
 
         //Display team Score and Hero Selection (this is temporal)
-        this.view.displayTeams(this.model.teams,this.model.selectedHeroes);
+        this.view.bindTeamsClicked();        
 
         //Bind View with Model
         this.onOptionsChanged(this.model.panelOptions);
