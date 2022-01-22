@@ -834,13 +834,22 @@ class ViewOverPiker{
 
         this.calculator.append(this.checkboxPanel);
         this.calculator.append(this.selectionPanel);
+
         this.calculator.append(this.blueTeamScore);
         this.calculator.append(this.teamBlueComposition);
         this.calculator.append(this.blueFilter);
+        this.calculator.append(this.blueTankRolSelection);
+        this.calculator.append(this.blueDamageRolSelection);
+        this.calculator.append(this.blueSupportRolSelection);
+
         this.calculator.append(this.teamSeparator);
+
         this.calculator.append(this.redTeamScore);
         this.calculator.append(this.teamRedComposition);
         this.calculator.append(this.redFilter);
+        this.calculator.append(this.redTankRolSelection);
+        this.calculator.append(this.redDamageRolSelection);
+        this.calculator.append(this.redSupportRolSelection);
     }
 
     createElement(tag, className, id){
@@ -1056,6 +1065,102 @@ class ViewOverPiker{
     displayHeroRoles(teams){
 
         
+        for(let t in teams){
+            
+            const tankRoleIcon = this.createElement('figure', 'rol-icon');
+            const tankIcon = this.createElement('img');
+            const tankFigCap = this.createElement('figcaption');
+            const tankRoleSel = this.createElement('div', 'heroes-rol-selection');
+
+            const damageRoleIcon = this.createElement('figure', 'rol-icon');
+            const damageIcon = this.createElement('img');
+            const damageFigCap = this.createElement('figcaption');
+            const damageRoleSel = this.createElement('div', 'heroes-rol-selection');  
+
+            const supportRoleIcon = this.createElement('figure', 'rol-icon');
+            const supportIcon = this.createElement('img');
+            const supportFigCap = this.createElement('figcaption');
+            const supportRoleSel = this.createElement('div', 'heroes-rol-selection'); 
+    
+            tankIcon.src = 'images/assets/tank.png';
+            tankIcon.alt = 'Tank icon';
+            tankFigCap.textContent = 'Tank';
+
+            damageIcon.src = 'images/assets/damage.png';
+            damageIcon.alt = 'Damage icon';
+            damageFigCap.textContent = 'Damage';
+
+            supportIcon.src = 'images/assets/damage.png';
+            supportIcon.alt = 'Support icon';
+            supportFigCap.textContent = 'Support';
+
+            tankRoleIcon.append(tankIcon, tankFigCap);
+            damageRoleIcon.append(damageIcon, damageFigCap);
+            supportRoleIcon.append(supportIcon, supportFigCap);
+
+            if(t == 'Blue'){
+
+                tankRoleSel.id = 'tanks-onselect-blue';
+                damageRoleSel.id = 'damage-onselect-blue';
+                supportRoleSel.id = 'support-onselect-blue';
+
+            }else if(t == 'Red'){
+                
+                tankRoleSel.id = 'tanks-onselect-red';
+                tankRoleSel.classList.add('enemy-team-direction');
+
+                damageRoleSel.id = 'damage-onselect-red';
+                damageRoleSel.classList.add('enemy-team-direction');
+
+                supportRoleSel.id = 'support-onselect-red';
+                supportRoleSel.classList.add('enemy-team-direction');
+            }
+    
+            for(let h in teams[t].heroes){
+    
+                let hero = teams[t].heroes[h];
+                const figHero = this.createElement('figure', 'hero-value');
+                const figHeroCap = this.createElement('figcaption');
+                const figHeroIMG = this.createElement('img');
+                const figHeroTip = this.createElement('span', 'hero-tip');
+    
+                figHero.dataset.name = hero.name;
+                figHero.dataset.team = t;
+                figHeroCap.textContent = hero.name;
+                figHeroIMG.src = hero.IMG["white-img"];
+                figHeroIMG.alt = hero.name + " white schematic face";
+                figHeroTip.textContent = hero.name;
+
+                figHero.append(figHeroCap, figHeroIMG, hero.value, figHeroTip);
+
+                if(hero.generalRol == 'Tank'){
+    
+                    tankRoleSel.append(figHero);
+
+                }else if(hero.generalRol == 'Damage'){
+
+                    damageRoleSel.append(figHero);
+
+                }else if(hero.generalRol == 'Support'){
+
+                    supportRoleSel.append(figHero);
+                }
+            }
+
+            if(t == 'Blue'){
+
+                this.blueTankRolSelection.append(tankRoleIcon, tankRoleSel);
+                this.blueDamageRolSelection.append(damageRoleIcon, damageRoleSel);
+                this.blueSupportRolSelection.append(supportRoleIcon, supportRoleSel);
+            }else if (t == 'Red'){
+
+                this.redTankRolSelection.append(tankRoleIcon, tankRoleSel);
+                this.redDamageRolSelection.append(damageRoleIcon, damageRoleSel);
+                this.redSupportRolSelection.append(supportRoleIcon, supportRoleSel);
+            }
+        }
+
+
     }
 
     displayTeams(teams, selectedHeroes){
