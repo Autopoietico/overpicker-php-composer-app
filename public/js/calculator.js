@@ -520,6 +520,8 @@ class ModelOverPiker{
         this.mapTypes = [];
         this.tiers = [];
 
+        this.mapLength = 0;
+
         this.teams = {
 
             "Blue" : new ModelTeam("Blue"),
@@ -552,11 +554,13 @@ class ModelOverPiker{
     buildMapPool(){
 
         this.maps = [];
+        this.mapLength = 0;
 
         for(let m in this.APIData.mapInfo){
 
             let mapName = this.APIData.mapInfo[m].name;
             this.maps[mapName] = new ModelMap(this.APIData.mapInfo[m]);
+            this.mapLength++;
         }
 
         this.loadMapSelections();
@@ -617,43 +621,35 @@ class ModelOverPiker{
     //This push the maps, the points and the A/D to the panel selections
     loadMapSelections(){
 
-        if(this.maps.length){
+        if(this.mapLength){
 
             this.panelSelections[1].options = ["None"];
 
             for(let m in this.maps){
                 
-                this.panelSelections[1].options.push(this.maps[m].name);
+                
+                this.panelSelections[1].options.push(m);
             }
 
             let selIndex = this.panelSelections[1].selectedIndex;
-            let mapLength = this.maps.length;
 
-            //A small check if index is in a bad position
-            if(selIndex > mapLength){
-
-                this.panelSelections[1].selectedIndex = 0
-                selIndex = 0;
-            }
-            
             this.panelSelections[2].options = ["None"];
             this.panelSelections[3].options = ["None"];
 
             if(selIndex){
 
+                const mapName = this.panelSelections[1].options[selIndex];
+                let map = this.maps[mapName];                
                 
-                //Index is 0 for None, but in the map pool 0 is the first map.
-                let fixedIndex = selIndex-1;
+                this.panelSelections[2].options = [];                
 
-                this.panelSelections[2].options = [];
-
-                for(let p in this.maps[fixedIndex].points){
+                for(let p in map.points){                    
                 
-                    this.panelSelections[2].options.push(this.maps[fixedIndex].points[p]);
+                    this.panelSelections[2].options.push(map.points[p]);
                 }
 
                 //I don't want to hard code this part, but is hard
-                if(this.maps[fixedIndex].type == "Control"){
+                if(map.type == "Control"){
 
                     this.panelSelections[3].options = ["Control"];
                     this.panelSelections[3].selectedIndex = 0;
@@ -963,7 +959,6 @@ class ViewOverPiker{
             //The text don't have a html label
             selectorSpan.classList.add('selection-span');
             selectorSpan.textContent = selector.text + ":";
-
             
             selector.options.forEach(option =>{
                 
@@ -983,6 +978,16 @@ class ViewOverPiker{
     }
 
     displayTeamScores(teams){
+
+        while(this.blueTeamScore.firstChild){
+
+            this.blueTeamScore.removeChild(this.blueTeamScore.firstChild)
+        }
+
+        while(this.redTeamScore.firstChild){
+
+            this.redTeamScore.removeChild(this.redTeamScore.firstChild)
+        }
 
         //Team Titles and Score
         const blueTitleStrong = this.createElement('strong', 'ally-team');
@@ -1008,6 +1013,16 @@ class ViewOverPiker{
     }
 
     displaySelectedHeroes(teams, selectedHeroes){
+
+        while(this.teamBlueComposition.firstChild){
+
+            this.teamBlueComposition.removeChild(this.teamBlueComposition.firstChild)
+        }
+
+        while(this.teamRedComposition.firstChild){
+
+            this.teamRedComposition.removeChild(this.teamRedComposition.firstChild)
+        }
 
         //Display Blue Team
         for(let shb in selectedHeroes[0].selectedHeroes){
@@ -1048,6 +1063,16 @@ class ViewOverPiker{
 
     displayFilters(){
 
+        while(this.blueFilter.firstChild){
+
+            this.blueFilter.removeChild(this.blueFilter.firstChild)
+        }
+
+        while(this.redFilter.firstChild){
+
+            this.redFilter.removeChild(this.redFilter.firstChild)
+        }
+
         const blueInput = this.createElement('input', '', 'blue-hero-filter');
         blueInput.type = 'text';
         blueInput.name = 'filter';
@@ -1064,6 +1089,36 @@ class ViewOverPiker{
 
     displayHeroRoles(teams){
 
+        while(this.blueTankRolSelection.firstChild){
+
+            this.blueTankRolSelection.removeChild(this.blueTankRolSelection.firstChild)
+        }
+
+        while(this.redTankRolSelection.firstChild){
+
+            this.redTankRolSelection.removeChild(this.redTankRolSelection.firstChild)
+        }
+
+        
+        while(this.blueDamageRolSelection.firstChild){
+
+            this.blueDamageRolSelection.removeChild(this.blueDamageRolSelection.firstChild)
+        }
+
+        while(this.redDamageRolSelection.firstChild){
+
+            this.redDamageRolSelection.removeChild(this.redDamageRolSelection.firstChild)
+        }
+
+        while(this.blueSupportRolSelection.firstChild){
+
+            this.blueSupportRolSelection.removeChild(this.blueSupportRolSelection.firstChild)
+        }
+
+        while(this.redSupportRolSelection.firstChild){
+
+            this.redSupportRolSelection.removeChild(this.redSupportRolSelection.firstChild)
+        }
         
         for(let t in teams){
             
@@ -1213,17 +1268,18 @@ class ControllerOverPiker{
         this.model = model;
         this.view = view;
 
-        //Display initial options
+        //Bind controller with the Option panel
         this.model.bindOptionChanged(this.onOptionsChanged);
         this.view.bindToggleOptions(this.handleToggleOptions);
 
-        //Display initial selections
+        //Bind controller with the Selection panel
         this.model.bindSelectionsChanged(this.onSelectionsChanged);
         this.view.bindEditSelected(this.handleEditSelected);
 
-        //Display team Score and Hero Selection
+        //Display team Score and Hero Selection (this is temporal)
         this.view.displayTeams(this.model.teams,this.model.selectedHeroes);
 
+        //Bind View with Model
         this.onOptionsChanged(this.model.panelOptions);
         this.onSelectionsChanged(this.model.panelSelections);
     }
@@ -1254,6 +1310,7 @@ class ControllerOverPiker{
         this.model.APIData.loadAPIJSON(apiURL,jsonURL,this.model);
         this.onOptionsChanged(this.model.panelOptions);
         this.onSelectionsChanged(this.model.panelSelections);
+        this.view.displayTeams(this.model.teams,this.model.selectedHeroes);
     }
 }
 
