@@ -87,8 +87,7 @@ class ModelAPI{
 
     loadAPIJSON (apiURL, jsonURL, model){
 
-        //This charge the data from the API one by one
-    
+        //This charge the data from the API one by one and load them in the model    
         fetch(apiURL + jsonURL["mapInfo"])
             .then(res => res.json())
             .then(data => {
