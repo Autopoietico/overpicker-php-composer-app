@@ -337,13 +337,15 @@ class ModelHero{
 
     getSinergyValue(alliedHeroes){
 
-        let sinergyValue = 0;
+        let sinergyValue = 0;        
 
         for(let ah in alliedHeroes){
 
-            if(ah != this.name){
+            let alliedHero = alliedHeroes[ah];
+
+            if(alliedHero != this.name){
                 
-                sinergyValue += this.synergies[ah];
+                sinergyValue += this.synergies[alliedHero];
             }
         }
 
@@ -354,26 +356,31 @@ class ModelHero{
 
         let counterValue = 0;
 
-        for(let ah in enemyHeroes){
+        for(let eh in enemyHeroes){
 
-            if(ah != this.name){
+            let enemyHero = enemyHeroes[eh];
+
+            if(enemyHero != this.name){
                 
-                counterValue += this.synergies[ah];
+                counterValue += this.synergies[enemyHero];
             }
         }
 
         return counterValue;
     }
 
-    calcScore(tier, map, point, adc, mapType, pointType, alliedHeroes, enemyHeroes){
+    calcScore(tier, map, point, adc, pointType, alliedHeroes, enemyHeroes){
 
         this.value = 0;
-        this.value += this.tiers[tier];
-        this.value += this.maps[mapType][map][point];
-        this.value += this.adc[adc][pointType][point];
-        //AQUI ME QUEDE
-        this.value += this.getSinergyValue(alliedHeroes);
-        this.value += this.getCounterValue(enemyHeroes);
+        this.value += this.maps[adc][map][point];//Point Value
+        this.value += this.adc[adc][pointType][point];//Attack-Deffense-Control Value
+        this.value += this.getSinergyValue(alliedHeroes);//Synergies Values
+        this.value += this.getCounterValue(enemyHeroes);//Counters Values
+
+        if(tier != "None"){
+
+            this.value += this.tiers[tier];//Tier Value
+        }
     }
 }
 
@@ -490,17 +497,18 @@ class ModelTeam{
         }
     }
 
-    calcScores(tier, map, point, adc, mapType, pointType, enemyHeroes){
+    calcScores(tier, map, point, adc, pointType, enemyHeroes){
 
         let alliedHeroes = this.selectedHeroes;
 
+        
         this.resetValues();
 
         for(let h in this.heroes){
 
             let isHeroSelected = this.heroes[h].selected;
 
-            this.heroes[h].calcScore(tier, map, point, adc, mapType, pointType, alliedHeroes, enemyHeroes);
+            this.heroes[h].calcScore(tier, map, point, adc, pointType, alliedHeroes, enemyHeroes);
 
             if(isHeroSelected){
 
@@ -572,7 +580,7 @@ class ModelOverPiker{
 
         for(let mt in this.APIData.mapTypes){
 
-            let nameMapType = this.APIData.mapTypes[mt].mapType;
+            let nameMapType = this.APIData.mapTypes[mt].name;            
             this.mapTypes[nameMapType] = new ModelMapType(this.APIData.mapTypes[mt]);
         }
     }
@@ -590,6 +598,8 @@ class ModelOverPiker{
             this.teams[t].loadHeroMaps(this.APIData);
             this.teams[t].loadHeroADC(this.APIData);
         }
+
+        this.loadSelectedHeroes();
     }
 
     loadHeroTiers(){
@@ -661,23 +671,33 @@ class ModelOverPiker{
         }
     }
 
-    calcTeamScores(){
+    loadSelectedHeroes(){
 
         //This take the selected heroes in the Team Panel and then copy them in the Teams Models
-        for(team in this.teams){
+
+        for(let team in this.teams){
 
             this.teams[team].unselectAllHeroes();
 
-            selectedHeroes = this.selectedHeroes[team].selectedHeroes;
+            let selectedHeroesTeam = this.selectedHeroes.find(element => element.team == team);
 
-            for(selected in selectedHeros){
+            let selectedHeroes = selectedHeroesTeam.selectedHeroes;
 
-                this.teams[team].selectHero(selectedHeroes[selected]);
+            for(let selected in selectedHeroes){
+
+                if(selectedHeroes[selected] != "None"){
+
+                    this.teams[team].selectHero(selectedHeroes[selected]);
+                }                
             }
         }
 
-        //We get the other selected values, map, point, etc
+        this.calcTeamScores();
+    }
 
+    calcTeamScores(){        
+        
+        //We get the other selected values, map, point, etc
         let isTierSelected = this.panelOptions[1].state;
         let tier = "None";
         let map = "None";
@@ -694,16 +714,16 @@ class ModelOverPiker{
         //Even if a tier is selected we don't want to send it to the teams when the tier option is no selected
         if(isTierSelected){
 
-            tier = this.panelSelections[0].options[this.panelSelections.selectedIndex];
+            tier = this.panelSelections[0].options[this.panelSelections[0].selectedIndex];
         }
 
         //The map type depend from the map, but also for the point (first point in Hybrid is assault)
-        let pointNumber = this.panelSelections[2].selectedIndex
-        pointType = this.mapTypes[map].getType(pointNumber);
+        let pointNumber = this.panelSelections[2].selectedIndex;
+        pointType = this.mapTypes[mapType].pointsType[pointNumber];
 
         //Now we calculate scores for teams and their heroes
-        this.teams["Blue"].calcScores(tier, map, point, adc, mapType, pointType, this.teams["Red"].selectedHeroes);
-        this.teams["Red"].calcScores(tier, map, point, adc, mapType, pointType, this.teams["Blue"].selectedHeroes);
+        this.teams["Blue"].calcScores(tier, map, point, adc, pointType, this.teams["Red"].selectedHeroes);
+        this.teams["Red"].calcScores(tier, map, point, adc, pointType, this.teams["Blue"].selectedHeroes);
     }
 
     bindOptionChanged(callback){
@@ -714,6 +734,11 @@ class ModelOverPiker{
     bindSelectionsChanged(callback){
 
         this.onSelectionsChanged = callback;
+    }
+
+    bindSelectedHeroesChanged(callback){
+
+        this.onSelectedHeroesChanged = callback;
     }
 
     _commitOptions(panelOptions){
@@ -730,10 +755,10 @@ class ModelOverPiker{
         localStorage.setItem('panelSelections', JSON.stringify(panelSelections));
     }
 
-    _commitSelectedHeroes(selectedHeroes){
+    _commitSelectedHeroes(teams, selectedHeroes){
 
         //Save the changes of Selected Heroes on the local storage
-        this.onSeleectedHeroesChanged(selectedHeroes);
+        this.onSelectedHeroesChanged(teams, selectedHeroes);
         localStorage.setItem('selectedHeroes', JSON.stringify(selectedHeroes));
     }
 
@@ -758,18 +783,26 @@ class ModelOverPiker{
         this._commitSelections(this.panelSelections);
     }
 
-    editSelectedHeroes(team, i, hero){
+    editSelectedHeroes(team, hero){
 
         this.selectedHeroes = this.selectedHeroes.map(function(selector){
 
             if(selector.team === team){
 
-                for(selected in selector.selectedHeroes){
+                let found = selector.selectedHeroes.indexOf(hero);
 
-                    if(selected === i){
+                //-1 means they don't found the hero in the array of selectedHeroes
+                if(found == -1){
 
-                        selector.selectedHeroes[i] = hero;
-                    }
+                    let foundNone = selector.selectedHeroes.indexOf("None");
+                    if(foundNone != -1){
+
+                        selector.selectedHeroes[foundNone] = hero;
+                    }                  
+                    
+                }else{
+
+                    selector.selectedHeroes[found] = "None";
                 }
 
                 return selector;
@@ -779,8 +812,8 @@ class ModelOverPiker{
             }
         });
 
-        this.calcTeamScores();
-        this._commitSelectedHeroes(this.selectedHeroes);
+        this.loadSelectedHeroes();
+        this._commitSelectedHeroes(this.teams, this.selectedHeroes);
     }
 }
 
@@ -896,8 +929,8 @@ class ViewOverPiker{
             img.src = heroIMG;
             img.alt = hero + " white schematic face";
             
-            const heroTip = this.createElement('span');
-            span.textContent = hero;
+            const heroTip = this.createElement('span', 'hero-tip');
+            heroTip.textContent = hero;
 
             const border = this.createElement('div', 'border-bottom-75');
 
@@ -1034,8 +1067,8 @@ class ViewOverPiker{
 
             if(hero != "None"){
 
-                value = teams.heroes[hero].value;
-                heroIMG = teams.heroes[hero].getIMG("white-img");                
+                value = teams[team].heroes[hero].value;
+                heroIMG = teams[team].heroes[hero].IMG["white-img"];
             }
 
             const figure = this.createHeroFigure(hero, team, value, heroIMG);
@@ -1052,8 +1085,8 @@ class ViewOverPiker{
 
             if(hero != "None"){
 
-                value = teams.heroes[hero].value;
-                heroIMG = teams.heroes[hero].getIMG("white-img");                
+                value = teams[team].heroes[hero].value;
+                heroIMG = teams[team].heroes[hero].IMG["white-img"];          
             }
 
             const figure = this.createHeroFigure(hero, team, value, heroIMG);
@@ -1174,31 +1207,22 @@ class ViewOverPiker{
             for(let h in teams[t].heroes){
     
                 let hero = teams[t].heroes[h];
-                const figHero = this.createElement('figure', 'hero-value');
-                const figHeroCap = this.createElement('figcaption');
-                const figHeroIMG = this.createElement('img');
-                const figHeroTip = this.createElement('span', 'hero-tip');
+                if(!hero.selected){
+
+                    const figHero = this.createHeroFigure(hero.name, t, hero.value, hero.IMG["white-img"]);
     
-                figHero.dataset.name = hero.name;
-                figHero.dataset.team = t;
-                figHeroCap.textContent = hero.name;
-                figHeroIMG.src = hero.IMG["white-img"];
-                figHeroIMG.alt = hero.name + " white schematic face";
-                figHeroTip.textContent = hero.name;
-
-                figHero.append(figHeroCap, figHeroIMG, hero.value, figHeroTip);
-
-                if(hero.generalRol == 'Tank'){
+                    if(hero.generalRol == 'Tank'){
+        
+                        tankRoleSel.append(figHero);
     
-                    tankRoleSel.append(figHero);
-
-                }else if(hero.generalRol == 'Damage'){
-
-                    damageRoleSel.append(figHero);
-
-                }else if(hero.generalRol == 'Support'){
-
-                    supportRoleSel.append(figHero);
+                    }else if(hero.generalRol == 'Damage'){
+    
+                        damageRoleSel.append(figHero);
+    
+                    }else if(hero.generalRol == 'Support'){
+    
+                        supportRoleSel.append(figHero);
+                    }
                 }
             }
 
@@ -1251,7 +1275,7 @@ class ViewOverPiker{
         });
     }
 
-    bindTeamsClicked(handler){
+    bindSelectedHeroes(handler){
 
         this.blueTankRolSelection.addEventListener('click', event => {
 
@@ -1266,6 +1290,10 @@ class ViewOverPiker{
                 element = event.target.parentElement;
             }
             
+            if(element){
+
+                console.log(element.getAttribute('data-name'));
+            }
             //AQUI ME QUEDE
         });
     }
@@ -1291,7 +1319,8 @@ class ControllerOverPiker{
         this.view.bindEditSelected(this.handleEditSelected);
 
         //Display team Score and Hero Selection (this is temporal)
-        this.view.bindTeamsClicked();        
+        this.model.bindSelectedHeroesChanged(this.onSelectedHeroesChanged)
+        this.view.bindSelectedHeroes(this.handleSelectedHeroes);        
 
         //Bind View with Model
         this.onOptionsChanged(this.model.panelOptions);
@@ -1308,14 +1337,25 @@ class ControllerOverPiker{
         this.view.displaySelections(panelSelections);
     }
 
+    onSelectedHeroesChanged = (teams, selectedHeroes) => {
+
+        this.view.displayTeams(teams,selectedHeroes);
+    }
+
     handleToggleOptions = id => {
 
         this.model.toggleOptionPanel(id);
+        this.model.editSelectedHeroes();
     }
 
     handleEditSelected = (id, selIndex) => {
 
         this.model.editSelected(id, selIndex);
+    }
+
+    handleSelectedHeroes = (team, hero) => {
+
+        this.model.editSelectedHeroes(team, hero);
     }
 
     loadAPIJSON(apiURL,jsonURL){
@@ -1324,7 +1364,7 @@ class ControllerOverPiker{
         this.model.APIData.loadAPIJSON(apiURL,jsonURL,this.model);
         this.onOptionsChanged(this.model.panelOptions);
         this.onSelectionsChanged(this.model.panelSelections);
-        this.view.displayTeams(this.model.teams,this.model.selectedHeroes);
+        this.onSelectedHeroesChanged(this.model.teams,this.model.selectedHeroes);
     }
 }
 
