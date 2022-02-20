@@ -85,7 +85,8 @@ class ModelAPI{
         }
     }
 
-    loadAPIJSON (apiURL, jsonURL, model){
+    loadAPIJSON (apiURL, jsonURL, model, controller){        
+
 
         //This charge the data from the API one by one and load them in the model    
         fetch(apiURL + jsonURL["mapInfo"])
@@ -194,6 +195,8 @@ class ModelAPI{
                 model.loadHeroDataForTeams();
 
                 localStorage.setItem('heroADC', JSON.stringify(this.heroADC));
+
+                controller.reloadControllerModel();
             })
     }
 
@@ -549,6 +552,23 @@ class ModelTeam{
             }
         }
     }
+
+    getSortedHeroesNameperValue(){
+
+        let sortedHeroesNames = [];
+        
+        for(let h in this.heroes){
+
+            sortedHeroesNames.push([h, this.heroes[h].value]);
+        }
+
+        sortedHeroesNames.sort(function(a, b){
+
+            return b[1] - a[1];
+        });
+
+        return sortedHeroesNames;
+    }
 }
 
 class ModelOverPiker{
@@ -743,7 +763,6 @@ class ModelOverPiker{
         map = this.panelSelections[1].options[this.panelSelections[1].selectedIndex];
         adc = this.panelSelections[3].options[this.panelSelections[3].selectedIndex];
         pointNumber = this.panelSelections[2].selectedIndex;
-        console.log(pointNumber)
 
         if(map != "None"){
 
@@ -1031,9 +1050,7 @@ class ViewOverPiker{
             const heroTip = this.createElement('span', 'hero-tip');
             heroTip.textContent = hero;
 
-            const border = this.createElement('div', 'border-bottom-75');
-
-            figure.append(figcaption, img, value, heroTip, border);
+            figure.append(figcaption, img, value, heroTip);
         }
 
         return figure;
@@ -1302,8 +1319,12 @@ class ViewOverPiker{
                 supportRoleSel.id = 'support-onselect-red';
                 supportRoleSel.classList.add('enemy-team-direction');
             }
-    
-            for(let h in teams[t].heroes){
+
+            let sortedHeroes = teams[t].getSortedHeroesNameperValue();
+
+            for(let sh in sortedHeroes){
+
+                let h = sortedHeroes[sh][0];
     
                 let hero = teams[t].heroes[h];
                 if(!hero.selected){
@@ -1595,12 +1616,13 @@ class ControllerOverPiker{
         this.model.bindSelectionsChanged(this.onSelectionsChanged);
         this.view.bindEditSelected(this.handleEditSelected);
 
-        //Display team Score and Hero Selection (this is temporal)
+        //Bind controller with HeroeSelection
         this.model.bindSelectedHeroesChanged(this.onSelectedHeroesChanged)
         this.view.bindSelectedHeroes(this.handleSelectedHeroes);        
 
         //Bind View with Model
         this.onOptionsChanged(this.model.panelOptions);
+        this.onSelectedHeroesChanged(this.model.teams,this.model.selectedHeroes);
         this.onSelectionsChanged(this.model.panelSelections);
     }
 
@@ -1639,10 +1661,15 @@ class ControllerOverPiker{
     loadAPIJSON(apiURL,jsonURL){
 
         //Charge the API data and update the model and the view
-        this.model.APIData.loadAPIJSON(apiURL,jsonURL,this.model);
+        this.model.APIData.loadAPIJSON(apiURL, jsonURL, this.model, this);
+    }
+
+    reloadControllerModel(){
+
+        //The model is reloaded in the controller and the view here
         this.onOptionsChanged(this.model.panelOptions);
-        this.onSelectionsChanged(this.model.panelSelections);
         this.onSelectedHeroesChanged(this.model.teams,this.model.selectedHeroes);
+        this.onSelectionsChanged(this.model.panelSelections);    
     }
 }
 

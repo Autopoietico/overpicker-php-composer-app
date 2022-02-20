@@ -428,7 +428,7 @@ footer{
 }
 
 #heroes-filter-red{
-    
+
     grid-column: 3 / 5;
     grid-row: 5 / 6;
 }
@@ -449,7 +449,7 @@ footer{
     width:0px;
     border-right: 2px solid white;
     grid-column: 3 / 4;
-    grid-row: 5 / 8; 
+    grid-row: 5 / 9; 
 }
 
 .all-rol-selection{
