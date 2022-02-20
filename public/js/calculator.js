@@ -738,20 +738,23 @@ class ModelOverPiker{
         let adc = "None";
         let mapType = "None";
         let pointType = "None";
+        let pointNumber = 0;
 
         map = this.panelSelections[1].options[this.panelSelections[1].selectedIndex];
-        point = this.panelSelections[2].options[this.panelSelections[2].selectedIndex];
-        adc = this.panelSelections[3].options[this.panelSelections[3].selectedIndex];        
-        
+        adc = this.panelSelections[3].options[this.panelSelections[3].selectedIndex];
+        pointNumber = this.panelSelections[2].selectedIndex;
+        console.log(pointNumber)
+
         if(map != "None"){
 
-            let pointNumber = 0;
-
             mapType = this.maps[map].type;
+            
             //The map type depend from the map, but also for the point (first point in Hybrid is assault)
-            pointNumber = this.panelSelections[2].selectedIndex;    
+            pointNumber = this.panelSelections[2].selectedIndex;
             pointType = this.mapTypes[mapType].pointsType[pointNumber];
         }
+
+        point = this.panelSelections[2].options[pointNumber];
 
         //Even if a tier is selected we don't want to send it to the teams when the tier option is no selected
         if(isTierSelected){
@@ -817,13 +820,29 @@ class ModelOverPiker{
             selector.id === id ? {text: selector.text, id: selector.id, selectedIndex : newSelIndex, class : selector.class, options : selector.options} : selector
         );
 
-        this.loadMapSelections();        
+        let map = "None";
+        let mapType = "None";
+        let pointNumber = 0;
+
+        map = this.panelSelections[1].options[this.panelSelections[1].selectedIndex];
+        pointNumber = this.panelSelections[2].selectedIndex;
+
+        if(map != "None"){
+
+            mapType = this.maps[map].type;
+            
+            //Assault only has two point but some maps have 3 points, this avoid problems when you switch maps
+            if(mapType == "Assault" && pointNumber>1){
+
+                this.panelSelections[2].selectedIndex = 0;
+            }
+        }
+
+        this.loadMapSelections();
         this._commitSelections(this.panelSelections);
     }
 
-    editSelectedHeroes(team, hero, role){
-
-       
+    editSelectedHeroes(team, hero, role){       
 
         if(this.panelOptions[0].state && role){
 
