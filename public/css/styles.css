@@ -231,10 +231,6 @@ footer{
     text-align: center;
 }
 
-.options-selection{
-    display: grid;
-}
-
 .selection-team-title{
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
