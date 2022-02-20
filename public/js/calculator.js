@@ -364,7 +364,7 @@ class ModelHero{
 
             if(enemyHero != this.name){
                 
-                counterValue += this.synergies[enemyHero];
+                counterValue += this.counters[enemyHero];
             }
         }
 
@@ -783,7 +783,19 @@ class ModelOverPiker{
 
         //Now we calculate scores for teams and their heroes
         this.teams["Blue"].calcScores(tier, map, point, adc, pointType, this.teams["Red"].selectedHeroes);
-        this.teams["Red"].calcScores(tier, map, point, adc, pointType, this.teams["Blue"].selectedHeroes);
+
+        //When blue team attack, red team deffend and viceversa
+        if(adc == "Attack"){
+
+            this.teams["Red"].calcScores(tier, map, point, "Defense", pointType, this.teams["Blue"].selectedHeroes);
+        }else if(adc == "Defense"){
+
+            this.teams["Red"].calcScores(tier, map, point, "Attack", pointType, this.teams["Blue"].selectedHeroes);
+        }else{
+
+            this.teams["Red"].calcScores(tier, map, point, adc, pointType, this.teams["Blue"].selectedHeroes);
+        }
+        
     }
 
     bindOptionChanged(callback){
