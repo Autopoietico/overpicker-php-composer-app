@@ -470,6 +470,24 @@ class ModelTeam{
         return this.heroes[hero];
     }
 
+    getRoleAmount(role){
+
+        let amount = 0;
+
+        for(let h in this.heroes){
+
+            let heroRole = this.heroes[h].generalRol;
+            let selected = this.heroes[h].selected;
+
+            if(role == heroRole && selected){
+
+                amount++;
+            }
+        }
+
+        return amount;
+    }
+
     selectHero(hero){
 
         this.selectedHeroes.push(hero);
@@ -782,37 +800,80 @@ class ModelOverPiker{
         this._commitSelections(this.panelSelections);
     }
 
-    editSelectedHeroes(team, hero){
+    editSelectedHeroes(team, hero, role){
 
-        this.selectedHeroes = this.selectedHeroes.map(function(selector){
+       
 
-            if(selector.team === team){
+        if(this.panelOptions[0].state && role){
 
-                let found = selector.selectedHeroes.indexOf(hero);
+            console.log(this.teams[team].getRoleAmount(role))
 
-                //-1 means they don't found the hero in the array of selectedHeroes
-                if(found == -1){
+            if(this.teams[team].getRoleAmount(role) < 2){
 
-                    let foundNone = selector.selectedHeroes.indexOf("None");
-                    if(foundNone != -1){
-
-                        selector.selectedHeroes[foundNone] = hero;
-                    }                  
-                    
-                }else{
-
-                    selector.selectedHeroes[found] = "None";
-                }
-
-                return selector;
-            }else{
-
-                return selector;
+                this.selectedHeroes = this.selectedHeroes.map(function(selector){
+    
+                    if(selector.team === team){
+        
+                        let found = selector.selectedHeroes.indexOf(hero);
+        
+                        //-1 means they don't found the hero in the array of selectedHeroes
+                        if(found == -1){
+        
+                            let foundNone = selector.selectedHeroes.indexOf("None");
+                            if(foundNone != -1){
+        
+                                selector.selectedHeroes[foundNone] = hero;
+                            }                  
+                            
+                        }else{
+        
+                            selector.selectedHeroes[found] = "None";
+                        }
+        
+                        return selector;
+                    }else{
+        
+                        return selector;
+                    }
+                });
+        
+                this.loadSelectedHeroes();
+                this._commitSelectedHeroes(this.teams, this.selectedHeroes);
             }
-        });
 
-        this.loadSelectedHeroes();
-        this._commitSelectedHeroes(this.teams, this.selectedHeroes);
+        }else{
+
+            this.selectedHeroes = this.selectedHeroes.map(function(selector){
+    
+                if(selector.team === team){
+    
+                    let found = selector.selectedHeroes.indexOf(hero);
+    
+                    //-1 means they don't found the hero in the array of selectedHeroes
+                    if(found == -1){
+    
+                        let foundNone = selector.selectedHeroes.indexOf("None");
+                        if(foundNone != -1){
+    
+                            selector.selectedHeroes[foundNone] = hero;
+                        }                  
+                        
+                    }else{
+    
+                        selector.selectedHeroes[found] = "None";
+                    }
+    
+                    return selector;
+                }else{
+    
+                    return selector;
+                }
+            });
+    
+            this.loadSelectedHeroes();
+            this._commitSelectedHeroes(this.teams, this.selectedHeroes);
+        }
+
     }
 }
 
@@ -1304,6 +1365,7 @@ class ViewOverPiker{
 
             let element;
             let team = "Blue";
+            let role = "Tank";
 
             if(event.target.getAttribute('data-name')){
 
@@ -1320,7 +1382,7 @@ class ViewOverPiker{
 
                 hero = element.getAttribute('data-name');
 
-                handler(team, hero);
+                handler(team, hero, role);
             }
         });
 
@@ -1328,6 +1390,7 @@ class ViewOverPiker{
 
             let element;
             let team = "Blue";
+            let role = "Damage";
 
             if(event.target.getAttribute('data-name')){
 
@@ -1344,7 +1407,7 @@ class ViewOverPiker{
 
                 hero = element.getAttribute('data-name');
 
-                handler(team, hero);
+                handler(team, hero, role);
             }
         });
 
@@ -1352,6 +1415,7 @@ class ViewOverPiker{
 
             let element;
             let team = "Blue";
+            let role = "Support";
 
             if(event.target.getAttribute('data-name')){
 
@@ -1368,7 +1432,7 @@ class ViewOverPiker{
 
                 hero = element.getAttribute('data-name');
 
-                handler(team, hero);
+                handler(team, hero, role);
             }
         });
 
@@ -1400,6 +1464,7 @@ class ViewOverPiker{
 
             let element;
             let team = "Red";
+            let role = "Tank";
 
             if(event.target.getAttribute('data-name')){
 
@@ -1416,7 +1481,7 @@ class ViewOverPiker{
 
                 hero = element.getAttribute('data-name');
 
-                handler(team, hero);
+                handler(team, hero, role);
             }
         });
 
@@ -1424,6 +1489,7 @@ class ViewOverPiker{
 
             let element;
             let team = "Red";
+            let role = "Damage";
 
             if(event.target.getAttribute('data-name')){
 
@@ -1440,7 +1506,7 @@ class ViewOverPiker{
 
                 hero = element.getAttribute('data-name');
 
-                handler(team, hero);
+                handler(team, hero, role);
             }
         });
 
@@ -1448,6 +1514,7 @@ class ViewOverPiker{
 
             let element;
             let team = "Red";
+            let role = "Support";
 
             if(event.target.getAttribute('data-name')){
 
@@ -1464,7 +1531,7 @@ class ViewOverPiker{
 
                 hero = element.getAttribute('data-name');
 
-                handler(team, hero);
+                handler(team, hero, role);
             }
         });
     }
@@ -1524,9 +1591,9 @@ class ControllerOverPiker{
         this.model.editSelected(id, selIndex);
     }
 
-    handleSelectedHeroes = (team, hero) => {
+    handleSelectedHeroes = (team, hero, role) => {
 
-        this.model.editSelectedHeroes(team, hero);
+        this.model.editSelectedHeroes(team, hero, role);
     }
 
     loadAPIJSON(apiURL,jsonURL){
