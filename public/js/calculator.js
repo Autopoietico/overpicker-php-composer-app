@@ -371,8 +371,24 @@ class ModelHero{
     calcScore(tier, map, point, adc, pointType, alliedHeroes, enemyHeroes){
 
         this.value = 0;
-        this.value += this.maps[adc][map][point];//Point Value
-        this.value += this.adc[adc][pointType][point];//Attack-Deffense-Control Value
+
+        if(map != "None"){
+
+            this.value += this.maps[adc][map][point];//Point Value
+        }
+
+        if(adc != "None"){
+
+            if(pointType == "Control"){
+
+                this.value += this.adc[pointType];//Control Value
+            }else{
+
+                this.value += this.adc[adc][pointType][point];//Attack-Deffense-Control Value
+            }
+            
+        }
+
         this.value += this.getSinergyValue(alliedHeroes);//Synergies Values
         this.value += this.getCounterValue(enemyHeroes);//Counters Values
 
@@ -682,7 +698,7 @@ class ModelOverPiker{
                     this.panelSelections[3].selectedIndex = 0;
                 }else{
 
-                    this.panelSelections[3].options = ["Attack", "Deffense"];
+                    this.panelSelections[3].options = ["Attack", "Defense"];
                 }
             }
         }
@@ -725,18 +741,23 @@ class ModelOverPiker{
 
         map = this.panelSelections[1].options[this.panelSelections[1].selectedIndex];
         point = this.panelSelections[2].options[this.panelSelections[2].selectedIndex];
-        adc = this.panelSelections[3].options[this.panelSelections[3].selectedIndex];
-        mapType = this.maps[map].type;
+        adc = this.panelSelections[3].options[this.panelSelections[3].selectedIndex];        
+        
+        if(map != "None"){
+
+            let pointNumber = 0;
+
+            mapType = this.maps[map].type;
+            //The map type depend from the map, but also for the point (first point in Hybrid is assault)
+            pointNumber = this.panelSelections[2].selectedIndex;    
+            pointType = this.mapTypes[mapType].pointsType[pointNumber];
+        }
 
         //Even if a tier is selected we don't want to send it to the teams when the tier option is no selected
         if(isTierSelected){
 
             tier = this.panelSelections[0].options[this.panelSelections[0].selectedIndex];
         }
-
-        //The map type depend from the map, but also for the point (first point in Hybrid is assault)
-        let pointNumber = this.panelSelections[2].selectedIndex;
-        pointType = this.mapTypes[mapType].pointsType[pointNumber];
 
         //Now we calculate scores for teams and their heroes
         this.teams["Blue"].calcScores(tier, map, point, adc, pointType, this.teams["Red"].selectedHeroes);
@@ -806,7 +827,6 @@ class ModelOverPiker{
 
         if(this.panelOptions[0].state && role){
 
-            console.log(this.teams[team].getRoleAmount(role))
 
             if(this.teams[team].getRoleAmount(role) < 2){
 
@@ -1589,6 +1609,7 @@ class ControllerOverPiker{
     handleEditSelected = (id, selIndex) => {
 
         this.model.editSelected(id, selIndex);
+        this.model.editSelectedHeroes();
     }
 
     handleSelectedHeroes = (team, hero, role) => {
