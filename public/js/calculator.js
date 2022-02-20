@@ -748,7 +748,7 @@ class ModelOverPiker{
         if(map != "None"){
 
             mapType = this.maps[map].type;
-            
+
             //The map type depend from the map, but also for the point (first point in Hybrid is assault)
             pointNumber = this.panelSelections[2].selectedIndex;
             pointType = this.mapTypes[mapType].pointsType[pointNumber];
@@ -930,8 +930,8 @@ class ViewOverPiker{
         this.selectionPanel = this.createElement('div','selection-panel');
 
         //Team Scores
-        this.blueTeamScore = this.createElement('div', 'heroes-selection-title-text');
-        this.redTeamScore = this.createElement('div', 'heroes-selection-title-text');
+        this.blueTeamScore = this.createElement('div', 'heroes-selection-title-text', 'blue-team-title-text');
+        this.redTeamScore = this.createElement('div', 'heroes-selection-title-text', 'red-team-title-text');
         this.redTeamScore.classList.add('enemy-team-direction');
 
         //Team Hero Selections
@@ -940,20 +940,20 @@ class ViewOverPiker{
         this.teamRedComposition.classList.add('enemy-team-direction');
 
         //Filters
-        this.blueFilter = this.createElement('div', 'heroes-filter');
-        this.redFilter = this.createElement('div', 'heroes-filter');
+        this.blueFilter = this.createElement('div', 'heroes-filter', 'heroes-filter-blue');
+        this.redFilter = this.createElement('div', 'heroes-filter', 'heroes-filter-red');
         this.redFilter.classList.add('enemy-team-direction');
 
         //Hero per Rol Options
-        this.blueTankRolSelection = this.createElement('div', 'rol-selection');
-        this.blueDamageRolSelection = this.createElement('div', 'rol-selection');
-        this.blueSupportRolSelection = this.createElement('div', 'rol-selection');
+        this.blueTankRolSelection = this.createElement('div', 'rol-selection', 'tank-selection-blue');
+        this.blueDamageRolSelection = this.createElement('div', 'rol-selection', 'damage-selection-blue');
+        this.blueSupportRolSelection = this.createElement('div', 'rol-selection', 'support-selection-blue');
         this.blueSupportRolSelection.classList.add('rol-selection-support');
-        this.redTankRolSelection = this.createElement('div', 'rol-selection');
+        this.redTankRolSelection = this.createElement('div', 'rol-selection', 'tank-selection-red');
         this.redTankRolSelection.classList.add('enemy-team-direction');
-        this.redDamageRolSelection = this.createElement('div', 'rol-selection');
+        this.redDamageRolSelection = this.createElement('div', 'rol-selection', 'damage-selection-red');
         this.redDamageRolSelection.classList.add('enemy-team-direction');
-        this.redSupportRolSelection = this.createElement('div', 'rol-selection');
+        this.redSupportRolSelection = this.createElement('div', 'rol-selection', 'support-selection-red');
         this.redSupportRolSelection.classList.add('rol-selection-support');
         this.redSupportRolSelection.classList.add('enemy-team-direction');
 
