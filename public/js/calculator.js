@@ -1276,9 +1276,10 @@ class ViewOverPiker{
 
     bindSelectedHeroes(handler){
 
-        this.blueTankRolSelection.addEventListener('click', event => {
+        this.teamBlueComposition.addEventListener('click', event => {
 
             let element;
+            let team = "Blue";
 
             if(event.target.getAttribute('data-name')){
 
@@ -1291,9 +1292,180 @@ class ViewOverPiker{
             
             if(element){
 
-                console.log(element.getAttribute('data-name'));
+                let hero;
+
+                hero = element.getAttribute('data-name');
+
+                handler(team, hero);
             }
-            //AQUI ME QUEDE
+        });
+
+        this.blueTankRolSelection.addEventListener('click', event => {
+
+            let element;
+            let team = "Blue";
+
+            if(event.target.getAttribute('data-name')){
+
+                element = event.target;
+
+            }else if(event.target.parentElement.getAttribute('data-name')){
+
+                element = event.target.parentElement;
+            }
+            
+            if(element){
+
+                let hero;
+
+                hero = element.getAttribute('data-name');
+
+                handler(team, hero);
+            }
+        });
+
+        this.blueDamageRolSelection.addEventListener('click', event => {
+
+            let element;
+            let team = "Blue";
+
+            if(event.target.getAttribute('data-name')){
+
+                element = event.target;
+
+            }else if(event.target.parentElement.getAttribute('data-name')){
+
+                element = event.target.parentElement;
+            }
+            
+            if(element){
+
+                let hero;
+
+                hero = element.getAttribute('data-name');
+
+                handler(team, hero);
+            }
+        });
+
+        this.blueSupportRolSelection.addEventListener('click', event => {
+
+            let element;
+            let team = "Blue";
+
+            if(event.target.getAttribute('data-name')){
+
+                element = event.target;
+
+            }else if(event.target.parentElement.getAttribute('data-name')){
+
+                element = event.target.parentElement;
+            }
+            
+            if(element){
+
+                let hero;
+
+                hero = element.getAttribute('data-name');
+
+                handler(team, hero);
+            }
+        });
+
+        this.teamRedComposition.addEventListener('click', event => {
+
+            let element;
+            let team = "Red";
+
+            if(event.target.getAttribute('data-name')){
+
+                element = event.target;
+
+            }else if(event.target.parentElement.getAttribute('data-name')){
+
+                element = event.target.parentElement;
+            }
+            
+            if(element){
+
+                let hero;
+
+                hero = element.getAttribute('data-name');
+
+                handler(team, hero);
+            }
+        });
+
+        this.redTankRolSelection.addEventListener('click', event => {
+
+            let element;
+            let team = "Red";
+
+            if(event.target.getAttribute('data-name')){
+
+                element = event.target;
+
+            }else if(event.target.parentElement.getAttribute('data-name')){
+
+                element = event.target.parentElement;
+            }
+            
+            if(element){
+
+                let hero;
+
+                hero = element.getAttribute('data-name');
+
+                handler(team, hero);
+            }
+        });
+
+        this.redDamageRolSelection.addEventListener('click', event => {
+
+            let element;
+            let team = "Red";
+
+            if(event.target.getAttribute('data-name')){
+
+                element = event.target;
+
+            }else if(event.target.parentElement.getAttribute('data-name')){
+
+                element = event.target.parentElement;
+            }
+            
+            if(element){
+
+                let hero;
+
+                hero = element.getAttribute('data-name');
+
+                handler(team, hero);
+            }
+        });
+
+        this.redSupportRolSelection.addEventListener('click', event => {
+
+            let element;
+            let team = "Red";
+
+            if(event.target.getAttribute('data-name')){
+
+                element = event.target;
+
+            }else if(event.target.parentElement.getAttribute('data-name')){
+
+                element = event.target.parentElement;
+            }
+            
+            if(element){
+
+                let hero;
+
+                hero = element.getAttribute('data-name');
+
+                handler(team, hero);
+            }
         });
     }
 }
