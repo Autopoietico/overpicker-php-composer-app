@@ -35,7 +35,8 @@ const JSON_URL = {
     "heroCounters" : "hero-counters",
     "heroSynergies" : "hero-synergies",
     "heroMaps" : "hero-maps",
-    "heroADC" : "hero-adc"
+    "heroADC" : "hero-adc",
+    "version" : "version"
 }
 
 class ModelAPI{
@@ -52,6 +53,7 @@ class ModelAPI{
         this.heroSynergies = JSON.parse(localStorage.getItem('heroSynergies')) || [];
         this.heroMaps = JSON.parse(localStorage.getItem('heroMaps')) || [];
         this.heroADC = JSON.parse(localStorage.getItem('heroADC')) || [];
+        this.version = JSON.parse(localStorage.getItem('version')) || [];
     }
 
     loadLocalStorage(model){
@@ -195,8 +197,19 @@ class ModelAPI{
                 model.loadHeroDataForTeams();
 
                 localStorage.setItem('heroADC', JSON.stringify(this.heroADC));
+                return fetch(apiURL + jsonURL["version"]);                
+            })
+            .then(res => res.json())
+            .then(data => {
 
-                controller.reloadControllerModel();
+                this.version = {
+
+                    ...data
+                }
+
+                model.loadHeroDataForTeams();
+                localStorage.setItem('heroADC', JSON.stringify(this.version));
+                controller.reloadControllerModel(this.version);
             })
     }
 
@@ -1607,6 +1620,13 @@ class ViewOverPiker{
             }
         });
     }
+
+    updateVersion(version){
+
+        let dateElement = this.getElement(".footer-final-line-left");
+
+        dateElement.textContent = "Last Update: " + version["last-update"];
+    }
 }
 
 //////////////////////
@@ -1676,12 +1696,13 @@ class ControllerOverPiker{
         this.model.APIData.loadAPIJSON(apiURL, jsonURL, this.model, this);
     }
 
-    reloadControllerModel(){
+    reloadControllerModel(version){
 
         //The model is reloaded in the controller and the view here
         this.onOptionsChanged(this.model.panelOptions);
         this.onSelectedHeroesChanged(this.model.teams,this.model.selectedHeroes);
-        this.onSelectionsChanged(this.model.panelSelections);    
+        this.onSelectionsChanged(this.model.panelSelections);
+        this.view.updateVersion(version);
     }
 }
 
