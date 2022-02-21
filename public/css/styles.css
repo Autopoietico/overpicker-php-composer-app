@@ -88,7 +88,7 @@
 
 body{
     display: grid;
-    grid-template: repeat(5, minmax(100px, auto)) / minmax(320px, 75vw);
+    grid-template: repeat(4, minmax(100px, auto)) / minmax(320px, 75vw);
     margin: 0 auto;
     font-family: 'Abel', sans-serif;
     color: white;

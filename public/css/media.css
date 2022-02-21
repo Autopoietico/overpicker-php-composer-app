@@ -4,12 +4,8 @@
 @media screen and (max-width: 1062px){
 
     body{
-        grid-template: repeat(5, minmax(100px, auto)) / minmax(320px,95vw);
+        grid-template: repeat(4, minmax(100px, auto)) / minmax(320px,95vw);
         width: 95vw;
-    }
-
-    .selection-panel{
-        font-size: 1em;
     }
 
     .selection-tier select{
@@ -43,8 +39,14 @@
         grid-template-columns: repeat(4, 1fr);
     }
 
+    .selection-panel{
+        flex-direction: column;
+    }
+
     .selection-checkbox-panel{
         font-size: 1.125em;
+        display: flex;
+        flex-direction: column;
     }
 
     .selection-checkbox-panel label{
@@ -73,10 +75,6 @@
 
     .heroes-selection-title-separator{
         display: none;
-    }
-
-    .team-heroes-selection-line-between{
-        grid-row: 2 / span 4;
     }
 }
 
@@ -171,9 +169,15 @@
         grid-template-rows: repeat(6, auto);
     }
 
+    .calculator{
+
+        grid-template-columns: 1fr;
+    }
+
     .selection-checkbox-panel{
-        grid-column: initial;
         font-size: 2em;
+        grid-column: initial;
+        grid-row: initial;
     }
 
     .selection-checkbox-panel label {
@@ -198,6 +202,8 @@
         font-size: 1.415em;
         display: initial;
         margin: 0;
+        grid-column: initial;
+        grid-row: initial;
     }
 
     .selection-panel select{
@@ -217,6 +223,8 @@
         margin-top: 20px;
         margin-bottom: 10px;
         font-size: 1.524em;
+        grid-column: initial !important;
+        grid-row: initial !important;
     }
 
     .heroes-selection-title-separator{
@@ -225,6 +233,24 @@
 
     .team-heroes-selection-line-between{
         display: none;
+    }
+
+    .team-composition{
+
+        grid-column: initial !important;
+        grid-row: initial !important;
+    }
+
+    .heroes-filter{
+
+        grid-column: initial !important;
+        grid-row: initial !important;
+    }
+
+    .rol-selection{
+
+        grid-column: initial !important;
+        grid-row: initial !important;
     }
 
     .hero-value{
