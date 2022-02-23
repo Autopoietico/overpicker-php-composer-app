@@ -59,6 +59,7 @@ class ModelAPI{
     loadLocalStorage(model){
 
         //If local storage data is aviable these is loaded in the model
+        console.log(this);
 
         if(Object.keys(this.mapInfo).length){
 
@@ -207,8 +208,7 @@ class ModelAPI{
                     ...data
                 }
 
-                model.loadHeroDataForTeams();
-                localStorage.setItem('heroADC', JSON.stringify(this.version));
+                localStorage.setItem('version', JSON.stringify(this.version));
                 controller.reloadControllerModel(this.version);
             })
     }
@@ -399,6 +399,8 @@ class ModelHero{
 
                 this.value += this.adc[pointType];//Control Value
             }else{
+
+                console.log(this)
 
                 this.value += this.adc[adc][pointType][point];//Attack-Deffense-Control Value
             }
