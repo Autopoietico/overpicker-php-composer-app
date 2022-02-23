@@ -59,8 +59,6 @@ class ModelAPI{
     loadLocalStorage(model){
 
         //If local storage data is aviable these is loaded in the model
-        console.log(this);
-
         if(Object.keys(this.mapInfo).length){
 
             model.buildMapPool();
@@ -84,7 +82,9 @@ class ModelAPI{
         && Object.keys(this.heroMaps).length
         && Object.keys(this.heroADC).length){
 
-            model.loadHeroDataForTeams();
+            if(this.heroADC["Ana"]){
+                model.loadHeroDataForTeams();
+            }            
         }
     }
 
@@ -399,8 +399,6 @@ class ModelHero{
 
                 this.value += this.adc[pointType];//Control Value
             }else{
-
-                console.log(this)
 
                 this.value += this.adc[adc][pointType][point];//Attack-Deffense-Control Value
             }
