@@ -54,6 +54,13 @@ class ModelAPI{
         this.heroMaps = JSON.parse(localStorage.getItem('heroMaps')) || [];
         this.heroADC = JSON.parse(localStorage.getItem('heroADC')) || [];
         this.version = JSON.parse(localStorage.getItem('version')) || [];
+
+        //This a temporal solution to fixing the charging of incorrect info to adc data
+        if(!this.heroADC["Ana"]){
+
+            console.log("Trying to clearing incorrect data in the local storage");
+            localStorage.clear();
+        }
     }
 
     loadLocalStorage(model){
@@ -82,9 +89,7 @@ class ModelAPI{
         && Object.keys(this.heroMaps).length
         && Object.keys(this.heroADC).length){
 
-            if(this.heroADC["Ana"]){
-                model.loadHeroDataForTeams();
-            }            
+            model.loadHeroDataForTeams();           
         }
     }
 
