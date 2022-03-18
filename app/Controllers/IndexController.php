@@ -8,8 +8,8 @@ class IndexController extends BaseController{
 
     public $DATES = [
 
-        'LAST_DATA_UPDATE' => "2021-02-18",
-        'COPY_DATE' => "2021"
+        'LAST_DATA_UPDATE' => "2021-03-17",
+        'COPY_DATE' => "2022"
     ];
 
     public function homeAction(){

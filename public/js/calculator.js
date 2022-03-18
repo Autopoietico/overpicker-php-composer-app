@@ -974,6 +974,10 @@ class ViewOverPiker{
     constructor(){
 
         this.calculator = this.getElement('.calculator');
+        //Clear Selection
+        this.clearSelection = this.createElement('div', 'selection-team-clear-all', 'clear-all-values');
+        this.clearSelection.textContent = "Clear All";
+
         //Selection and Option Panels
         this.checkboxPanel = this.createElement('div','selection-checkbox-panel');
         this.selectionPanel = this.createElement('div','selection-panel');
@@ -1008,6 +1012,8 @@ class ViewOverPiker{
 
         //Border
         this.teamSeparator = this.createElement('div', 'team-heroes-selection-line-between');
+
+        this.calculator.append(this.clearSelection);
 
         this.calculator.append(this.checkboxPanel);
         this.calculator.append(this.selectionPanel);
@@ -1400,6 +1406,17 @@ class ViewOverPiker{
         this.displayHeroRoles(teams);
     }
 
+    bindClearSelection(handler){
+
+        this.clearSelection.addEventListener('click', event => {
+
+            if(event.target.id == 'clear-all-values'){
+
+                handler();
+            }
+        });
+    }
+
     bindToggleOptions(handler){
 
         this.checkboxPanel.addEventListener('change', event => {
@@ -1645,6 +1662,8 @@ class ControllerOverPiker{
         this.model = model;
         this.view = view;
 
+        this.view.bindClearSelection(this.handleClearSelection);
+
         //Bind controller with the Option panel
         this.model.bindOptionChanged(this.onOptionsChanged);
         this.view.bindToggleOptions(this.handleToggleOptions);
@@ -1676,6 +1695,28 @@ class ControllerOverPiker{
     onSelectedHeroesChanged = (teams, selectedHeroes) => {
 
         this.view.displayTeams(teams,selectedHeroes);
+    }
+
+    handleClearSelection = () => {
+
+        let teams = this.model.selectedHeroes;
+
+        for(let t in teams){
+
+            let selectedHeroes = teams[t].selectedHeroes;
+
+            for(let sh in selectedHeroes){
+
+                let team = teams[t].team;
+                let hero = selectedHeroes[sh];
+
+                if(hero != "None"){
+
+                    console.log(team + ", " + hero);
+                }                
+                this.handleSelectedHeroes(team, hero);
+            }
+        }
     }
 
     handleToggleOptions = id => {
