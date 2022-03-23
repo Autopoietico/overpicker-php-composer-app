@@ -306,6 +306,7 @@ class ModelHero{
         this.value = 0;
 
         this.selected = false;
+        this.filtered = false;
     }
 
     addIMG(IMGUrl, type){
@@ -567,6 +568,47 @@ class ModelTeam{
             if(isHeroSelected){
 
                 this.value += this.heroes[h].value;
+            }
+        }
+    }
+
+    filterHero(nick){
+
+        nick = nick.toLowerCase();
+
+        for(let h in this.heroes){
+
+            let nicks = this.heroes[h].nicks;
+
+            //Make easy to find the hero nick forcing all to be lowercase
+            nicks = nicks.map(function(nick){
+
+                return nick.toLowerCase();
+            });
+
+            let found = nicks.find(element => element == nick);
+            
+            if(found){
+
+                this.heroes[h].filtered = true;
+            }else{
+
+                this.heroes[h].filtered = false;
+            }
+        }
+    }
+
+    isRoleFiltered(role){
+
+        let isFiltered = false
+
+        for(let h in this.heroes){
+
+            let hero = this.heroes[h];
+
+            if(hero.filtered && hero.generalRol == role){
+
+                return !isFiltered;
             }
         }
     }
@@ -891,6 +933,11 @@ class ModelOverPiker{
         this._commitSelections(this.panelSelections);
     }
 
+    filterHero(nick, team){
+
+        this.teams[team].filterHero(nick);
+    }
+
     editSelectedHeroes(team, hero, role){       
 
         if(this.panelOptions[0].state && role){
@@ -1033,6 +1080,8 @@ class ViewOverPiker{
         this.calculator.append(this.redTankRolSelection);
         this.calculator.append(this.redDamageRolSelection);
         this.calculator.append(this.redSupportRolSelection);
+
+        this.displayFilters();
     }
 
     createElement(tag, className, id){
@@ -1363,21 +1412,40 @@ class ViewOverPiker{
                 let h = sortedHeroes[sh][0];
     
                 let hero = teams[t].heroes[h];
+                let role = hero.generalRol;
                 if(!hero.selected){
 
                     const figHero = this.createHeroFigure(hero.name, t, hero.value, hero.IMG["white-img"]);
     
-                    if(hero.generalRol == 'Tank'){
+                    if(role == 'Tank'){
         
-                        tankRoleSel.append(figHero);
-    
-                    }else if(hero.generalRol == 'Damage'){
-    
-                        damageRoleSel.append(figHero);
-    
-                    }else if(hero.generalRol == 'Support'){
-    
-                        supportRoleSel.append(figHero);
+                        if(teams[t].isRoleFiltered(role) && hero.filtered){
+
+                            tankRoleSel.append(figHero);
+                        }else if(!teams[t].isRoleFiltered(role)){
+
+                            tankRoleSel.append(figHero);
+                        }    
+                    }else if(role == 'Damage'){
+
+                        if(teams[t].isRoleFiltered(role) && hero.filtered){
+
+                            damageRoleSel.append(figHero);
+                        }else if(!teams[t].isRoleFiltered(role)){
+
+                            damageRoleSel.append(figHero);
+                        }
+                    }else if(role == 'Support'){
+
+                        
+
+                        if(teams[t].isRoleFiltered(role) && hero.filtered){
+
+                            supportRoleSel.append(figHero);
+                        }else if(!teams[t].isRoleFiltered(role)){
+
+                            supportRoleSel.append(figHero);
+                        }
                     }
                 }
             }
@@ -1401,8 +1469,7 @@ class ViewOverPiker{
     displayTeams(teams, selectedHeroes){
 
         this.displayTeamScores(teams);
-        this.displaySelectedHeroes(teams, selectedHeroes);
-        this.displayFilters();
+        this.displaySelectedHeroes(teams, selectedHeroes);        
         this.displayHeroRoles(teams);
     }
 
@@ -1439,6 +1506,25 @@ class ViewOverPiker{
                 const selIndex = event.target.options.selectedIndex;
                 handler(id, selIndex);
             }
+        });
+    }
+
+    bindHeroFilter(handler){      
+        
+        this.blueFilter.addEventListener('input', event => {
+            
+            //The Input is easy to get with the ID
+            let nick = document.getElementById('blue-hero-filter').value;
+
+            handler(nick, "Blue");
+        });
+
+        this.redFilter.addEventListener('input', event => {
+            
+            //The Input is easy to get with the ID
+            let nick = document.getElementById('red-hero-filter').value;
+
+            handler(nick, "Red");
         });
     }
 
@@ -1662,6 +1748,7 @@ class ControllerOverPiker{
         this.model = model;
         this.view = view;
 
+        //Bind controller with the clear selection
         this.view.bindClearSelection(this.handleClearSelection);
 
         //Bind controller with the Option panel
@@ -1671,6 +1758,8 @@ class ControllerOverPiker{
         //Bind controller with the Selection panel
         this.model.bindSelectionsChanged(this.onSelectionsChanged);
         this.view.bindEditSelected(this.handleEditSelected);
+
+        this.view.bindHeroFilter(this.handleFilter);
 
         //Bind controller with HeroeSelection
         this.model.bindSelectedHeroesChanged(this.onSelectedHeroesChanged)
@@ -1699,6 +1788,7 @@ class ControllerOverPiker{
 
     handleClearSelection = () => {
 
+        //This re-use the handleSelectedHeroes function and attempt to clear the selected heroes if there any selected
         let teams = this.model.selectedHeroes;
 
         for(let t in teams){
@@ -1712,9 +1802,8 @@ class ControllerOverPiker{
 
                 if(hero != "None"){
 
-                    console.log(team + ", " + hero);
+                    this.handleSelectedHeroes(team, hero);
                 }                
-                this.handleSelectedHeroes(team, hero);
             }
         }
     }
@@ -1722,6 +1811,12 @@ class ControllerOverPiker{
     handleToggleOptions = id => {
 
         this.model.toggleOptionPanel(id);
+        this.model.editSelectedHeroes();
+    }
+
+    handleFilter = (nick, team) => {
+
+        this.model.filterHero(nick, team);
         this.model.editSelectedHeroes();
     }
 
