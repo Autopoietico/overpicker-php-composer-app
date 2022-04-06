@@ -399,7 +399,7 @@ class ModelHero{
             this.value += this.maps[adc][map][point];//Point Value
         }
 
-        if(adc != "None"){
+        if(adc != "None" && pointType != "None"){
 
             if(pointType == "Control"){
 
