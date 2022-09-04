@@ -304,6 +304,7 @@ class ModelHero{
         this.adc = [];
 
         this.value = 0;
+        this.echoValue = 0;
 
         this.selected = false;
         this.filtered = false;
@@ -356,7 +357,7 @@ class ModelHero{
         this.IMG[type];
     }
 
-    getSinergyValue(alliedHeroes){
+    getSinergyValue(alliedHeroes, isEchoValue){
 
         let sinergyValue = 0;        
 
@@ -364,8 +365,13 @@ class ModelHero{
 
             let alliedHero = alliedHeroes[ah];
 
-            if(alliedHero != this.name){
+            if(alliedHero != this.name && !isEchoValue){
                 
+                sinergyValue += this.synergies[alliedHero];
+            }else if(isEchoValue && alliedHero != "Echo"){
+
+                //With Echo can happen that a team can have the same two heroes at the same time for a moment
+                //Also Echo can't have sinergy with herself
                 sinergyValue += this.synergies[alliedHero];
             }
         }
@@ -416,7 +422,42 @@ class ModelHero{
 
         if(tier != "None"){
 
-            this.value += this.tiers[tier];//Tier Value
+            this.value += this.tiers[tier];//Tier Value            
+        }
+    }
+
+    calcEchoScore(tier, map, point, adc, pointType, alliedHeroes, enemyHeroes){
+
+        let isEchoValue = true;
+        
+        this.echoValue = 0;        
+
+        if(this.name != "Echo" && this.selected){
+
+            if(map != "None"){
+    
+                this.echoValue += this.maps[adc][map][point];//Point Value
+            }
+    
+            if(adc != "None" && pointType != "None"){
+    
+                if(pointType == "Control"){
+    
+                    this.echoValue += this.adc[pointType];//Control Value
+                }else{
+    
+                    this.echoValue += this.adc[adc][pointType][point];//Attack-Deffense-Control Value
+                }
+                
+            }
+    
+            this.echoValue += this.getSinergyValue(enemyHeroes, isEchoValue);//Synergie Values but with enemy heroes for echo targets
+            this.echoValue += this.getCounterValue(alliedHeroes);//Counter Values but with allied heroes for echo targets
+    
+            if(tier != "None"){
+    
+                this.echoValue += this.tiers[tier];//Tier Value
+            }
         }
     }
 }
@@ -429,6 +470,8 @@ class ModelTeam{
         this.value = 0;
         this.heroes = [];
         this.selectedHeroes = [];
+        this.hasEcho = false;
+        this.bestCopyHeroes = [];
     }
 
     loadHeroes(heroInfo){
@@ -451,8 +494,10 @@ class ModelTeam{
         for(let h in this.heroes){
 
             let whiteURL = APIData.findElement(APIData.heroIMG,this.heroes[h].name,"white-img");
+            let echoURL = APIData.findElement(APIData.heroIMG,this.heroes[h].name,"echo-img");
 
             this.heroes[h].addIMG(whiteURL, "white-img");
+            this.heroes[h].addIMG(echoURL, "echo-img");
         }
     }
 
@@ -552,6 +597,14 @@ class ModelTeam{
         }
     }
 
+    resetEchoValues(){
+
+        for(let h in this.heroes){
+
+            this.heroes[h].echoValue = 0;
+        }
+    }
+
     calcScores(tier, map, point, adc, pointType, enemyHeroes){
 
         let alliedHeroes = this.selectedHeroes;
@@ -568,6 +621,63 @@ class ModelTeam{
             if(isHeroSelected){
 
                 this.value += this.heroes[h].value;
+            }
+        }
+    }
+
+    calcEchoScores(tier, map, point, adc, pointType, enemyHeroes){
+
+        let alliedHeroes = this.selectedHeroes;
+
+        this.resetEchoValues();
+
+        for(let h in this.heroes){
+
+            let isHeroSelected = this.heroes[h].selected;
+
+            if(isHeroSelected){
+
+                this.heroes[h].calcEchoScore(tier, map, point, adc, pointType, alliedHeroes, enemyHeroes);
+            }
+        }
+    }
+
+    checkEcho(){
+
+        this.hasEcho = false;
+
+        for(let sh in this.selectedHeroes){
+
+            if(this.selectedHeroes[sh] == "Echo"){
+
+                this.hasEcho = true;
+            }
+        }
+    }
+
+    checkBestEchoCopy(){
+
+        this.bestCopyHeroes = [];
+        let bestEchoValue = 0;
+
+        for(let h in this.heroes){
+
+            let echoValue = this.heroes[h].echoValue;
+            if(echoValue >= bestEchoValue){
+
+                bestEchoValue = echoValue;
+            }
+        }
+
+        if(bestEchoValue> 0){
+
+            for(let h in this.heroes){
+    
+                let echoValue = this.heroes[h].echoValue;
+                if(bestEchoValue == echoValue){
+    
+                    this.bestCopyHeroes.push(h);
+                }
             }
         }
     }
@@ -806,6 +916,7 @@ class ModelOverPiker{
         }
 
         this.calcTeamScores();
+        this.checkEchoOnTeams();
     }
 
     calcTeamScores(){        
@@ -843,19 +954,32 @@ class ModelOverPiker{
 
         //Now we calculate scores for teams and their heroes
         this.teams["Blue"].calcScores(tier, map, point, adc, pointType, this.teams["Red"].selectedHeroes);
+        this.teams["Red"].calcEchoScores(tier, map, point, adc, pointType, this.teams["Blue"].selectedHeroes)
 
         //When blue team attack, red team deffend and viceversa
         if(adc == "Attack"){
 
             this.teams["Red"].calcScores(tier, map, point, "Defense", pointType, this.teams["Blue"].selectedHeroes);
+            this.teams["Blue"].calcEchoScores(tier, map, point, "Defense", pointType, this.teams["Red"].selectedHeroes);
         }else if(adc == "Defense"){
 
             this.teams["Red"].calcScores(tier, map, point, "Attack", pointType, this.teams["Blue"].selectedHeroes);
+            this.teams["Blue"].calcEchoScores(tier, map, point, "Attack", pointType, this.teams["Red"].selectedHeroes);
         }else{
 
             this.teams["Red"].calcScores(tier, map, point, adc, pointType, this.teams["Blue"].selectedHeroes);
+            this.teams["Blue"].calcEchoScores(tier, map, point, adc, pointType, this.teams["Red"].selectedHeroes);
         }
         
+    }
+
+    checkEchoOnTeams(){
+
+        this.teams["Red"].checkEcho();
+        this.teams["Blue"].checkEcho();
+
+        this.teams["Red"].checkBestEchoCopy();
+        this.teams["Blue"].checkBestEchoCopy();        
     }
 
     bindOptionChanged(callback){
@@ -1265,11 +1389,24 @@ class ViewOverPiker{
             let team = "Blue";
             let value = 0;
             let heroIMG = '';
+            let enemyEcho = teams["Red"].hasEcho;
+            let bestCopyHeroes = teams[team].bestCopyHeroes;
 
             if(hero != "None"){
 
                 value = teams[team].heroes[hero].value;
                 heroIMG = teams[team].heroes[hero].IMG["white-img"];
+
+                if(enemyEcho){
+                     
+                    for(let bch in bestCopyHeroes){                        
+                        
+                        if(bestCopyHeroes[bch] == hero){
+                            
+                            heroIMG = teams[team].heroes[hero].IMG["echo-img"];
+                        }
+                    }                    
+                }               
             }
 
             const figure = this.createHeroFigure(hero, team, value, heroIMG);
@@ -1283,11 +1420,24 @@ class ViewOverPiker{
             let team = "Red";
             let value = 0;
             let heroIMG = '';
+            let enemyEcho = teams["Blue"].hasEcho;
+            let bestCopyHeroes = teams[team].bestCopyHeroes;
 
             if(hero != "None"){
 
                 value = teams[team].heroes[hero].value;
-                heroIMG = teams[team].heroes[hero].IMG["white-img"];          
+                heroIMG = teams[team].heroes[hero].IMG["white-img"];
+
+                if(enemyEcho){
+                     
+                    for(let bch in bestCopyHeroes){
+
+                        if(bestCopyHeroes[bch] == hero){
+
+                            heroIMG = teams[team].heroes[hero].IMG["echo-img"];
+                        }
+                    }                    
+                }               
             }
 
             const figure = this.createHeroFigure(hero, team, value, heroIMG);
