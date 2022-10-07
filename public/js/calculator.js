@@ -215,6 +215,7 @@ class ModelAPI{
 
                 localStorage.setItem('version', JSON.stringify(this.version));
                 controller.reloadControllerModel(this.version);
+                
             })
     }
 
@@ -410,8 +411,10 @@ class ModelHero{
             if(pointType == "Control"){
 
                 this.value += this.adc[pointType];//Control Value
-            }else{
+            }else if(pointType == "Push"){
 
+                this.value += this.adc[adc][point];//Control Push
+            }else{
                 this.value += this.adc[adc][pointType][point];//Attack-Deffense-Control Value
             }
             
@@ -444,6 +447,17 @@ class ModelHero{
                 if(pointType == "Control"){
     
                     this.echoValue += this.adc[pointType];//Control Value
+                }else if(pointType == "Push"){
+
+                    if(point == "Ally"){
+
+                        point = "Enemy";
+                    }else{
+
+                        point = "Ally";
+                    }
+
+                    this.echoValue += this.adc[adc][point];//Control Value
                 }else{
     
                     this.echoValue += this.adc[adc][pointType][point];//Attack-Deffense-Control Value
@@ -780,6 +794,7 @@ class ModelOverPiker{
 
         //The pre-saved APIdata from localstorage are loaded first into the model before calling the API
         this.APIData.loadLocalStorage(this);
+        
     }
 
     buildMapPool(){
@@ -885,6 +900,10 @@ class ModelOverPiker{
                 if(map.type == "Control"){
 
                     this.panelSelections[3].options = ["Control"];
+                    this.panelSelections[3].selectedIndex = 0;
+                }else if(map.type == "Push"){
+
+                    this.panelSelections[3].options = ["Push"];
                     this.panelSelections[3].selectedIndex = 0;
                 }else{
 
@@ -2000,6 +2019,8 @@ class ControllerOverPiker{
 //////////////////////
 // Start the APP
 //////////////////////
+
+
 
 const calculator = new ControllerOverPiker(new ModelOverPiker(), new ViewOverPiker());
 
