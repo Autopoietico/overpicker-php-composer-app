@@ -787,14 +787,31 @@ class ModelOverPiker{
             {text: "A/D", id: getSelectValue("A/D") + "-select", selectedIndex : 0, class : '', options : ["None"]},
         ]
 
+        this.checkFiveVFive();
+
         this.selectedHeroes = JSON.parse(localStorage.getItem('selectedHeroes')) || [
-            {team: "Blue", selectedHeroes: ["None","None","None","None","None","None"]},
-            {team: "Red", selectedHeroes: ["None","None","None","None","None","None"]}
+            {team: "Blue", selectedHeroes: ["None","None","None","None","None"]},
+            {team: "Red", selectedHeroes: ["None","None","None","None","None"]}
         ]
 
         //The pre-saved APIdata from localstorage are loaded first into the model before calling the API
         this.APIData.loadLocalStorage(this);
         
+    }
+
+    checkFiveVFive(){
+
+        let tempSelectedHeroes = JSON.parse(localStorage.getItem('selectedHeroes'));
+        if(tempSelectedHeroes){
+
+            let teamSize = tempSelectedHeroes[0].selectedHeroes.length;
+    
+            if(teamSize > 5){
+    
+                console.log("pato")
+                localStorage.removeItem('selectedHeroes')
+            }
+        }
     }
 
     buildMapPool(){
@@ -1086,7 +1103,39 @@ class ModelOverPiker{
         if(this.panelOptions[0].state && role){
 
 
-            if(this.teams[team].getRoleAmount(role) < 2){
+            if(this.teams[team].getRoleAmount(role) < 2 && role != "Tank"){
+
+                this.selectedHeroes = this.selectedHeroes.map(function(selector){
+    
+                    if(selector.team === team){
+        
+                        let found = selector.selectedHeroes.indexOf(hero);
+        
+                        //-1 means they don't found the hero in the array of selectedHeroes
+                        if(found == -1){
+        
+                            let foundNone = selector.selectedHeroes.indexOf("None");
+                            if(foundNone != -1){
+        
+                                selector.selectedHeroes[foundNone] = hero;
+                            }                  
+                            
+                        }else{
+        
+                            selector.selectedHeroes[found] = "None";
+                        }
+        
+                        return selector;
+                    }else{
+        
+                        return selector;
+                    }
+                });
+        
+                this.loadSelectedHeroes();
+                this._commitSelectedHeroes(this.teams, this.selectedHeroes);
+
+            }else if(this.teams[team].getRoleAmount("Tank") < 1){
 
                 this.selectedHeroes = this.selectedHeroes.map(function(selector){
     
