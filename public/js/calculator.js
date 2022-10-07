@@ -6,7 +6,7 @@ gain something in the process is a plus.
 Feel free to alter this code to your liking, but please do not re-host it, do not profit from it and do not present it as your own.
 */
 
-const LASTDATAUPDATE = "2020-09-04"
+const LASTDATAUPDATE = "2020-10-07"
 
 //////////////////////
 // Miscelaneus
@@ -808,8 +808,7 @@ class ModelOverPiker{
     
             if(teamSize > 5){
     
-                console.log("pato")
-                localStorage.removeItem('selectedHeroes')
+                localStorage.removeItem('selectedHeroes');
             }
         }
     }
@@ -879,6 +878,11 @@ class ModelOverPiker{
             for(let t in this.tiers){
 
                 this.panelSelections[0].options.push(this.tiers[t].name);
+            }
+            
+            if(this.panelSelections[0].selectedIndex >= this.panelSelections[0].options.length){
+
+                this.panelSelections[0].selectedIndex = 0;
             }
         }
     }
