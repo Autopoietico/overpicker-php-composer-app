@@ -6,7 +6,7 @@ gain something in the process is a plus.
 Feel free to alter this code to your liking, but please do not re-host it, do not profit from it and do not present it as your own.
 */
 
-const LASTDATAUPDATE = "2020-10-07"
+const LASTDATAUPDATE = "2020-10-08"
 
 //////////////////////
 // Miscelaneus
@@ -1091,6 +1091,10 @@ class ModelOverPiker{
 
                 this.panelSelections[2].selectedIndex = 0;
             }
+        }else{
+
+            this.panelSelections[2].selectedIndex = 0;
+            this.panelSelections[3].selectedIndex = 0;
         }
 
         this.loadMapSelections();
