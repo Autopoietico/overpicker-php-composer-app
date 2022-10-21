@@ -473,6 +473,9 @@ class ModelHero{
     
                 this.echoValue += this.tiers[tier];//Tier Value
             }
+        }else if(this.name == "Echo"){
+
+            this.echoValue = -20;
         }
     }
 }
@@ -673,18 +676,20 @@ class ModelTeam{
     checkBestEchoCopy(){
 
         this.bestCopyHeroes = [];
-        let bestEchoValue = 0;
+        let bestEchoValue = -20;
 
         for(let h in this.heroes){
 
             let echoValue = this.heroes[h].echoValue;
-            if(echoValue >= bestEchoValue){
+            let selected = this.heroes[h].selected;
+            
+            if(echoValue >= bestEchoValue && selected){
 
                 bestEchoValue = echoValue;
             }
         }
 
-        if(bestEchoValue> 0){
+        if(bestEchoValue > -20){
 
             for(let h in this.heroes){
     
