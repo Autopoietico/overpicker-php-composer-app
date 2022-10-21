@@ -6,7 +6,7 @@ gain something in the process is a plus.
 Feel free to alter this code to your liking, but please do not re-host it, do not profit from it and do not present it as your own.
 */
 
-const LASTDATAUPDATE = "2020-10-08"
+const LASTDATAUPDATE = "2020-10-21"
 
 //////////////////////
 // Miscelaneus
@@ -314,7 +314,8 @@ class ModelHero{
     addIMG(IMGUrl, type){
 
         //The type define the type of img we want, normally white, but probably a "Echo" type, a SVG or a black type
-        this.IMG[type] = IMGUrl;
+        this.IMG[type] = new Image();
+        this.IMG[type].src = IMGUrl;        
     }
 
     addTier(tierName, tierScore){
@@ -355,7 +356,7 @@ class ModelHero{
 
     getIMG(type){
 
-        this.IMG[type];
+        return  this.IMG[type];
     }
 
     getSinergyValue(alliedHeroes, isEchoValue){
@@ -1328,8 +1329,7 @@ class ViewOverPiker{
             const figcaption = this.createElement('figcaption');
             figcaption.textContent = hero;
 
-            const img = this.createElement('img');
-            img.src = heroIMG;
+            const img = heroIMG;
             img.alt = hero + " white schematic face";
             
             const heroTip = this.createElement('span', 'hero-tip');
@@ -1471,7 +1471,7 @@ class ViewOverPiker{
             if(hero != "None"){
 
                 value = teams[team].heroes[hero].value;
-                heroIMG = teams[team].heroes[hero].IMG["white-img"];
+                heroIMG = teams[team].heroes[hero].getIMG("white-img");
 
                 if(enemyEcho){
                      
@@ -1479,7 +1479,7 @@ class ViewOverPiker{
                         
                         if(bestCopyHeroes[bch] == hero){
                             
-                            heroIMG = teams[team].heroes[hero].IMG["echo-img"];
+                            heroIMG = teams[team].heroes[hero].getIMG("white-img");
                         }
                     }                    
                 }               
@@ -1502,7 +1502,7 @@ class ViewOverPiker{
             if(hero != "None"){
 
                 value = teams[team].heroes[hero].value;
-                heroIMG = teams[team].heroes[hero].IMG["white-img"];
+                heroIMG = teams[team].heroes[hero].getIMG("white-img");
 
                 if(enemyEcho){
                      
@@ -1510,7 +1510,7 @@ class ViewOverPiker{
 
                         if(bestCopyHeroes[bch] == hero){
 
-                            heroIMG = teams[team].heroes[hero].IMG["echo-img"];
+                            heroIMG = teams[team].heroes[hero].getIMG("white-img");
                         }
                     }                    
                 }               
@@ -1641,7 +1641,7 @@ class ViewOverPiker{
                 let role = hero.generalRol;
                 if(!hero.selected){
 
-                    const figHero = this.createHeroFigure(hero.name, t, hero.value, hero.IMG["white-img"]);
+                    const figHero = this.createHeroFigure(hero.name, t, hero.value, hero.getIMG("white-img"));
     
                     if(role == 'Tank'){
         
