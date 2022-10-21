@@ -1479,7 +1479,7 @@ class ViewOverPiker{
                         
                         if(bestCopyHeroes[bch] == hero){
                             
-                            heroIMG = teams[team].heroes[hero].getIMG("white-img");
+                            heroIMG = teams[team].heroes[hero].getIMG("echo-img");
                         }
                     }                    
                 }               
@@ -1510,7 +1510,7 @@ class ViewOverPiker{
 
                         if(bestCopyHeroes[bch] == hero){
 
-                            heroIMG = teams[team].heroes[hero].getIMG("white-img");
+                            heroIMG = teams[team].heroes[hero].getIMG("echo-img");
                         }
                     }                    
                 }               
