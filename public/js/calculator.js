@@ -6,7 +6,7 @@ gain something in the process is a plus.
 Feel free to alter this code to your liking, but please do not re-host it, do not profit from it and do not present it as your own.
 */
 
-const LASTDATAUPDATE = "2020-10-21"
+const LASTDATAUPDATE = "2020-10-27"
 
 //////////////////////
 // Miscelaneus
@@ -901,9 +901,26 @@ class ModelOverPiker{
             this.panelSelections[1].options = ["None"];
 
             for(let m in this.maps){
+
+                let mapPoolsOn = this.panelOptions[2].state;
                 
-                
-                this.panelSelections[1].options.push(m);
+                //Check map pools
+                if(this.maps[m].onPool && mapPoolsOn){
+
+                    this.panelSelections[1].options.push(m);
+                }else if(!mapPoolsOn){
+
+                    this.panelSelections[1].options.push(m);
+                }              
+            }
+
+            let panelMapsLength = this.panelSelections[1].options.length;
+
+            //If maps are less and than before this fix the selected index position
+
+            if(this.panelSelections[1].selectedIndex >= panelMapsLength){
+
+                this.panelSelections[1].selectedIndex = panelMapsLength-1;
             }
 
             let selIndex = this.panelSelections[1].selectedIndex;
@@ -914,8 +931,8 @@ class ModelOverPiker{
             if(selIndex){
 
                 const mapName = this.panelSelections[1].options[selIndex];
-                let map = this.maps[mapName];                
-                
+                let map = this.maps[mapName];
+
                 this.panelSelections[2].options = [];                
 
                 for(let p in map.points){                    
@@ -1077,17 +1094,29 @@ class ModelOverPiker{
     //Selected option in the panel are saved here
     editSelected(id, newSelIndex){
         
-        this.panelSelections = this.panelSelections.map(selector => 
-            selector.id === id ? {text: selector.text, id: selector.id, selectedIndex : newSelIndex, class : selector.class, options : selector.options} : selector
-        );
+        if(id && newSelIndex){
+            
+            this.panelSelections = this.panelSelections.map(selector => 
+                selector.id === id ? {text: selector.text, id: selector.id, selectedIndex : newSelIndex, class : selector.class, options : selector.options} : selector
+            );
+        }
+
 
         let map = "None";
         let mapType = "None";
         let pointNumber = 0;
 
-        map = this.panelSelections[1].options[this.panelSelections[1].selectedIndex];
-        pointNumber = this.panelSelections[2].selectedIndex;
+        let mapSelectionLength = this.panelSelections[1].options.length;
+        let selIndex = this.panelSelections[1].selectedIndex;
 
+        if(selIndex >= mapSelectionLength){
+
+            selIndex = mapSelectionLength -1;
+        }
+
+        map = this.panelSelections[1].options[selIndex];
+        pointNumber = this.panelSelections[2].selectedIndex;
+        
         if(map != "None"){
 
             mapType = this.maps[map].type;
@@ -2042,7 +2071,8 @@ class ControllerOverPiker{
     handleToggleOptions = id => {
 
         this.model.toggleOptionPanel(id);
-        this.model.editSelectedHeroes();
+        this.model.editSelected();//This recharge the options if map pools are selected
+        this.model.editSelectedHeroes();//This recharge the heroes if TierMode or Hero Rotation is activated
     }
 
     handleFilter = (nick, team) => {
