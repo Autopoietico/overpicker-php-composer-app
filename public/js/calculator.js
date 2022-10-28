@@ -513,9 +513,13 @@ class ModelTeam{
 
             let whiteURL = APIData.findElement(APIData.heroIMG,this.heroes[h].name,"white-img");
             let echoURL = APIData.findElement(APIData.heroIMG,this.heroes[h].name,"echo-img");
+            let profileURL = APIData.findElement(APIData.heroIMG,this.heroes[h].name,"profile-img");
+            let profEchoURL = APIData.findElement(APIData.heroIMG,this.heroes[h].name,"prof-echo-img");
 
             this.heroes[h].addIMG(whiteURL, "white-img");
             this.heroes[h].addIMG(echoURL, "echo-img");
+            this.heroes[h].addIMG(profileURL, "profile-img");
+            this.heroes[h].addIMG(profEchoURL, "prof-echo-img");
         }
     }
 
@@ -783,8 +787,11 @@ class ModelOverPiker{
             {text: "Role Lock", id: `cb${getSelectValue("Role Lock")}`, state : true},
             {text: "Tier Mode", id: `cb${getSelectValue("Tier Mode")}`, state : true},
             {text: "Map Pools", id: `cb${getSelectValue("Map Pools")}`, state : true},
-            {text: "Hero Rotation", id: `cb${getSelectValue("Hero Rotation")}`, state : true}
+            {text: "Hero Rotation", id: `cb${getSelectValue("Hero Rotation")}`, state : true},
+            {text: "Hero Icons", id: `cb${getSelectValue("Hero Icons")}`, state : true}
         ]
+
+        this.checkFullOptions();
 
         this.panelSelections = JSON.parse(localStorage.getItem('panelSelections')) || [
             {text: "Tier", id: getSelectValue("Tier") + "-select", selectedIndex : 0, class : '', options : ["None"]},
@@ -803,6 +810,14 @@ class ModelOverPiker{
         //The pre-saved APIdata from localstorage are loaded first into the model before calling the API
         this.APIData.loadLocalStorage(this);
         
+    }
+
+    checkFullOptions(){
+
+        if(!this.panelOptions[4]){
+
+            this.panelOptions[4] = {text: "Hero Icons", id: `cb${getSelectValue("Hero Icons")}`, state : true};
+        }
     }
 
     checkFiveVFive(){
@@ -1094,13 +1109,13 @@ class ModelOverPiker{
     //Selected option in the panel are saved here
     editSelected(id, newSelIndex){
         
-        if(id && newSelIndex){
+        //Adding +1 because this recieve an index, any index even zero
+        if(id && newSelIndex+1){
             
             this.panelSelections = this.panelSelections.map(selector => 
                 selector.id === id ? {text: selector.text, id: selector.id, selectedIndex : newSelIndex, class : selector.class, options : selector.options} : selector
             );
         }
-
 
         let map = "None";
         let mapType = "None";
@@ -1128,6 +1143,7 @@ class ModelOverPiker{
             }
         }else{
 
+            console.log("None")
             this.panelSelections[2].selectedIndex = 0;
             this.panelSelections[3].selectedIndex = 0;
         }
@@ -1480,7 +1496,7 @@ class ViewOverPiker{
         this.redTeamScore.append(teamRedScoreSpan, teamRedScoreSeparator, redTitleStrong);
     }
 
-    displaySelectedHeroes(teams, selectedHeroes){
+    displaySelectedHeroes(teams, selectedHeroes, iconOption){
 
         while(this.teamBlueComposition.firstChild){
 
@@ -1505,7 +1521,14 @@ class ViewOverPiker{
             if(hero != "None"){
 
                 value = teams[team].heroes[hero].value;
-                heroIMG = teams[team].heroes[hero].getIMG("white-img");
+
+                if(iconOption){
+
+                    heroIMG = teams[team].heroes[hero].getIMG("white-img");
+                }else{
+
+                    heroIMG = teams[team].heroes[hero].getIMG("profile-img");
+                }                
 
                 if(enemyEcho){
                      
@@ -1513,7 +1536,13 @@ class ViewOverPiker{
                         
                         if(bestCopyHeroes[bch] == hero){
                             
-                            heroIMG = teams[team].heroes[hero].getIMG("echo-img");
+                            if(iconOption){
+
+                                heroIMG = teams[team].heroes[hero].getIMG("echo-img");
+                            }else{
+            
+                                heroIMG = teams[team].heroes[hero].getIMG("prof-echo-img");
+                            }
                         }
                     }                    
                 }               
@@ -1536,7 +1565,14 @@ class ViewOverPiker{
             if(hero != "None"){
 
                 value = teams[team].heroes[hero].value;
-                heroIMG = teams[team].heroes[hero].getIMG("white-img");
+
+                if(iconOption){
+
+                    heroIMG = teams[team].heroes[hero].getIMG("white-img");
+                }else{
+
+                    heroIMG = teams[team].heroes[hero].getIMG("profile-img");
+                }
 
                 if(enemyEcho){
                      
@@ -1544,7 +1580,13 @@ class ViewOverPiker{
 
                         if(bestCopyHeroes[bch] == hero){
 
-                            heroIMG = teams[team].heroes[hero].getIMG("echo-img");
+                            if(iconOption){
+
+                                heroIMG = teams[team].heroes[hero].getIMG("echo-img");
+                            }else{
+            
+                                heroIMG = teams[team].heroes[hero].getIMG("prof-echo-img");
+                            }
                         }
                     }                    
                 }               
@@ -1581,7 +1623,7 @@ class ViewOverPiker{
         this.redFilter.append('Filter:', redInput);
     }
 
-    displayHeroRoles(teams){
+    displayHeroRoles(teams, iconOption){
 
         while(this.blueTankRolSelection.firstChild){
 
@@ -1675,7 +1717,18 @@ class ViewOverPiker{
                 let role = hero.generalRol;
                 if(!hero.selected){
 
-                    const figHero = this.createHeroFigure(hero.name, t, hero.value, hero.getIMG("white-img"));
+                    let figHeroOption;
+
+                    if(iconOption){
+
+                        figHeroOption = this.createHeroFigure(hero.name, t, hero.value, hero.getIMG("white-img"));
+                    }else{
+
+                        figHeroOption = this.createHeroFigure(hero.name, t, hero.value, hero.getIMG("profile-img"));
+                    }
+
+                    const figHero = figHeroOption;
+                    
     
                     if(role == 'Tank'){
         
@@ -1726,11 +1779,11 @@ class ViewOverPiker{
 
     }
 
-    displayTeams(teams, selectedHeroes){
+    displayTeams(teams, selectedHeroes, iconOption){
 
         this.displayTeamScores(teams);
-        this.displaySelectedHeroes(teams, selectedHeroes);        
-        this.displayHeroRoles(teams);
+        this.displaySelectedHeroes(teams, selectedHeroes, iconOption);        
+        this.displayHeroRoles(teams, iconOption);
     }
 
     bindClearSelection(handler){
@@ -2043,7 +2096,8 @@ class ControllerOverPiker{
 
     onSelectedHeroesChanged = (teams, selectedHeroes) => {
 
-        this.view.displayTeams(teams,selectedHeroes);
+        let iconOption = this.model.panelOptions[4].state;
+        this.view.displayTeams(teams,selectedHeroes, iconOption);
     }
 
     handleClearSelection = () => {
