@@ -642,6 +642,14 @@ Tier Section
     border-left: 2px white solid
 }
 
+.tiers-section td h4{
+    text-align: center;
+}
+
+.tiers-section td img{
+    width: 4em
+}
+
 .tiers-div{
     margin-bottom: 2em;
 }

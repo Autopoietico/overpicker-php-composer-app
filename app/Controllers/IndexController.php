@@ -28,12 +28,15 @@ class IndexController extends BaseController{
         //Download all the data necessary for the tiers page (maybe hero page instead?)
         $url_heroes = "https://api.overpicker.win/hero-info";
         $url_tiers = "https://api.overpicker.win/hero-tiers";
+        $url_img = "https://api.overpicker.win/hero-img";
         
         $data_heroes = file_get_contents($url_heroes);
         $data_tiers = file_get_contents($url_tiers);
+        $data_img = file_get_contents($url_img);
 
         $heroes_obj = json_decode($data_heroes, true);
         $tiers_obj = json_decode($data_tiers, true)[1];
+        $img_obj = json_decode($data_img, true);
 
         $sorted_heroes = array();
         foreach($heroes_obj as $heroe){
@@ -45,8 +48,18 @@ class IndexController extends BaseController{
             $item["description"] = $heroe["description"];
             $item["value"] = $tiers_obj['hero-tiers'][$heroe["name"]];
 
+            foreach($img_obj as $img){
+
+                if($img["name"] == $heroe["name"]){
+
+                    $item["img"] = $img["profile-img"];
+                }
+            }
+            
             array_push($sorted_heroes, $item);
         }
+
+        ksort($sorted_heroes);
 
         $title = ' - Tiers';
 
