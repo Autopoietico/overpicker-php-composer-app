@@ -639,7 +639,7 @@ Tier Section
 }
 
 .tiers-section td:not(:first-child){
-    border-left: 2px white solid
+    border-left: 3px white solid
 }
 
 .tiers-section td h4{
