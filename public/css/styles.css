@@ -600,6 +600,41 @@ h2{
 }
 
 /*
+Tier Section
+*/
+
+.tiers-text a{
+    text-decoration: underline;
+}
+
+.tiers-section{
+    margin: auto 15%;
+}
+
+.tiers-section h2, h3{
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.tiers-section a{
+    text-decoration: underline;
+}
+
+.tiers-section table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tiers-section td{
+    border: 1px white solid;
+    border-collapse: collapse;
+    padding: 0.25em;
+}
+
+.tiers-div{
+    margin-bottom: 2em;
+}
+
+/*
 About Section
 */
 

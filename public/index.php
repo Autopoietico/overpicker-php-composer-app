@@ -48,6 +48,11 @@
         'controller' => 'App\Controllers\IndexController',
         'action' => 'homeAction'
     ]);
+    $map->get('tiers','/tiers',[
+
+        'controller' => 'App\Controllers\IndexController',
+        'action' => 'tiersAction'
+    ]);
     $map->get('sources','/sources',[
 
         'controller' => 'App\Controllers\IndexController',
