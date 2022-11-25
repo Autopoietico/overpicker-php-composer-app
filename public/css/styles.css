@@ -624,10 +624,22 @@ Tier Section
     border-collapse: collapse;
 }
 
+.tiers-section tr:nth-child(odd){
+    background-color: #294452;
+}
+
+.tiers-section thead tr{
+    color:#1C2E37;
+   background-color: white  !important;
+}
+
 .tiers-section td{
-    border: 1px white solid;
     border-collapse: collapse;
     padding: 0.25em;
+}
+
+.tiers-section td:not(:first-child){
+    border-left: 2px white solid
 }
 
 .tiers-div{
