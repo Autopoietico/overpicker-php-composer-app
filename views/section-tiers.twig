@@ -12,7 +12,7 @@
      
     </div>
     <div class="tiers-div">
-        <h2>S Tier:</h2>     
+        <h2 class="tiers-tier-s-h2">Tier - S</h2>     
         {% set value = 45 %}   
         <table>
             <thead>
@@ -20,19 +20,19 @@
             </thead>
             <tbody>
                 {% for hero in tiers %}
-                    {% if hero.value == value and hero.role == "Tank" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                    {% if hero.value == value and hero.role == "Tank" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p class="tiers-div-desc">{{hero.description}}</p></td></tr> {% endif %}
                 {% endfor %}
                 {% for hero in tiers %}
-                    {% if hero.value == value and hero.role == "Damage" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                    {% if hero.value == value and hero.role == "Damage" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p class="tiers-div-desc">{{hero.description}}</p></td></tr> {% endif %}
                 {% endfor %}
                 {% for hero in tiers %}
-                    {% if hero.value == value and hero.role == "Support" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                    {% if hero.value == value and hero.role == "Support" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p class="tiers-div-desc">{{hero.description}}</p></td></tr> {% endif %}
                 {% endfor %}
             </tbody>
         </table>        
     </div>
     <div class="tiers-div">
-        <h2>A Tier:</h2>  
+        <h2 class="tiers-tier-a-h2">Tier - A</h2>  
         {% set value = 35 %}
         <table>
             <thead>
@@ -40,19 +40,19 @@
             </thead>
             <tbody>
                 {% for hero in tiers %}
-                    {% if hero.value == value and hero.role == "Tank" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                    {% if hero.value == value and hero.role == "Tank" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p class="tiers-div-desc">{{hero.description}}</p></td></tr> {% endif %}
                 {% endfor %}
                 {% for hero in tiers %}
-                    {% if hero.value == value and hero.role == "Damage" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                    {% if hero.value == value and hero.role == "Damage" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p class="tiers-div-desc">{{hero.description}}</p></td></tr> {% endif %}
                 {% endfor %}
                 {% for hero in tiers %}
-                    {% if hero.value == value and hero.role == "Support" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                    {% if hero.value == value and hero.role == "Support" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p class="tiers-div-desc">{{hero.description}}</p></td></tr> {% endif %}
                 {% endfor %}
             </tbody>
         </table>        
     </div>
     <div class="tiers-div">
-        <h2>B Tier:</h2>  
+        <h2>Tier - B</h2>  
         {% set value = 25 %}
         <table>
             <thead>
@@ -60,19 +60,19 @@
             </thead>
             <tbody>
                 {% for hero in tiers %}
-                    {% if hero.value == value and hero.role == "Tank" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                    {% if hero.value == value and hero.role == "Tank" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p class="tiers-div-desc">{{hero.description}}</p></td></tr> {% endif %}
                 {% endfor %}
                 {% for hero in tiers %}
-                    {% if hero.value == value and hero.role == "Damage" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                    {% if hero.value == value and hero.role == "Damage" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p class="tiers-div-desc">{{hero.description}}</p></td></tr> {% endif %}
                 {% endfor %}
                 {% for hero in tiers %}
-                    {% if hero.value == value and hero.role == "Support" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                    {% if hero.value == value and hero.role == "Support" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p class="tiers-div-desc">{{hero.description}}</p></td></tr> {% endif %}
                 {% endfor %}
             </tbody>
         </table>        
     </div>
     <div class="tiers-div">
-        <h2>C Tier:</h2>  
+        <h2 class="tiers-tier-c-h2">Tier - C</h2>  
         {% set value = 15 %}
         <table>
             <thead>
@@ -80,19 +80,19 @@
             </thead>
             <tbody>
                 {% for hero in tiers %}
-                    {% if hero.value == value and hero.role == "Tank" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                    {% if hero.value == value and hero.role == "Tank" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p class="tiers-div-desc">{{hero.description}}</p></td></tr> {% endif %}
                 {% endfor %}
                 {% for hero in tiers %}
-                    {% if hero.value == value and hero.role == "Damage" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                    {% if hero.value == value and hero.role == "Damage" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p class="tiers-div-desc">{{hero.description}}</p></td></tr> {% endif %}
                 {% endfor %}
                 {% for hero in tiers %}
-                    {% if hero.value == value and hero.role == "Support" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                    {% if hero.value == value and hero.role == "Support" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p class="tiers-div-desc">{{hero.description}}</p></td></tr> {% endif %}
                 {% endfor %}
             </tbody>
         </table>        
     </div>
     <div class="tiers-div">
-        <h2>D Tier:</h2>  
+        <h2 class="tiers-tier-d-h2">Tier - D</h2>  
         {% set value = 5 %}
         <table>
             <thead>
@@ -100,13 +100,13 @@
             </thead>
             <tbody>
                 {% for hero in tiers %}
-                    {% if hero.value == value and hero.role == "Tank" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                    {% if hero.value == value and hero.role == "Tank" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p class="tiers-div-desc">{{hero.description}}</p></td></tr> {% endif %}
                 {% endfor %}
                 {% for hero in tiers %}
-                    {% if hero.value == value and hero.role == "Damage" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                    {% if hero.value == value and hero.role == "Damage" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p class="tiers-div-desc">{{hero.description}}</p></td></tr> {% endif %}
                 {% endfor %}
                 {% for hero in tiers %}
-                    {% if hero.value == value and hero.role == "Support" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                    {% if hero.value == value and hero.role == "Support" %} <tr><td><h4>{{hero.name}}</h4><img src={{hero.img}} alt="{{hero.name}} profile"></td><td><p>{{hero.role}}</p></td><td><p class="tiers-div-desc">{{hero.description}}</p></td></tr> {% endif %}
                 {% endfor %}
             </tbody>
         </table>        

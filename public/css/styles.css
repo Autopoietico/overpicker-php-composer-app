@@ -619,6 +619,12 @@ Tier Section
     text-decoration: underline;
 }
 
+.tiers-section h2{
+    text-align: center;
+    font-size: 2em;
+    border-top: white 4px solid;
+}
+
 .tiers-section table{
     width: 100%;
     border-collapse: collapse;
@@ -642,8 +648,12 @@ Tier Section
     border-left: 3px white solid
 }
 
-.tiers-section td h4{
+.tiers-section td p{
     text-align: center;
+}
+
+.tiers-section td h4{
+    font-size: 1.25em;
 }
 
 .tiers-section td img{
@@ -652,6 +662,26 @@ Tier Section
 
 .tiers-div{
     margin-bottom: 2em;
+}
+
+.tiers-div-desc{
+    text-align: left !important;
+}
+
+.tiers-tier-s-h2{
+    color: #57bb8a
+}
+
+.tiers-tier-a-h2{
+    color: #b7e1cd
+}
+
+.tiers-tier-c-h2{
+    color: #f4cccc
+}
+
+.tiers-tier-d-h2{
+    color: #e67c73
 }
 
 /*
