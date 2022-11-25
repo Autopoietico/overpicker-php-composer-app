@@ -25,41 +25,42 @@ class IndexController extends BaseController{
 
     public function tiersAction(){
 
-        //Download all the data necessary for the tiers page (maybe hero page instead?)
+        //Download all the data necessary for the tiers page
         $url_heroes = "https://api.overpicker.win/hero-info";
         $url_tiers = "https://api.overpicker.win/hero-tiers";
         $url_img = "https://api.overpicker.win/hero-img";
-        
+
         $data_heroes = file_get_contents($url_heroes);
         $data_tiers = file_get_contents($url_tiers);
         $data_img = file_get_contents($url_img);
 
+        //converting string to objects
         $heroes_obj = json_decode($data_heroes, true);
-        $tiers_obj = json_decode($data_tiers, true)[1];
+        $tiers_obj = json_decode($data_tiers, true)[1]; //[1] this number means Top 500
         $img_obj = json_decode($data_img, true);
 
+        //empty array
         $sorted_heroes = array();
+
         foreach($heroes_obj as $heroe){
 
-            $item = [];
+            $item = [];//Empty object to be added in the array
 
             $item["name"] = $heroe["name"];
             $item["role"] = $heroe["general_rol"];
             $item["description"] = $heroe["description"];
-            $item["value"] = $tiers_obj['hero-tiers'][$heroe["name"]];
+            $item["value"] = $tiers_obj['hero-tiers'][$heroe["name"]]; //values are stored in the tiers json
 
             foreach($img_obj as $img){
 
                 if($img["name"] == $heroe["name"]){
 
-                    $item["img"] = $img["profile-img"];
+                    $item["img"] = $img["profile-img"]; //values are stored in the img json
                 }
             }
             
             array_push($sorted_heroes, $item);
         }
-
-        ksort($sorted_heroes);
 
         $title = ' - Tiers';
 
