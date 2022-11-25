@@ -23,6 +23,41 @@ class IndexController extends BaseController{
         ]);
     }
 
+    public function tiersAction(){
+
+        //Download all the data necessary for the tiers page (maybe hero page instead?)
+        $url_heroes = "https://api.overpicker.win/hero-info";
+        $url_tiers = "https://api.overpicker.win/hero-tiers";
+        
+        $data_heroes = file_get_contents($url_heroes);
+        $data_tiers = file_get_contents($url_tiers);
+
+        $heroes_obj = json_decode($data_heroes, true);
+        $tiers_obj = json_decode($data_tiers, true)[1];
+
+        $sorted_heroes = array();
+        foreach($heroes_obj as $heroe){
+
+            $item = [];
+
+            $item["name"] = $heroe["name"];
+            $item["role"] = $heroe["general_rol"];
+            $item["description"] = $heroe["description"];
+            $item["value"] = $tiers_obj['hero-tiers'][$heroe["name"]];
+
+            array_push($sorted_heroes, $item);
+        }
+
+        $title = ' - Tiers';
+
+        return $this->renderHTML('section-tiers.twig', [
+            'title' => $title,
+            'lastUpdate' => $this->DATES['LAST_DATA_UPDATE'],
+            'copy' => $this->DATES['COPY_DATE'],
+            'tiers' => $sorted_heroes
+        ]);
+    }
+
     public function aboutAction(){
 
         $title = ' - About';

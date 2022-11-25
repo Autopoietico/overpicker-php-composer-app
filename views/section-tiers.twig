@@ -1,0 +1,80 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="hero-text tiers-text">
+        <p>Overpicker is mostly based in the <a href="https://www.heropicker.com/">Hero Picker</a> created by jazzmasta25</p>
+    </div>
+</section>
+<section class="tiers-section">
+    <div class="sources-div">
+        <p>The tiers system allows the calculator to quickly pick heroes according to their performance in the last weeks, the tiers presented here are based on the heroes that are currently in the <b>Top500 leaderboard</b> in Overwatch 2, but the calculator has other types of tiers that may be more convenient for you!</p>
+     
+    </div>
+    <div class="tiers-div">
+        <h2>S Tier:</h2>        
+        <table>
+            <thead>
+                <tr><td><h3>Hero:</h3></td><td><h3>Role:</h3></td><td><h3>Description:</h3></td></tr>
+            </thead>
+            <tbody>
+                {% for hero in tiers %}
+                    {% if hero.value == 45 %} <tr><td><h4>{{hero.name}}</h4></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>        
+    </div>
+    <div class="tiers-div">
+        <h2>A Tier:</h2>        
+        <table>
+            <thead>
+                <tr><td><h3>Hero:</h3></td><td><h3>Role:</h3></td><td><h3>Description:</h3></td></tr>
+            </thead>
+            <tbody>
+                {% for hero in tiers %}
+                    {% if hero.value == 35 %} <tr><td><h4>{{hero.name}}</h4></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>        
+    </div>
+    <div class="tiers-div">
+        <h2>B Tier:</h2>        
+        <table>
+            <thead>
+                <tr><td><h3>Hero:</h3></td><td><h3>Role:</h3></td><td><h3>Description:</h3></td></tr>
+            </thead>
+            <tbody>
+                {% for hero in tiers %}
+                    {% if hero.value == 25 %} <tr><td><h4>{{hero.name}}</h4></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="tiers-div">
+        <h2>C Tier:</h2>        
+        <table>
+            <thead>
+                <tr><td><h3>Hero:</h3></td><td><h3>Role:</h3></td><td><h3>Description:</h3></td></tr>
+            </thead>
+            <tbody>
+                {% for hero in tiers %}
+                    {% if hero.value == 15 %} <tr><td><h4>{{hero.name}}</h4></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="tiers-div">
+        <h2>D Tier:</h2>        
+        <table>
+            <thead>
+                <tr><td><h3>Hero:</h3></td><td><h3>Role:</h3></td><td><h3>Description:</h3></td></tr>
+            </thead>
+            <tbody>
+                {% for hero in tiers %}
+                    {% if hero.value == 5 %} <tr><td><h4>{{hero.name}}</h4></td><td><p>{{hero.role}}</p></td><td><p>{{hero.description}}</p></td></tr> {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
