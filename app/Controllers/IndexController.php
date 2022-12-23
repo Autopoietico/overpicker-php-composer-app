@@ -8,7 +8,7 @@ class IndexController extends BaseController{
 
     public $DATES = [
 
-        'LAST_DATA_UPDATE' => "2021-10-07",
+        'LAST_DATA_UPDATE' => "2021-12-23",
         'COPY_DATE' => "2022"
     ];
 
@@ -36,7 +36,7 @@ class IndexController extends BaseController{
 
         //converting string to objects
         $heroes_obj = json_decode($data_heroes, true);
-        $tiers_obj = json_decode($data_tiers, true)[1]; //[1] this number means Top 500
+        $tiers_obj = json_decode($data_tiers, true)[0]; //[0] this number means Top 500
         $img_obj = json_decode($data_img, true);
 
         //empty array
