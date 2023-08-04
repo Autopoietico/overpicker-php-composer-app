@@ -63,7 +63,7 @@
         'controller' => 'App\Controllers\IndexController',
         'action' => 'aboutAction'
     ]);
-    $map->get('about','/privacy',[
+    $map->get('privacy','/privacy',[
         
         'controller' => 'App\Controllers\IndexController',
         'action' => 'privacyAction'
