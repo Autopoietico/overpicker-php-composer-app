@@ -8,8 +8,9 @@ class IndexController extends BaseController{
 
     public $DATES = [
 
-        'LAST_DATA_UPDATE' => "2021-12-23",
-        'COPY_DATE' => "2022"
+        'LAST_DATA_UPDATE' => "2023-08-04",
+        'COPY_DATE' => "2023",
+        'PRIVACY_DATE' => "2023-08-04"
     ];
 
     public function homeAction(){
@@ -91,6 +92,18 @@ class IndexController extends BaseController{
             'title' => $title,
             'lastUpdate' => $this->DATES['LAST_DATA_UPDATE'],
             'copy' => $this->DATES['COPY_DATE']
+        ]);
+    }
+
+    public function privacyAction(){
+
+        $title = ' - Privacy Policy';
+
+        return $this->renderHTML('section-privacy.twig', [
+            'title' => $title,
+            'lastUpdate' => $this->DATES['LAST_DATA_UPDATE'],
+            'copy' => $this->DATES['COPY_DATE'],
+            'privacyDate' => $this->DATES['PRIVACY_DATE']
         ]);
     }
 
