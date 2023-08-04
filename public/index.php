@@ -63,6 +63,11 @@
         'controller' => 'App\Controllers\IndexController',
         'action' => 'aboutAction'
     ]);
+    $map->get('about','/privacy',[
+        
+        'controller' => 'App\Controllers\IndexController',
+        'action' => 'privacyAction'
+    ]);
 
     $matcher = $routerContainer->getMatcher();
     $route = $matcher->match($request);
