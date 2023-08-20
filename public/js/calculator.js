@@ -409,12 +409,12 @@ class ModelHero{
 
         if(adc != "None" && pointType != "None"){
 
-            if(pointType == "Control"){
+            if(pointType == "Control" || pointType == "Flashpoint"){
 
-                this.value += this.adc[pointType];//Control Value
+                this.value += this.adc[pointType];//Control or Flashpoint Value
             }else if(pointType == "Push"){
 
-                this.value += this.adc[adc][point];//Control Push
+                this.value += this.adc[adc][point];//Push Value
             }else{
                 this.value += this.adc[adc][pointType][point];//Attack-Deffense-Control Value
             }
@@ -445,9 +445,9 @@ class ModelHero{
     
             if(adc != "None" && pointType != "None"){
     
-                if(pointType == "Control"){
+                if(pointType == "Control" || pointType == "Flashpoint"){
     
-                    this.echoValue += this.adc[pointType];//Control Value
+                    this.echoValue += this.adc[pointType];//Control or Flashpoint Value
                 }else if(pointType == "Push"){
 
                     if(point == "Ally"){
@@ -458,7 +458,7 @@ class ModelHero{
                         point = "Ally";
                     }
 
-                    this.echoValue += this.adc[adc][point];//Control Value
+                    this.echoValue += this.adc[adc][point];//Push Value
                 }else{
     
                     this.echoValue += this.adc[adc][pointType][point];//Attack-Deffense-Control Value
@@ -959,6 +959,10 @@ class ModelOverPiker{
                 if(map.type == "Control"){
 
                     this.panelSelections[3].options = ["Control"];
+                    this.panelSelections[3].selectedIndex = 0;
+                }else if(map.type == "Flashpoint"){
+
+                    this.panelSelections[3].options = ["Flashpoint"];
                     this.panelSelections[3].selectedIndex = 0;
                 }else if(map.type == "Push"){
 
