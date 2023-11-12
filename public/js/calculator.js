@@ -53,6 +53,14 @@ class ModelAPI {
     this.heroADC = JSON.parse(localStorage.getItem("heroADC")) || [];
     this.version = JSON.parse(localStorage.getItem("version")) || [];
 
+    this.fetchHeader = {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
     //This a temporal solution to fixing the charging of incorrect info to adc data
     if (!this.heroADC["Ana"]) {
       console.log("Trying to clearing incorrect data in the local storage");
@@ -99,7 +107,7 @@ class ModelAPI {
         model.buildMapPool();
 
         localStorage.setItem("mapInfo", JSON.stringify(this.mapInfo));
-        return fetch(apiURL + jsonURL["mapTypes"]);
+        return fetch(apiURL + jsonURL["mapTypes"], this.fetchHeader);
       })
       .then((res) => res.json())
       .then((data) => {
@@ -110,7 +118,7 @@ class ModelAPI {
         model.loadMapTypes();
 
         localStorage.setItem("mapTypes", JSON.stringify(this.mapTypes));
-        return fetch(apiURL + jsonURL["heroTiers"]);
+        return fetch(apiURL + jsonURL["heroTiers"], this.fetchHeader);
       })
       .then((res) => res.json())
       .then((data) => {
@@ -121,7 +129,7 @@ class ModelAPI {
         model.loadHeroTiers();
 
         localStorage.setItem("heroTiers", JSON.stringify(this.heroTiers));
-        return fetch(apiURL + jsonURL["heroInfo"]);
+        return fetch(apiURL + jsonURL["heroInfo"], this.fetchHeader);
       })
       .then((res) => res.json())
       .then((data) => {
@@ -130,7 +138,7 @@ class ModelAPI {
         };
 
         localStorage.setItem("heroInfo", JSON.stringify(this.heroInfo));
-        return fetch(apiURL + jsonURL["heroIMG"]);
+        return fetch(apiURL + jsonURL["heroIMG"], this.fetchHeader);
       })
       .then((res) => res.json())
       .then((data) => {
@@ -139,7 +147,7 @@ class ModelAPI {
         };
 
         localStorage.setItem("heroIMG", JSON.stringify(this.heroIMG));
-        return fetch(apiURL + jsonURL["heroCounters"]);
+        return fetch(apiURL + jsonURL["heroCounters"], this.fetchHeader);
       })
       .then((res) => res.json())
       .then((data) => {
@@ -148,7 +156,7 @@ class ModelAPI {
         };
 
         localStorage.setItem("heroCounters", JSON.stringify(this.heroCounters));
-        return fetch(apiURL + jsonURL["heroSynergies"]);
+        return fetch(apiURL + jsonURL["heroSynergies"], this.fetchHeader);
       })
       .then((res) => res.json())
       .then((data) => {
@@ -160,7 +168,7 @@ class ModelAPI {
           "heroSynergies",
           JSON.stringify(this.heroSynergies)
         );
-        return fetch(apiURL + jsonURL["heroMaps"]);
+        return fetch(apiURL + jsonURL["heroMaps"], this.fetchHeader);
       })
       .then((res) => res.json())
       .then((data) => {
@@ -169,7 +177,7 @@ class ModelAPI {
         };
 
         localStorage.setItem("heroMaps", JSON.stringify(this.heroMaps));
-        return fetch(apiURL + jsonURL["heroADC"]);
+        return fetch(apiURL + jsonURL["heroADC"], this.fetchHeader);
       })
       .then((res) => res.json())
       .then((data) => {
@@ -180,7 +188,7 @@ class ModelAPI {
         model.loadHeroDataForTeams();
 
         localStorage.setItem("heroADC", JSON.stringify(this.heroADC));
-        return fetch(apiURL + jsonURL["version"]);
+        return fetch(apiURL + jsonURL["version"], this.fetchHeader);
       })
       .then((res) => res.json())
       .then((data) => {
