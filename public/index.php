@@ -1,7 +1,10 @@
 <?php
     if (substr($_SERVER['HTTP_HOST'], 0, 4) === 'www.') {
-        header('Location: http'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on' ? 's':'').'://' . substr($_SERVER['HTTP_HOST'], 4).$_SERVER['REQUEST_URI']);
-        exit;
+        if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on') {
+            $url = 'https://' . substr($_SERVER['HTTP_HOST'], 4) . $_SERVER['REQUEST_URI'];
+            header("Location: $url");
+            exit;
+        }
     }
     ini_set('display_errors', 1);
     ini_set('display_starup_error', 1);
