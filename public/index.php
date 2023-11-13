@@ -1,4 +1,8 @@
 <?php
+    if (substr($_SERVER['HTTP_HOST'], 0, 4) === 'www.') {
+        header('Location: http'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on' ? 's':'').'://' . substr($_SERVER['HTTP_HOST'], 4).$_SERVER['REQUEST_URI']);
+        exit;
+    }
     ini_set('display_errors', 1);
     ini_set('display_starup_error', 1);
     error_reporting(E_ALL);
